@@ -1,0 +1,83 @@
+{
+  "name": "@devkit/base-components",
+  "version": "0.0.20",
+  "description": "Devkit Base Components is a Vue plugin offering a collection of reusable, headless components designed to streamline your Vue.js development workflow. Built for flexibility and maintainability, this library gives you complete control over styling and behavior, integrating seamlessly with PrimeVue, Vue Router, Vue I18n, and Tailwind CSS.",
+  "module": "./dist/index.es.js",
+  "types": "./dist/types/index.d.ts",
+  "style": "./dist/style.css",
+  "tailwind": "./tailwind.preset.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.es.js"
+      }
+    },
+    "./style": {
+      "import": {
+        "types": "./dist/style.d.ts",
+        "default": "./dist/style.css"
+      }
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darwishdev/devkit_base_components.git"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "components",
+    "headless",
+    "reusable",
+    "ui",
+    "library",
+    "primevue",
+    "tailwindcss",
+    "vue-router",
+    "vue-i18n",
+    "devkit",
+    "vue-devkit",
+    "maintainability",
+    "flexibility",
+    "developer-experience"
+  ],
+  "author": "darwishdev",
+  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "bugs": {
+    "url": "https://github.com/darwishdev/devkit_base_components/issues"
+  },
+  "homepage": "https://github.com/darwishdev/devkit_base_components#readme",
+  "peerDependencies": {
+    "@devkit/apiclient": "workspace:*",
+    "dexie": "^4.0.11",
+    "primevue": "^4.2.2",
+    "tailwindcss": "^3.0.0",
+    "tailwindcss-primeui": "^0.4.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^10.0.5",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.12",
+    "@types/node": "^22.13.5",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vite-plugin-copy": "^0.1.6",
+    "vite-plugin-dts": "^4.4.0",
+    "vite-plugin-static-copy": "^2.2.0"
+  }
+}

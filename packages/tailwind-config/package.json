@@ -1,0 +1,39 @@
+{
+  "name": "@devkit/tailwindconfig",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "tailwind.config.js",
+    "postcss.config.js",
+    "src/index.js",
+    "style/"
+  ],
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./src/index.js"
+    }, 
+    "./tailwind.config": {
+      "import": "./tailwind.config.js",
+      "require": "./tailwind.config.js"
+    },
+    "./postcss.config": {
+      "import": "./postcss.config.js",
+      "require": "./postcss.config.js"
+    },
+    "./style.css": "./style/devkit.css"
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "tailwindcss-primeui": "^0.4.0"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.3",
+    "vite": "^6.0.7",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.7.2"
+  }
+}

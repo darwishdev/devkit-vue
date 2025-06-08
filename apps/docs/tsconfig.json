@@ -1,0 +1,25 @@
+{
+  "extends": "@devkit/typescript-config/vuejs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@api-client/*": ["../packages/api-client/src/*"],
+      "@base-components/*": ["../packages/base-components/src/*"]
+    },
+    "types": ["vitepress/client"],
+    "plugins": [
+      {
+        "name": "vue"
+      }
+    ] 
+  },
+  "include": [
+    "**/*.ts",
+    "docs/**/*.md",
+    "docs/.vitepress/**/*.ts",
+    "vite-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
