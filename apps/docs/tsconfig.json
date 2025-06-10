@@ -8,6 +8,7 @@
     "sourceMap": true, // Generate source maps
     "resolveJsonModule": true, // Allow importing JSON files
     "esModuleInterop": true, // Enable ES module interoperability
+    "types": ["node",  "vite/client"],
     "lib": ["esnext", "dom"], // Include necessary libraries
     "outDir": "dist", // Output directory for compiled files
     "declaration": true, // Generate .d.ts files

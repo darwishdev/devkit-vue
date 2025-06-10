@@ -3,7 +3,9 @@ import { createInput, defaultConfig, DefaultConfigOptions } from '@formkit/vue'
 import type { FormKitPlugin } from '@formkit/core';
 import { DependencyManagerPlugin, OptionsGetterPlugin } from './OptionsGetter';
 import Datepicker from '../inputs/Datepicker.vue';
+import { rootClasses } from '../../../formkit.theme'
 import { Upload } from '../inputs';
+import { genesisIcons } from '@formkit/icons'
 import Dropdown from '../inputs/Dropdown.vue';
 const isCheckboxAndRadioMultiple: FormKitPlugin = (node: any) => (node.props.type === 'checkbox' || node.props.type === 'radio') && node.props.options
 const addAsteriskPlugin: FormKitPlugin = (node) => {
@@ -248,8 +250,15 @@ const formKitConfig = (options: DefaultConfigOptions) => {
   return defaultConfig({
     ...options,
     inputs: { ...inputs, ...options.inputs },
+    icons: {
+      ...genesisIcons
+    },
     plugins: !options.plugins ? plugins : { ...plugins, ...options.plugins },
-   
+    config: !options.config ? { rootClasses } : {
+      rootClasses: options.config.rootClasses || rootClasses,
+      ...options.config
+    }
+
   })
 }
 export default formKitConfig

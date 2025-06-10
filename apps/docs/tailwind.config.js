@@ -1,15 +1,15 @@
-import { tailwindConfig } from '@devkit/tailwindconfig'
 
+/** @type {import('tailwindcss').Config} */
 export default {
-  ...tailwindConfig,
-  // override or extend any fields you need here:
+  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   content: [
-    './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}'
+    "./app.vue",
+    "./src/formkit.theme.ts"
   ],
+  darkMode: 'class',
   theme: {
-    extend: {
-      // your custom theme tokens
-    }
-  }
+    extend: {},
+  },
+  plugins: [require('tailwindcss-primeui')],
 }
+

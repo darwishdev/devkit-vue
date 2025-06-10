@@ -1,23 +1,24 @@
+
 {
-  "compileroptions": {
-    "target": "esnext", // target the latest ecmascript version
-    "module": "esnext", // use es modules
-    "moduleresolution": "node", // use node.js module resolution
-    "strict": true, // enable strict type-checking
-    "jsx": "preserve", // preserve jsx (if applicable)
-    "sourcemap": true, // generate source maps
-    "resolvejsonmodule": true, // allow importing json files
-    "esmoduleinterop": true, // enable es module interoperability
-    "lib": ["esnext", "dom"], // include necessary libraries
-    "outdir": "dist", // output directory for compiled files
-    "declaration": true, // generate .d.ts files
-    "declarationdir": "dist/types", // output directory for .d.ts files
-    "baseurl": ".",
-    "include": ["src/global-components.d.ts"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*"], // include all files in the src directory
-  "exclude": ["node_modules"] // exclude node_modules
+  "include": ["src/**/*" ],
+  "exclude": ["node_modules"]
 }
+

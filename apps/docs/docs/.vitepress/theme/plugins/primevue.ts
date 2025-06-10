@@ -4,6 +4,7 @@ import { App } from 'vue'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
 import DialogService from 'primevue/dialogservice';
+import { DynamicDialog, Toast } from 'primevue';
 
 export function registerPrimeVue(app: App) {
 	// Install PrimeVue core
@@ -13,4 +14,6 @@ export function registerPrimeVue(app: App) {
 	// Install any PrimeVue services you need:
 	app.use(ToastService)
 	app.use(DialogService)
+  app.component('DynamicDialog' , DynamicDialog)
+  app.component('Toast' , Toast)
 }

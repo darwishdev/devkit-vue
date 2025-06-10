@@ -1,10 +1,14 @@
 
+
 {
   "$schema": "https://turborepo.org/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "build/**"]
+      "outputs": [
+        "dist/**",                      
+        "apps/docs/.vitepress/dist/**"    
+      ]
     },
     "lint": {
       "outputs": []

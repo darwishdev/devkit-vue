@@ -26,7 +26,6 @@ export type FilesHandler<TApi extends Record<string, Function>> = {
 	bucketList: ApiEndpoint<TApi, BucketListRequest, BucketListResponse>
 	fileUploadUrlFind: ApiEndpoint<TApi, FileUploadUrlFindRequest, FileUploadUrlFindResponse>,
 	galleryListEndpoint: ApiEndpoint<TApi, GalleryListRequest, GalleryListResponse>
-	fileListEndpoint: ApiEndpoint<TApi, GalleryListRequest, GalleryListRequest>
 	defauleBucketName?: string
 	bucketCreateUpdate?: ApiEndpoint<TApi, BucketCreateUpdateRequest, BucketCreateUpdateResponse>
 	fileDelete?: ApiEndpoint<TApi, DeleteRequest<'records', string, 'bulk'>, any>

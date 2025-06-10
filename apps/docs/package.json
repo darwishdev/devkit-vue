@@ -8,28 +8,28 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@devkit/apiclient": "workspace:*",
-    "@devkit/form": "workspace:*",
-    "@devkit/base-components": "workspace:*",
-    "vue": "^3.2.0",
     "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.5.1-20250529212858-e2f227949a3e.1",
-
-    "tailwindcss-primeui": "^0.4.0",
     "@buf/ahmeddarwish_devkit-api.community_timostamm-protobuf-ts": "2.10.0-20250501101752-78920ab3a77a.1",
     "@connectrpc/connect": "^2.0.1",
-    "@connectrpc/connect-web": "^2.0.1"
+    "@connectrpc/connect-web": "^2.0.1",
+    "@devkit/apiclient": "workspace:*",
+    "@devkit/base-components": "workspace:*",
+    "@devkit/form": "workspace:*",
+    "@devkit/datalist": "workspace:*",
+    "@formkit/core": "^1.6.9",
+    "@formkit/vue": "^1.6.9",
+    "tailwindcss-primeui": "^0.4.0",
+    "vue": "^3.2.0"
   },
   "devDependencies": {
-    "@devkit/eslint-config": "workspace:*",
-    "@devkit/typescript-config": "workspace:*",
-    "@devkit/tailwindconfig": "workspace:*",
-    "@devkit/vitest-config": "workspace:*",
+    "@devkit/config": "workspace:*",
     "@vitest/coverage-istanbul": "^3.0.7",
-    "vitepress": "^2.0.0-alpha.0",
     "eslint": "^9.21.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "typescript": "5.7.3",
+    "vite": "^6.3.5",
+    "vitepress": "^2.0.0-alpha.0",
     "vitest": "^3.0.7"
   }
 }

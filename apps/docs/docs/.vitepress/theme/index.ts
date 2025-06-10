@@ -9,8 +9,9 @@ import { registerPrimeVue } from './plugins/primevue'
 import { registerFormKit } from './plugins/formkit'
 import { registerI18n } from './plugins/i18n'
 import { registerDevkitBase } from './plugins/devkit-base'
-import '@devkit/tailwindconfig/style.css';
+import '@devkit/config/style.css';
 import { registerDevkitForm } from './plugins/form'
+import { registerDevkitDatalist } from './plugins/datalist'
 // We spread DefaultTheme so we keep the built‐in layouts & styles.
 // Then we add our own enhanceApp() to register BaseComponents.
 
@@ -33,6 +34,8 @@ export default {
     registerDevkitBase(app)
 
     registerDevkitForm(app)
+    registerDevkitDatalist(app)
+    
   }
 }
 

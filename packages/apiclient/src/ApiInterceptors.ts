@@ -1,10 +1,10 @@
-import { type interceptor } from "@connectrpc/connect";
-export const authinterceptor = (tokenkey: string): interceptor => {
-	const authinterceptor: interceptor = (next) => async (req) => {
-		const token = localstorage.getitem(tokenkey) as string
+import { type Interceptor } from "@connectrpc/connect";
+export const AuthInterceptor = (tokenkey: string): Interceptor =>  {
+	const authInterceptor: Interceptor = (next) => async (req) => {
+		const token = localStorage.getItem(tokenkey) as string
 		req.header.append("authorization", `bearer ${token}`)
 		const response = await next(req);
 		return response
 	}
-	return authinterceptor
+	return authInterceptor
 }

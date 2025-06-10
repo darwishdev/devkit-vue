@@ -1,0 +1,23 @@
+.section-title {
+	width: max-content;
+	position: relative;
+	margin-bottom: 2rem;
+}
+
+.header-section {
+	.absolute {
+		position: absolute !important;
+	}
+
+	.header-menu-bar {
+		height: var(--header-height);
+
+		.app-btn {
+			padding-inline-end: 0 !important;
+		}
+	}
+
+	.w-24 {
+		width: calc(var(--spacing)*24) !important;
+	}
+}

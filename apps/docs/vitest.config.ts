@@ -1,3 +1,18 @@
-import { uiConfig } from "@devkit/vitest-config/ui";
+import { defineConfig } from "vitest/config";
 
-export default uiConfig;
+export const baseConfig = defineConfig({
+  test: {
+    coverage: {
+      provider: "istanbul",
+      reporter: [
+        [
+          "json",
+          {
+            file: `../coverage.json`,
+          },
+        ],
+      ],
+      enabled: true,
+    },
+  },
+});

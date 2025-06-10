@@ -2,11 +2,9 @@
   "name": "@devkit",
   "private": true,
   "scripts": {
-    "install": "pnpm install",
     "add": "pnpm",
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "start": "pnpm dev" 
     "test": "turbo run test",
     "dev": "turbo run dev --parallel",
     "view-report": "turbo run view-report"

@@ -1,10 +1,9 @@
 
 // apps/docs-site/.vitepress/theme/plugins/formkit.ts
 import { App } from 'vue'
-import { plugin as FormKitPlugin, defaultConfig } from '@formkit/vue'
+import { plugin as FormKitPlugin} from '@formkit/vue'
+import { formKitConfig } from '@devkit/form'
 
 export function registerFormKit(app: App) {
-	app.use(FormKitPlugin, defaultConfig({
-		locale: 'en',  // your default locale
-	}))
+	app.use(FormKitPlugin, formKitConfig({}))
 }

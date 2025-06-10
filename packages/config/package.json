@@ -1,39 +1,51 @@
 {
-  "name": "@devkit/tailwindconfig",
+  "name": "@devkit/config",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "./dist/index.es.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/types/src/index.d.ts",
   "files": [
-    "tailwind.config.js",
-    "postcss.config.js",
-    "src/index.js",
-    "style/"
+    "dist",
+    "style/",
+    "./tsconfig.json",
+    "./tsconfig-vue.json"
   ],
+  "scripts": {
+    "build": "vue-tsc --noEmit && vite build"
+  },
   "exports": {
     ".": {
-      "import": "./src/index.js",
-      "require": "./src/index.js"
-    }, 
-    "./tailwind.config": {
-      "import": "./tailwind.config.js",
-      "require": "./tailwind.config.js"
+      "types": "./dist/types/src/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.es.js"
     },
-    "./postcss.config": {
-      "import": "./postcss.config.js",
-      "require": "./postcss.config.js"
+    "./tsconfig.json": {
+      "import": "./tsconfig.json",
+      "require": "./tsconfig.json"
     },
-    "./style.css": "./style/devkit.css"
-  },
-  "scripts": {
-    "build": "vite build"
-  },
-  "peerDependencies": {
-    "tailwindcss-primeui": "^0.4.0"
+    "./tsconfig-vue.json": {
+      "import": "./tsconfig-vue.json",
+      "require": "./tsconfig-vue.json"
+    },
+    "./style.css": {
+      "import": "./style/devkit.css",
+      "require": "./style/devkit.css"
+    }
   },
   "devDependencies": {
+    "@types/google-protobuf": "^3.15.12",
+    "@types/node": "^24.0.0",
     "postcss": "^8.5.3",
-    "vite": "^6.0.7",
     "tailwindcss": "^3.4.17",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "vite": "^6.0.7",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "peerDependencies": {
+    "tailwindcss-primeui": "^0.4.0",
+    "@devkit/apiclient": "workspace:*",
+    "@formkit/core": "^1.6.9"
   }
 }

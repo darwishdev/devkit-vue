@@ -5,8 +5,11 @@ Welcome to DevKit-Vue’s documentation. Below you’ll find separate sections f
 
 - [API Client](./api-client/)  
 - [Base Components](./base-components/)  
-
 ---
-<AppBtn label="hil" />
-<LoginForm  />
-Click on any section to learn more about its functions, types, and examples.
+<LoginForm />
+<DatalistExample />
+## dynamic
+<DynamicDialog />
+
+<Toast />
+

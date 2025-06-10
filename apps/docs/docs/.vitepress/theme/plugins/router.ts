@@ -1,6 +1,6 @@
 
 import { App } from 'vue'
-import { createRouter, createMemoryHistory, RouterOptions } from 'vue-router'
+import { createRouter, createMemoryHistory, RouterOptions, createWebHistory } from 'vue-router'
 
 /**
  * Creates a “mock” router with no real routes. This prevents
@@ -10,7 +10,7 @@ import { createRouter, createMemoryHistory, RouterOptions } from 'vue-router'
 export function registerRouter(app: App) {
 	const routes = [] as RouterOptions['routes']  // no real routes
 	const router = createRouter({
-		history: createMemoryHistory(),  // memory history is best for docs
+    history: createWebHistory(import.meta.env.BASE_URL),
 		routes
 	})
 

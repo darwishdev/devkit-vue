@@ -14,8 +14,6 @@
     "build": "vite build"
   },
   "devDependencies": {
-    "@devkit/eslint-config": "workspace:*",
-    "@devkit/typescript-config": "workspace:*",
     "@turbo/gen": "^2.4.0",
     "@types/node": "^22.13.0",
     "@types/react": "19.0.8",
@@ -27,8 +25,6 @@
     "@connectrpc/connect": "^2.0.2",
     "@connectrpc/connect-web": "^2.0.2",
     "vite": "^5.0.0",
-    "vite-plugin-dts": "^2.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "vite-plugin-dts": "^2.0.0"
   }
 }

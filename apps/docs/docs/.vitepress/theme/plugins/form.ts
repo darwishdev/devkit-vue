@@ -2,15 +2,13 @@
 import { App } from "vue";
 import DevkitFormPlugin, {
   DevkitFormConfig,
-  AppForm,
+formKitConfig,
   LoginForm,
+  AppForm
 } from "@devkit/form";
 import {apiClient} from '../../../../src/apiClient'
-import { createPinia } from "pinia";
 export function registerDevkitForm(app: App) {
 
-	const pinia = createPinia()
-	app.use(pinia)
   const baseConfig: DevkitFormConfig<typeof apiClient> = {
     apiClient,
    authHandler: {
