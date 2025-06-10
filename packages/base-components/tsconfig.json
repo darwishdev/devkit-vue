@@ -1,23 +1,22 @@
 {
-  "compileroptions": {
-    "target": "esnext", // target the latest ecmascript version
-    "module": "esnext", // use es modules
-    "moduleresolution": "node", // use node.js module resolution
-    "strict": true, // enable strict type-checking
-    "jsx": "preserve", // preserve jsx (if applicable)
-    "sourcemap": true, // generate source maps
-    "resolvejsonmodule": true, // allow importing json files
-    "esmoduleinterop": true, // enable es module interoperability
-    "lib": ["esnext", "dom"], // include necessary libraries
-    "outdir": "dist", // output directory for compiled files
-    "declaration": true, // generate .d.ts files
-    "declarationdir": "dist/types", // output directory for .d.ts files
-    "baseurl": ".",
-    "include": ["src/global-components.d.ts"],
+  "compilerOptions": {
+    "target": "ESNext", // Target the latest ECMAScript version
+    "module": "ESNext", // Use ES modules
+    "moduleResolution": "node", // Use Node.js module resolution
+    "strict": true, // Enable strict type-checking
+    "jsx": "preserve", // Preserve JSX (if applicable)
+    "sourceMap": true, // Generate source maps
+    "resolveJsonModule": true, // Allow importing JSON files
+    "esModuleInterop": true, // Enable ES module interoperability
+    "lib": ["esnext", "dom"], // Include necessary libraries
+    "outDir": "dist", // Output directory for compiled files
+    "declaration": true, // Generate .d.ts files
+    "declarationDir": "dist/types", // Output directory for .d.ts files
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*"], // include all files in the src directory
-  "exclude": ["node_modules"] // exclude node_modules
+  "include": ["src/**/*"], // Include all files in the src directory
+  "exclude": ["node_modules"] // Exclude node_modules
 }

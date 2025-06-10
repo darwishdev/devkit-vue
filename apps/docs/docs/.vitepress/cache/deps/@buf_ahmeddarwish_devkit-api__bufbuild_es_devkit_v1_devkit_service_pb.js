@@ -7,7 +7,7 @@ import {
   file_google_protobuf_timestamp,
   messageDesc,
   tsEnum
-} from "./chunk-TA7NUN3E.js";
+} from "./chunk-VP2J5E5B.js";
 import "./chunk-4MBMRILA.js";
 
 // ../../node_modules/.pnpm/@bufbuild+protobuf@2.5.1/node_modules/@bufbuild/protobuf/dist/esm/codegenv2/service.js

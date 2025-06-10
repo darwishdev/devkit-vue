@@ -15,8 +15,8 @@ import {
   decodeBinaryHeader,
   encodeBinaryHeader,
   makeAnyClient
-} from "./chunk-C3I237YU.js";
-import "./chunk-TA7NUN3E.js";
+} from "./chunk-XTK3EY5O.js";
+import "./chunk-VP2J5E5B.js";
 import "./chunk-4MBMRILA.js";
 export {
   Code,
@@ -36,4 +36,3 @@ export {
   encodeBinaryHeader,
   makeAnyClient
 };
-//# sourceMappingURL=@connectrpc_connect.js.map

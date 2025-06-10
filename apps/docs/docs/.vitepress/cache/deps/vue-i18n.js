@@ -970,6 +970,7 @@ function fromEscapeSequence(match, codePoint4, codePoint6) {
   switch (match) {
     case `\\\\`:
       return `\\`;
+    // eslint-disable-next-line no-useless-escape
     case `\\'`:
       return `'`;
     default: {
@@ -2247,21 +2248,33 @@ function getPathCharType(ch) {
   const code = ch.charCodeAt(0);
   switch (code) {
     case 91:
+    // [
     case 93:
+    // ]
     case 46:
+    // .
     case 34:
+    // "
     case 39:
       return ch;
     case 95:
+    // _
     case 36:
+    // $
     case 45:
       return "i";
     case 9:
+    // Tab (HT)
     case 10:
+    // Newline (LF)
     case 13:
+    // Return (CR)
     case 160:
+    // No-break space (NBSP)
     case 65279:
+    // Byte Order Mark (BOM)
     case 8232:
+    // Line Separator (LS)
     case 8233:
       return "w";
   }
