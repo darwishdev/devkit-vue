@@ -9,15 +9,22 @@ export default defineConfig({
 
   themeConfig: {
     nav: [
-      { text: 'Home',       link: '/' },
+      { text: 'Home',           link: '/' },
+      { text: 'API Client',     link: '/api-client/' },
       { text: 'Base Components', link: '/base-components/' },
-      { text: 'Form', link: '/form/' },
-      { text: 'Data List', link: '/datalist/' },
-      { text: 'Admin', link: '/admin/' },
-      { text: 'Front Office', link: '/front-office/' },
-      // add other top‐level sections here…
+      { text: 'Config',         link: '/config/' },
+      { text: 'Form',           link: '/form/' },
+      { text: 'Data List',      link: '/datalist/' },
     ],
     sidebar: {
+      '/api-client/': [
+        { text: 'Overview',       link: '/api-client/' },
+        { text: 'API Client',     link: '/api-client/api-client' },
+        { text: 'Object Utils',   link: '/api-client/object-utils' },
+        { text: 'Type Utils',     link: '/api-client/type-utils' },
+        { text: 'API Interceptors', link: '/api-client/api-interceptors' },
+        { text: 'API Types',      link: '/api-client/api-types' },
+      ],
       '/base-components/': [
         { text: 'Overview',      link: '/base-components/' },
         { text: 'Installation',  link: '/base-components/installation' },
@@ -25,7 +32,15 @@ export default defineConfig({
         { text: 'Components',    link: '/base-components/components' },
         { text: 'Utilities',     link: '/base-components/utils' },
       ],
-      // sidebar entries for other sections…
+      '/config/': [
+        { text: 'Overview',      link: '/config/' },
+      ],
+      '/form/': [
+        { text: 'Overview',      link: '/form/' },
+      ],
+      '/datalist/': [
+        { text: 'Overview',      link: '/datalist/' },
+      ],
     }
   },
 
