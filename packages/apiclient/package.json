@@ -8,6 +8,7 @@
     "dist"
   ],
   "scripts": {
+    "setup-deps": "pnpm i",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
     "clean": "rm -rf dist",

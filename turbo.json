@@ -10,6 +10,12 @@
         "apps/docs/.vitepress/dist/**"    
       ]
     },
+    "setup-deps": {
+      "dependsOn": ["^setup-deps"],
+      "outputs": [
+        "node_modules/*"
+      ]
+    },
     "lint": {
       "outputs": []
     },

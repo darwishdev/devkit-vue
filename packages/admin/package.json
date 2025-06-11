@@ -1,11 +1,15 @@
 {
-  "name": "@devkit/base-components",
-  "version": "0.0.20",
+  "name": "@devkit/admin",
+  "version": "0.0.262",
   "description": "Devkit Base Components is a Vue plugin offering a collection of reusable, headless components designed to streamline your Vue.js development workflow. Built for flexibility and maintainability, this library gives you complete control over styling and behavior, integrating seamlessly with PrimeVue, Vue Router, Vue I18n, and Tailwind CSS.",
   "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
   "style": "./dist/style.css",
-  "tailwind": "./tailwind.preset.js",
+  "main": "index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "exports": {
     ".": {
       "import": {
@@ -23,20 +27,17 @@
   "scripts": {
     "setup-deps": "pnpm i",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "vite build",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/darwishdev/devkit_base_components.git"
+    "url": "git+https://github.com/darwishdev/devkit_admin.git"
   },
   "keywords": [
     "vue",
     "vue3",
     "components",
     "headless",
-    "reusable",
     "ui",
     "library",
     "primevue",
@@ -51,34 +52,62 @@
   ],
   "author": "darwishdev",
   "license": "ISC",
-  "files": [
-    "dist"
-  ],
   "bugs": {
-    "url": "https://github.com/darwishdev/devkit_base_components/issues"
+    "url": "https://github.com/darwishdev/devkit_admin/issues"
   },
-  "homepage": "https://github.com/darwishdev/devkit_base_components#readme",
+  "homepage": "https://github.com/darwishdev/devkit_admin#readme",
   "peerDependencies": {
     "@devkit/apiclient": "workspace:*",
+    "@devkit/datalist": "workspace:*",
+    "@devkit/form": "workspace:*",
+    "@devkit/filemanager": "workspace:*",
+    "@devkit/config": "workspace:*",
+    "@devkit/base-components": "workspace:*",
+    "@formkit/core": "^1.6.9",
+    "@formkit/vue": "^1.6.9",
+    "@tanstack/query-persist-client-core": "^5.66.0",
+    "@tanstack/vue-query": "^5.66.0",
+    "@vueuse/core": "^12.5.0",
     "dexie": "^4.0.11",
-    "primevue": "^4.2.2",
+    "pinia": "^2.3.1",
     "tailwindcss": "^3.0.0",
     "tailwindcss-primeui": "^0.4.0",
     "vue": "^3.0.0",
     "vue-i18n": "^10.0.5",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@types/google-protobuf": "^3.15.12",
-    "@types/node": "^22.13.5",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@formkit/icons": "^1.6.9",
+    "@types/node": "^22.13.1",
+    "@vitejs/plugin-vue": "^5.2.1",
     "autoprefixer": "^10.4.20",
+    "eslint": "^9.22.0",
+    "eslint-plugin-vue": "^10.0.0",
+    "globals": "^16.0.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3",
+    "typescript-eslint": "^8.26.1",
     "vite": "^6.0.7",
     "vite-plugin-copy": "^0.1.6",
-    "vite-plugin-dts": "^4.4.0",
+    "vite-plugin-dts": "^4.5.0",
     "vite-plugin-static-copy": "^2.2.0"
+  },
+  "dependencies": {
+    "@uppy/compressor": "^2.2.1",
+    "@uppy/core": "^4.4.5",
+    "@uppy/dashboard": "^4.3.4",
+    "@uppy/golden-retriever": "^4.1.1",
+    "@uppy/image-editor": "^3.3.3",
+    "@uppy/progress-bar": "^4.2.1",
+    "@uppy/remote-sources": "^2.3.3",
+    "@uppy/tus": "^4.2.2",
+    "@uppy/vue": "^2.1.1",
+    "@vue/test-utils": "^2.4.6",
+    "preact": "^10.26.8",
+    "vitest": "^3.0.7"
   }
 }

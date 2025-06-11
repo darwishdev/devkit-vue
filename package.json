@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "add": "pnpm",
+    "setup-deps": "turbo run setup-deps",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",

@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "setup-deps": "pnpm i",
     "dev": "vitepress dev docs",
     "test": "vitest run"
   },
