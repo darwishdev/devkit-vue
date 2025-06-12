@@ -1,45 +1,207 @@
-# Turborepo starter
+# DevKit Vue
 
-This Turborepo starter is maintained by the Turborepo core team.
+**Composable Vue 3 UI & admin framework** built for rapid full-stack development, tightly integrated with a gRPC backend — but flexible enough to work with any API SDK.
 
-## Using this example
+> Powered by Vite, PNPM, FormKit, PrimeVue, and a modular monorepo architecture.
 
-This example is based on the `basic` example (`npx create-turbo@latest`) to demonstrate how to use Vitest and get the most out of Turborepo's caching.
+---
 
-For this reason, the only commands in the root package.json are `turbo run test` and `turbo run view-report`.
+## ✨ Overview
 
-`turbo run test`: Runs the test in each package using Turborepo.
-`turbo run view-report`: Collects coverage from each package and shows it in a merged report.
+DevKit Vue is a modular, production-ready development kit designed to accelerate the creation of **admin panels**, **front-office apps**, and **internal tools**.
 
-### Remote Caching
+It consists of multiple Vue packages and utilities that work seamlessly together inside a [Turborepo](https://turbo.build/repo)-powered monorepo.
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+---
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## 📦 Packages
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+This monorepo contains the following internal packages:
+
+| Package | Description |
+|--------|-------------|
+| [`@devkit/admin`](./packages/admin) | Ready-made admin panel template built from all internal packages |
+| [`@devkit/form`](./packages/form) | FormKit-based wrapper with custom inputs & smart form handling |
+| [`@devkit/datalist`](./packages/datalist) | Powerful datatable wrapper with actions, filters, and layouts |
+| [`@devkit/filemanager`](./packages/filemanager) | Bucket-based file manager with upload/delete/rename support |
+| [`@devkit/base-components`](./packages/base-components) | Common UI components like `APPBtn`, `APPImage`, etc. |
+| [`@devkit/api-client`](./packages/api-client) | Typed gRPC API client helpers, like `resolveApiEndpoint` |
+| [`@devkit/config`](./packages/config) | Shared TS configs, styles, and aliases across all packages |
+
+---
+
+## 🏗️ Architecture
+
+- **Monorepo** managed with **Turborepo**  
+- **PNPM workspaces** for efficient dependency management  
+- **Vue 3 + Vite** for fast development and builds  
+- **FormKit** for declarative, extendable form rendering  
+- **PrimeVue** for UI primitives  
+- **Flexible API client support**:  
+  DevKit is **deeply optimized for gRPC APIs** using the included `@devkit/api-client`, but you can also integrate it with any custom REST or HTTP API.  
+  Simply create your own API SDK that wraps your API calls and pass it as the `apiClient` option during app/plugin setup — everything will work seamlessly.
+
+---
+
+## 📂 Directory Structure
 
 ```
-cd my-turborepo
-npx turbo login
+
+apps/
+docs/                # VitePress documentation site
+
+packages/
+admin/               # Full admin panel wrapper
+base-components/     # Shared UI elements
+config/              # TS config, Tailwind config, PostCSS etc.
+datalist/            # Smart data table component
+filemanager/         # File upload & management
+form/                # FormKit abstraction layer
+api-client/          # API call helpers & types
+
+````
+
+---
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/darwishdev/devkit-vue.git
+cd devkit-vue
+````
+
+2. **Install all dependencies**
+
+```bash
+pnpm setup-deps
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+> This installs all dependencies across all apps and packages using PNPM Workspaces.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+3. **Build all internal packages**
 
+```bash
+pnpm build
 ```
-npx turbo link
+
+4. **Start the documentation site**
+
+```bash
+pnpm dev
 ```
 
-## Useful Links
+> This launches the **VitePress docs site** from `apps/docs`, where you can explore usage, features, and examples.
 
-Learn more about the power of Turborepo:
+---
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+## 🔌 API Integration
+
+DevKit supports any API SDK:
+
+```ts
+import { createApp } from 'vue'
+import AdminApp from '@devkit/admin'
+import myCustomApiClient from './my-rest-api-sdk' // your REST wrapper
+
+createApp(App)
+  .use(AdminApp, {
+    apiClient: myCustomApiClient, // gRPC or REST
+    baseImageUrl: '',
+    noImageUrl: '',
+    locales: [],
+  })
+  .mount('#app')
+```
+
+> You are not limited to gRPC — DevKit works with **any structured API SDK**, as long as it exposes predictable functions.
+
+---
+
+## 📖 Documentation
+
+Visit the [Docs Site](./apps/docs) for:
+
+* Package usage & examples
+* Table & form schemas
+* API client integration
+* Theming & customization
+
+---
+
+## 🧱 Features
+
+* 🧩 **Composable packages** — use only what you need
+* ⚡ **Fast builds** with Vite and Turbo
+* 🎛️ **FormKit-driven forms** with validation, notifications, and logic
+* 🧮 **Datalist** with CRUD, filters, layouts, and schema config
+* 🗃️ **File manager** for Supabase/GCS-compatible buckets
+* 🧠 **Smart API client** for gRPC or custom SDKs
+* 🎨 **Beautiful components** with theme support
+
+---
+
+## 🛠️ Tooling
+
+| Tool          | Purpose                                 |
+| ------------- | --------------------------------------- |
+| **Turborepo** | Orchestrates tasks across packages      |
+| **PNPM**      | Fast, disk-efficient dependency manager |
+| **Vite**      | Lightning-fast build and dev            |
+| **FormKit**   | Declarative forms                       |
+| **PrimeVue**  | UI toolkit                              |
+| **VitePress** | Project documentation                   |
+
+---
+
+## 🧪 Testing
+
+Each package can contain its own tests using Vitest:
+
+```bash
+pnpm --filter @devkit/form test
+```
+
+---
+
+## 📦 Publishing
+
+DevKit uses [Changesets](https://github.com/changesets/changesets) for versioning and publishing:
+
+```bash
+# Create a changeset
+pnpm changeset
+
+# Apply version bumps
+pnpm changeset version
+
+# Publish all updated packages
+pnpm publish -r --access public
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create your branch (`git checkout -b feature/my-feature`)
+3. Make changes and test locally
+4. Commit (`pnpm changeset`)
+5. Push and create a PR
+
+---
+
+## 📄 License
+
+MIT License © \[DARWISHDEV]
+
+---
+
+## 🌐 Links
+
+* GitHub: [github.com/darwishdev/devkit-vue](https://github.com/darwishdev/devkit-vue)
+* Documentation: `/apps/docs`
+* Backend API (gRPC): [devkit-api](https://github.com/darwishdev/devkit-api)
+
+---
