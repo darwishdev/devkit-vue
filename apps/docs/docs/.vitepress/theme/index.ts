@@ -12,6 +12,7 @@ import { registerDevkitBase } from './plugins/devkit-base'
 import '@devkit/config/style.css';
 import { registerDevkitForm } from './plugins/form'
 import { registerDevkitDatalist } from './plugins/datalist'
+import { registerDevkitAdmin } from './plugins/admin'
 // We spread DefaultTheme so we keep the built‐in layouts & styles.
 // Then we add our own enhanceApp() to register BaseComponents.
 
@@ -31,11 +32,12 @@ export default {
     registerI18n(app)       // installs vue-i18n
 
     // 4) Finally, register your DevKit plugin (which pulls in @devkit/api-client internally)
-    registerDevkitBase(app)
-
-    registerDevkitForm(app)
-    registerDevkitDatalist(app)
-    
+    registerDevkitAdmin(app)
+    // registerDevkitBase(app)
+    //
+    // registerDevkitForm(app)
+    // registerDevkitDatalist(app)
+    //
   }
 }
 

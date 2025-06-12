@@ -63,6 +63,9 @@ importers:
       '@connectrpc/connect-web':
         specifier: ^2.0.1
         version: 2.0.2(@bufbuild/protobuf@2.5.1)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.1))
+      '@devkit/admin':
+        specifier: workspace:*
+        version: link:../../packages/admin
       '@devkit/apiclient':
         specifier: workspace:*
         version: link:../../packages/apiclient
@@ -72,6 +75,9 @@ importers:
       '@devkit/datalist':
         specifier: workspace:*
         version: link:../../packages/datalist
+      '@devkit/filemanager':
+        specifier: workspace:*
+        version: link:../../packages/filemanager
       '@devkit/form':
         specifier: workspace:*
         version: link:../../packages/form

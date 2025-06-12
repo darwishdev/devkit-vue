@@ -1,34 +1,34 @@
-<!-- apps/docs-site/docs/index.md -->
-# DevKit‑Vue
+---
+home: true
+layout: home
+heroImage: /hero.svg
+heroText: DevKit Vues
+tagline: Build beautiful admin panels & front-office apps with composable Vue components and a gRPC API.
 
-Your toolkit of Vue&nbsp;3 packages for building data‑driven applications.
-
-<img src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f?auto=format&fit=crop&w=1200&q=60" alt="Banner" class="rounded-lg shadow-lg my-6" />
-
-<div class="flex gap-4 mb-8">
-  <a href="./base-components/installation" class="px-5 py-3 bg-sky-600 text-white rounded-md shadow hover:bg-sky-700">Get Started</a>
-  <a href="https://github.com/darwishdev/devkit-vue" class="px-5 py-3 border border-sky-600 text-sky-600 rounded-md shadow hover:bg-sky-50">GitHub</a>
-</div>
-
-## Why DevKit‑Vue?
-
-- Rapid development with reusable headless components
-- Simplified forms with built‑in validation and persistence
-- Scalable data grids integrated with your API
-- Written in TypeScript for Vue&nbsp;3
-
-## Packages
-
-### [Base Components](./base-components/)
-
-Reusable headless UI components with i18n sync and caching utilities.
-
-### [Form](./form/)
-
-Form inputs, validation helpers and optional local persistence layer.
-
-### [Data List](./datalist/)
-
-Headless data grid component integrated with the internal API client.
-
-
+hero:
+  name: DevKit Vue              # small title, in brand color
+  text: Build beautiful admin panels & front-office apps  
+  tagline: Composable Vue components powered by a gRPC backend.
+  image:
+    src: https://otsrbanqbblnausaspta.supabase.co/storage/v1/object/public/abchotels/hero.png
+    alt: DevKit Vue logo
+  actions:
+    - theme: brand             # or 'alt' for secondary
+      text: Get Started
+      link: /guide/
+    - theme: alt
+      text: View on GitHub
+      link: https://github.com/your-org/devkit-vue
+features:
+  - title: Base Components
+    details: Buttons, navbars, breadcrumbs, modals—fully themable.
+  - title: API Client
+    details: Typed JS client for your Go gRPC API (Buf & Connect).
+  - title: Forms
+    details: FormKit wrapper with built-in validation and file uploads.
+  - title: Data Tables
+    details: PrimeVue-based datalist component with server-side filters.
+screenshots:
+  - src: /screenshots/1.png
+    alt: Dashboard view
+---

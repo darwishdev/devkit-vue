@@ -14,6 +14,8 @@
     "@connectrpc/connect": "^2.0.1",
     "@connectrpc/connect-web": "^2.0.1",
     "@devkit/apiclient": "workspace:*",
+    "@devkit/filemanager": "workspace:*",
+    "@devkit/admin": "workspace:*",
     "@devkit/base-components": "workspace:*",
     "@devkit/form": "workspace:*",
     "@devkit/datalist": "workspace:*",

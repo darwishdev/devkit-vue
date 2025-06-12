@@ -1,2 +1,1 @@
-import FileManager from "./FileManager.vue";
-export default FileManager
+export {default as FileManager } from "./FileManager.vue";
