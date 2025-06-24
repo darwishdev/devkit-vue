@@ -4,7 +4,7 @@ import { AppFormSections } from "@devkit/config"
 import { ApiEndpoint, StringUnknownRecord } from "@devkit/apiclient"
 import { useDatalistStore } from "./store/DatalistStore";
 import { AppBtnProps } from "@devkit/base-components";
-import type { DataTableFilterMetaData } from 'primevue'
+import type { DataTableFilterMetaData, DataTablePassThroughOptionType, DataTableProps } from 'primevue'
 import type { FormKitSchemaNode } from '@formkit/core'
 export type DatalistFilterInput<TReq> = FormKitSchemaNode & { name: keyof TReq | string, value?: unknown }
 export type DatalistFilter<TFiltersReq> = {
@@ -14,14 +14,11 @@ export type DatalistFilter<TFiltersReq> = {
 }
 export type DatalistFiltersModel = Record<string, DataTableFilterMetaData>
 
-export type DeleteRestoreVariant = {
+export type DeleteRestoreVariant =  AppBtnProps  & {
 	disabled: boolean;
 	hasSelectedData: boolean;
 	hasDeletedRecords: boolean;
-	icon: string;
-	label: string;
 	empty: string;
-	severity: 'secondary' | 'success' | 'info' | 'warn' | 'help' | 'danger' | 'contrast' | undefined;
 
 }
 export type CreateHandler = {
@@ -177,6 +174,7 @@ export type DatalistContext<
 	options?: ApiListOptions;
 	formSections?: AppFormSections<TFormSectionsRequest extends undefined ? StringUnknownRecord : TFormSectionsRequest>;
 	execludedColumns?: (keyof TRecord)[];
+  datatableProps?: DataTableProps
 	displayType?: DisplayType
 	isSelectionHidden?: boolean
 	debounceInMilliseconds?: number;
@@ -259,6 +257,19 @@ export type DatalistSlots<
 		[K in keyof DatalistRowActions as K extends string ? `rowActions.${K}` : never]: (props: { store: DatalistStore<TApi, TReq, TRecord, TFiltersReq, TApiResponse, TFormSectionsRequest>, data: TRecord }) => VNode[] | VNode | undefined
 	}
 
+export type DatalistRowActionsSlots<
+	TApi extends Record<string, Function>,
+	TRecord extends StringUnknownRecord,
+> = {
+	actionsPrepend?: (props: { data: TRecord }) => VNode[] | VNode;
+	dropdownActions?: (props: { data: TRecord }) => VNode[] | VNode;
+	actionsAppend?: (props: { data: TRecord }) => VNode[] | VNode;
+
+} & {
+		[K in keyof DatalistRowActions as K extends string ? `rowActions.${K}` : never]: (props: { store: DatalistStore<TApi, any , TRecord ,any>, data: TRecord }) => VNode[] | VNode | undefined
+	}
+
+
 export type DatalistEmits<TRecord extends StringUnknownRecord, TApiResponse extends StringUnknownRecord | undefined = undefined> = {
 	(e: 'create:submited', response: StringUnknownRecord): void
 	(e: 'create:submit', request: StringUnknownRecord): void
@@ -270,4 +281,19 @@ export type DatalistEmits<TRecord extends StringUnknownRecord, TApiResponse exte
 	(e: 'listed', response: TApiResponse extends undefined ? ApiResponseList<TRecord> : TApiResponse): void
 	(e: 'error', value: string): void
 	(e: 'displayTypeChanged', value: DisplayType): void
+}
+export type DatalistRowActionsEmits = {
+	(e: 'create:submited', response: StringUnknownRecord): void
+	(e: 'create:submit', request: StringUnknownRecord): void
+	(e: 'update:submited', response: StringUnknownRecord): void
+	(e: 'update:submit', response: StringUnknownRecord): void
+	(e: 'deleteRestore:submited', response: StringUnknownRecord): void
+	(e: 'deleteRestore:submit', response: StringUnknownRecord): void
+}
+export type DatalistRowActionsProps<TRecord> = {
+  data: TRecord ,
+  storeKey : string,
+  rowIdentifier : keyof TRecord,
+  hideShowDeleted? :  boolean ,
+  isActionsDropdown? : boolean
 }

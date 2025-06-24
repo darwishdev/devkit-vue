@@ -31,10 +31,10 @@ export type AppIconProps = {
 export type AppBtnProps = {
 	action?: string | Function,
 	route?: string
+	to?: string
+	command?: Function
 	label?: string,
 	labelAr?: string,
-	style?: any;
-	class?: any;
 	icon?: string | undefined;
 	iconPos?: 'left' | 'right' | 'top' | 'bottom' | undefined;
 	iconClass?: string | object | undefined;
@@ -76,13 +76,15 @@ export type AppImageEmits = {
 	(e: 'placeholder-loaded', event: Event): void
 	(e: 'fallback-error', error: Event): void
 }
+export type AppMenuItem = MenuItem & { labelAr?: string }
 export type AppMenuProps = {
-	items: MenuItem & { labelAr?: string }[]
+	items: AppMenuItem[]
+hideDrawerToggler?: boolean,
 	isVertical?: boolean
 	isCollabsable?: boolean
 	useDrawerOnMobile?: boolean
 	drawerProps?: DrawerProps
-	breakpoint?: number
+	breakpoint?: string
 	logo?: string | {
 		src: string, type?: 'image' | 'icon',
 		size?: 'small' | 'medium' | 'large'

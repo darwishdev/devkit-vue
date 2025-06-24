@@ -17,11 +17,12 @@ import  {
 import { apiClient } from "../../../../src/apiClient";
 import { Datalist } from "@devkit/datalist";
 import { AppForm, LoginForm } from "@devkit/form";
+import DatalistExample from "../../../../src/DatalistExample.vue";
 export function registerDevkitAdmin(app: App) {
   const baseConfig: DevkitAdminConfig<typeof apiClient> = {
     apiClient,
     locales: ["en", "ar"],
-    baseImageUrl: "",
+    baseImageUrl: "http://192.168.100.40:54321/storage/v1/object/public/",
     authHandler: {
       login: 'authLogin',
       allowedProviders: ['google'],
@@ -54,4 +55,5 @@ export function registerDevkitAdmin(app: App) {
   app.component("FileManager", FileManager);
   app.component("AppBreadcrumb", AppBreadcrumb);
   app.component("AppMenu", AppMenu);
+  app.component("DatalistExample", DatalistExample);
 }

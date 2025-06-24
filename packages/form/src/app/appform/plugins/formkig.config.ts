@@ -1,49 +1,56 @@
-
-import { createInput, defaultConfig, DefaultConfigOptions } from '@formkit/vue'
-import type { FormKitPlugin } from '@formkit/core';
-import { DependencyManagerPlugin, OptionsGetterPlugin } from './OptionsGetter';
-import Datepicker from '../inputs/Datepicker.vue';
-import { rootClasses } from '../../../formkit.theme'
-import { Upload } from '../inputs';
-import { genesisIcons } from '@formkit/icons'
-import Dropdown from '../inputs/Dropdown.vue';
-const isCheckboxAndRadioMultiple: FormKitPlugin = (node: any) => (node.props.type === 'checkbox' || node.props.type === 'radio') && node.props.options
+import { createInput, defaultConfig, DefaultConfigOptions } from "@formkit/vue";
+import type {
+  FormKitNode,
+  FormKitPlugin,
+  FormKitSectionsSchema,
+} from "@formkit/core";
+import { DependencyManagerPlugin, OptionsGetterPlugin } from "./OptionsGetter";
+import { DatePicker, Upload, DropDown } from "../inputs";
+import { genesisIcons } from "@formkit/icons";
+const isCheckboxAndRadioMultiple: FormKitPlugin = (node: FormKitNode) =>
+  (node.props.type === "checkbox" || node.props.type === "radio") &&
+  node.props.options;
 const addAsteriskPlugin: FormKitPlugin = (node) => {
-  node.on('created', () => {
-    const isRequired = node.props.parsedRules.some((rule: any) => rule.name === 'required');
-    if (!isRequired || !node.props) return
-    if (!node.props.definition) return
-    const isMultiOption = isCheckboxAndRadioMultiple(node)
-    node.props.definition.schemaMemoKey = `required_${isMultiOption ? 'multi_' : ""}${node.props.definition.schemaMemoKey}`
+  node.on("created", () => {
+    const isRequired = node.props.parsedRules.some(
+      (rule: { name: string }) => rule.name === "required",
+    );
+    if (!isRequired || !node.props) return;
+    if (!node.props.definition) return;
+    const isMultiOption = isCheckboxAndRadioMultiple(node);
+    node.props.definition.schemaMemoKey = `required_${isMultiOption ? "multi_" : ""}${node.props.definition.schemaMemoKey}`;
     const schemaFn = node.props.definition.schema;
-    node.props.definition.schema = (sectionsSchema: any = {}) => {
+    node.props.definition.schema = (
+      sectionsSchema: FormKitSectionsSchema = {},
+    ) => {
       if (isRequired) {
         if (isMultiOption) {
           sectionsSchema.legend = {
-            children: ['$label', '*']
-          }
+            children: ["$label", "*"],
+          };
         } else {
           sectionsSchema.label = {
-            children: ['$label', '*']
-          }
+            children: ["$label", "*"],
+          };
         }
       }
-      if (typeof schemaFn === 'function') {
+      if (typeof schemaFn === "function") {
         return schemaFn(sectionsSchema);
       }
       return schemaFn ?? [];
-    }
-  })
-}
+    };
+  });
+};
 const formKitConfig = (options: DefaultConfigOptions) => {
   const plugins: FormKitPlugin[] = [
     DependencyManagerPlugin,
     addAsteriskPlugin,
     // FormDataGetterPlugin,
     OptionsGetterPlugin,
-  ]
+  ];
   const fileUploadPropKeys = [
     "bucketName",
+    "hideSelectFromGallery",
     "baseUrl",
     "fallbackImageUrl",
     "isMultiple",
@@ -63,7 +70,7 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     "convertToFlat",
     "dependsOn",
     "requestPropertyName",
-    'responseOptionsKey',
+    "responseOptionsKey",
     "requestMapper",
     "bypassCache",
     "optionsMapper",
@@ -126,8 +133,8 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     "dt",
     "pt",
     "ptOptions",
-    "unstyled"
-  ]
+    "unstyled",
+  ];
   const singleDropdownProps = [
     ...commonDropdownProps,
     "editable",
@@ -137,23 +144,11 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     "labelStyle",
     "labelClass",
     "useButtons",
-    'multiple',
+    "multiple",
     "selectOnFocus",
     "checkmark",
-  ]
-  const multiDropdownProps = [
-    ...commonDropdownProps,
-    "display",
-    "selectedItemsLabel",
-    "maxSelectedLabels",
+  ];
 
-    "selectionLimit",
-    "showToggleAll",
-    "checkboxIcon",
-    "removeTokenIcon",
-    "chipIcon",
-    "selectAll",
-  ]
   const datepickerContextKeys = [
     "disabledDates", // from DatepickerContext
     "disabledDatesRequestPropertyName", // from DatepickerContext
@@ -229,36 +224,30 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     "ptOptions",
     "unstyled",
   ];
-  const dropdownInput = createInput(Dropdown, {
+  const dropdownInput = createInput(DropDown, {
     props: singleDropdownProps,
-  })
+  });
 
-
-  const datePickerInput = createInput(Datepicker, {
+  const datePickerInput = createInput(DatePicker, {
     props: datepickerContextKeys,
-  })
+  });
 
   const uploadInput = createInput(Upload, {
-    props: ['bucketName', 'filesHandler', ...fileUploadPropKeys],
-  })
+    props: ["bucketName", "filesHandler", ...fileUploadPropKeys],
+  });
 
   const inputs = {
-    'devkitDropdown': dropdownInput,
-    'devkitDatepicker': datePickerInput,
-    'devkitUpload': uploadInput,
-  }
+    devkitDropdown: dropdownInput,
+    devkitDatepicker: datePickerInput,
+    devkitUpload: uploadInput,
+  };
   return defaultConfig({
     ...options,
     inputs: { ...inputs, ...options.inputs },
     icons: {
-      ...genesisIcons
+      ...genesisIcons,
     },
     plugins: !options.plugins ? plugins : { ...plugins, ...options.plugins },
-    config: !options.config ? { rootClasses } : {
-      rootClasses: options.config.rootClasses || rootClasses,
-      ...options.config
-    }
-
-  })
-}
-export default formKitConfig
+  });
+};
+export default formKitConfig;

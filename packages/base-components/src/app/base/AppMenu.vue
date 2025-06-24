@@ -2,18 +2,20 @@
 import PanelMenu from "primevue/panelmenu";
 import { Menubar } from "primevue";
 import { AppMenuProps, AppMenuSlots, MenuItemScope } from "@/pkg/types/types";
-import { h, ref } from "vue";
+import { computed, h, ref } from "vue";
 
 import Drawer from "primevue/drawer";
-import AppIcon from "./AppIcon.vue";
 import AppImage from "./AppImage.vue";
 import AppBtn from "./AppBtn.vue";
+import AppIcon from "./AppIcon.vue";
+const breakpointNumber = 570
 const {
-  items,
+  items, 
   isVertical,
   drawerProps = {},
+  hideDrawerToggler = false,
   useDrawerOnMobile,
-  breakpoint = 570,
+  breakpoint = `${breakpointNumber}px`,
   logo,
 } = defineProps<AppMenuProps>();
 const slots = defineSlots<AppMenuSlots>();
@@ -50,6 +52,7 @@ const renderMenu = () =>
               breakpoint: useDrawerOnMobile ? 0 : breakpoint,
               class: "app-navigation",
               pt: {
+                root: 'transparent border-none',
                 panel: "transparent w-full rounded-md",
                 content: "glass rounded-md",
                 header: "rounded-md",
@@ -62,23 +65,27 @@ const renderMenu = () =>
                 slots.item
                   ? slots.item(scope)
                   : h(
-                      AppBtn,
-                      {
-                        icon:scope.item.icon,
-                        style:scope.item.style,
-                        label: scope.item.label as string,
-                        variant: "text",
-                        class: "w-full",
-                      },
-                      {
-                        end: () =>
-                          scope.hasSubmenu
-                            ? h("span", {
-                                class: "pi pi-fw pi-angle-down",
-                              })
-                            : undefined,
-                      },
-                    ),
+                    AppBtn,
+                    {
+                      icon:scope.item.icon,
+                      style:scope.item.style,
+                      class: scope.item.active ? '' : 'color-text',
+                      action: scope.item.route,
+                      label: scope.item.label as string,
+                      labelAr: scope.item.labelAr ,
+                      fluid: true,
+                      variant: "text",
+                    },
+                    {
+                      end: () =>
+                        scope.hasSubmenu
+                          ? h(AppIcon, {
+                            icon:  "arrow-down-s-line",
+                            class: 'submenu-arrow-icon'
+                          })
+                          : undefined,
+                    },
+                  ),
             },
           ),
         ],
@@ -97,8 +104,11 @@ const toggleMobileMenu = () => {
   console.log("menu is toggling");
   isMobileMenuVisibleRef.value = !isMobileMenuVisibleRef.value;
 };
-const renderAppMenu = () => {
-  if (windowWidth > breakpoint || !useDrawerOnMobile) {
+defineExpose({
+  toggleMobileMenu
+})
+const renderAppMenu =computed( () => {
+  if (windowWidth > breakpointNumber || !useDrawerOnMobile) {
     return renderMenu();
   }
   return h(
@@ -109,11 +119,11 @@ const renderAppMenu = () => {
     [
       slots.mobileToggler
         ? slots.mobileToggler({ toggle: toggleMobileMenu })
-        : h(AppBtn, {
-            icon: "menu",
-            label: "toggle",
-            action: () => toggleMobileMenu(),
-          }),
+        : hideDrawerToggler ? undefined : h(AppBtn, {
+          icon: 'menu-line',
+          'v-once': true,
+          action: () => toggleMobileMenu(),
+        }),
       h(
         Drawer,
         {
@@ -128,7 +138,7 @@ const renderAppMenu = () => {
       ),
     ],
   );
-};
+});
 </script>
 <template>
   <component :is="renderAppMenu" />
@@ -138,3 +148,4 @@ const renderAppMenu = () => {
   flex: 1;
 }
 </style>
+

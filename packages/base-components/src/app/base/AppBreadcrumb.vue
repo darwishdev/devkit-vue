@@ -7,7 +7,7 @@ import { useRoute, useRouter } from "vue-router";
 const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
-const { items } = defineProps<{ items: MenuItem[] }>();
+const { items } = defineProps<{ items?: MenuItem[] }>();
 const breadcrumbHome = {
   icon: "house",
   to: "/",
@@ -21,34 +21,14 @@ const breadcrumbs = computed(() => {
 </script>
 <template>
   <Breadcrumb
-    :home="breadcrumbHome"
+    :pt="{
+      root:'transparent p-0'
+    }"
     :model="breadcrumbs"
     v-if="breadcrumbs.length > 0"
   >
-    <template #item="{ item, props }">
-      <a
-        href="#"
-        v-if="item.to"
-        v-bind="props.action"
-        @click.prevent="router.push(item.to)"
-      >
-        <AppIcon color="mr-3" v-if="item.icon" :icon="item.icon" />
-        <span class="text-color" v-if="item.label">{{
-          t(item.label as string)
-        }}</span>
-      </a>
-      <div
-        v-else
-        class="cursor-text"
-        :href="item.to"
-        :target="item.target"
-        v-bind="props.action"
-      >
-        <AppIcon color="text-primary mr-3" v-if="item.icon" :icon="item.icon" />
-        <span class="text-primary" v-if="item.label">{{
-          t(item.label as string)
-        }}</span>
-      </div>
+    <template #item="{ item }">
+      <AppBtn variant="text" class="color-text" v-bind="{label : typeof item.label  == 'function' ? item.label()  :item.label, icon: item.icon , to: item.to , route : item.route }"  />
     </template>
   </Breadcrumb>
 </template>

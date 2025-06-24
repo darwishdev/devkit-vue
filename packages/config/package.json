@@ -13,7 +13,7 @@
     "./tsconfig-vue.json"
   ],
   "scripts": {
-    "build": "vue-tsc --noEmit && vite build"
+    "build": "vite build"
   },
   "exports": {
     ".": {
@@ -29,6 +29,10 @@
       "import": "./tsconfig-vue.json",
       "require": "./tsconfig-vue.json"
     },
+    "./eslint": {
+      "import": "./src/baseEslint.js",
+      "require": "./src/baseEslint.js"
+    },
     "./style.css": {
       "import": "./style/devkit.css",
       "require": "./style/devkit.css"
@@ -41,11 +45,15 @@
     "tailwindcss": "^3.4.17",
     "typescript": "~5.7.2",
     "vite": "^6.0.7",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vue-router": "4"
   },
   "peerDependencies": {
-    "tailwindcss-primeui": "^0.4.0",
-    "@devkit/apiclient": "workspace:*",
     "@formkit/core": "^1.6.9"
+  },
+  "dependencies": {
+    "@devkit/apiclient": "workspace:*",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-turbo": "^2.5.4"
   }
 }

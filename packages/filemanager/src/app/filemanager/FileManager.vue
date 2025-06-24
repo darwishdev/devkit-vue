@@ -1,32 +1,26 @@
 <script setup lang="ts" generic="TApi extends Record<string, Function>">
 import { ref, inject, computed, VNode } from "vue";
-import { AppImage , AppBtn } from "@devkit/base-components";
 import {
   DatalistStore,
   Datalist,
   useDatalistStoreWithProps,
   type DatalistProps,
 } from "@devkit/datalist";
-
 import { bucketInput, bucketsForm } from "./schemas";
-import { FilesHandler, StringUnknownRecord  } from "@devkit/config";
+import { FilesHandler, StringUnknownRecord } from "@devkit/config";
 import {
   BucketCreateUpdateRequest,
   GalleryListRequest,
   FileObject,
   GalleryListResponse,
-  
 } from "@devkit/config";
-import { resolveApiEndpoint  } from "@devkit/apiclient";
-
 const fileInput = ref<HTMLInputElement | null>(null);
-const apiClient = inject<TApi>("apiClient");
 const filesHandler = inject<FilesHandler<TApi>>("filesHandler");
 const props = defineProps<{
   bucketName?: string;
   isSelectionHidden?: boolean;
 }>();
-const slots = defineSlots<{
+defineSlots<{
   card?: (props: { data: FileObject }) => VNode[];
   actions?: (props: { data: FileObject }) => VNode | VNode[];
   globalActions?: (props: {
@@ -43,16 +37,16 @@ const slots = defineSlots<{
 }>();
 const datalistProps:
   | DatalistProps<
-    TApi,
-    GalleryListRequest,
-    FileObject,
-    GalleryListRequest,
-    GalleryListResponse,
-    BucketCreateUpdateRequest
-  >
+      TApi,
+      GalleryListRequest,
+      FileObject,
+      GalleryListRequest,
+      GalleryListResponse,
+      BucketCreateUpdateRequest
+    >
   | undefined = !filesHandler
-    ? undefined
-    : {
+  ? undefined
+  : {
       context: {
         datalistKey: "files",
         hideShowDeleted: true,
@@ -63,14 +57,14 @@ const datalistProps:
         isSelectionHidden: props.isSelectionHidden,
         requestMapper: props.bucketName
           ? (req) => {
-            return {
-              filters: {
-                ...req.filters,
-                bucketId: props.bucketName as string,
-              },
-              paginationParams: req.paginationParams,
-            };
-          }
+              return {
+                filters: {
+                  ...req.filters,
+                  bucketId: props.bucketName as string,
+                },
+                paginationParams: req.paginationParams,
+              };
+            }
           : undefined,
         records: filesHandler.galleryListEndpoint,
         isServerSide: true,
@@ -106,8 +100,8 @@ const uploadFiles = async (files: FileList) => {
   );
   try {
     const file = files[0];
-    const filePath = file.name; // Adjust based on your needs
-    const fileType = file.type;
+    // const filePath = file.name; // Adjust based on your needs
+    // const fileType = file.type;
 
     if (bucketName.value) return;
     const reader = new FileReader();
@@ -116,13 +110,13 @@ const uploadFiles = async (files: FileList) => {
     reader.onload = () => {
       if (reader.result instanceof ArrayBuffer) {
         console.log("reader is ", filesHandler);
-        const fileRequest = {
-          path: filePath,
-          bucketName: bucketName.value,
-          reader: new Uint8Array(reader.result),
-          fileType: fileType,
-        };
-        // resolveApiEndpoint(
+        // const fileRequest = {
+        //   path: filePath,
+        //   bucketName: bucketName.value,
+        //   reader: new Uint8Array(reader.result),
+        //   fileType: fileType,
+        // };
+        // // resolveApiEndpoint(
         //   filesHandler.fileCreate,
         //   apiClient,
         //   fileRequest,
@@ -166,19 +160,27 @@ const createSubmitted = (value: StringUnknownRecord) => {
     files handler is not passed on config
   </div>
   <div v-else class="buckets">
-    <input type="file" ref="fileInput" @change="handleFileChange" style="display: none" />
-    <Datalist v-bind="datalistProps" @create:submited="createSubmitted">
+    <FormKit
+      type="devkitUpload"
+      :hideSelectFromGallery="true"
+      bucketName="images"
+      name="image"
+      label="upload"
+    />
+    <input
+      type="file"
+      ref="fileInput"
+      @change="handleFileChange"
+      style="display: none"
+    />
+    <Datalist
+      :context="datalistProps.context"
+      @create:submited="createSubmitted"
+    >
       <template #card="{ data }">
-        <slot name="card" :data="data">
-          <AppImage :src="data.name" class="w-150" />
+        <slot name="card" :data="data as FileObject">
+          <AppImage :src="data.name" />
         </slot>
-      </template>
-
-      <template v-if="slots.globalActions" #globalActions="{ store }">
-        <slot name="globalActions" :store="store" />
-      </template>
-      <template v-if="slots.actions" #actions="{ data }">
-        <slot name="actions" :data="data" />
       </template>
       <template #globalActionsStartAppend>
         <AppBtn :action="openUploadDialog" label="upload" />

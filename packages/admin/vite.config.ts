@@ -40,7 +40,7 @@ export default defineConfig({
 				"tailwindcss",
 				"primeicons",
 				"@devkit/apiclient",
-				"@devkit/base-component",
+				"@devkit/base-components",
 				"@devkit/config",
 				'dexie',
 				'tailwindcss',

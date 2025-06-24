@@ -4,22 +4,25 @@ import { toggleLocale } from "@/pkg/utils/LocaleUtils";
 import AppBtn from "./AppBtn.vue";
 import { useI18n } from "vue-i18n";
 const i18n = useI18n();
-const { icon = "globe" } = defineProps<{ icon?: string }>();
+const { icon = "global-line" , callBack} = defineProps<{ icon?: string ,callBack?: (local : string) => void}>();
+const slots = defineSlots<{
+  default?: (props: { toggleLocale: () => void }) => any;
+}>();
 const toggle = () => {
   toggleLocale({ i18n: i18n, cacheHelper });
+  if (callBack) {
+    callBack(i18n.locale.value);
+  }
 };
 </script>
 
 <template>
   <slot name="default" :toggle-locale="toggle">
-    <div class="w-24">
       <AppBtn
-        size="small"
-        :icon="icon"
-        variant="text"
-        :action="toggle"
-        label=""
+       :icon="icon"
+      v-bind="$attrs"
+       variant="text"
+       :action="toggle"
       />
-    </div>
   </slot>
 </template>

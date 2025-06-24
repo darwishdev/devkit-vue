@@ -22,12 +22,12 @@ hero:
 features:
   - title: Base Components
     details: Buttons, navbars, breadcrumbs, modals—fully themable.
-  - title: API Client
-    details: Typed JS client for your Go gRPC API (Buf & Connect).
   - title: Forms
     details: FormKit wrapper with built-in validation and file uploads.
   - title: Data Tables
     details: PrimeVue-based datalist component with server-side filters.
+  - title: File Manager
+    details: rowse, upload, and organize files with folder trees, drag-and-drop support, previews, and batch actions.
 screenshots:
   - src: /screenshots/1.png
     alt: Dashboard view

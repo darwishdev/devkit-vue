@@ -4,11 +4,12 @@ import DevkitBaseComponentsPlugin, {
   DevkitBaseConfig
 } from "@devkit/base-components";
 import { DevkitAdminConfig } from "..";
-export function registerDevkitBase<TApi extends Record<string, Function>>(app: App , {apiClient , locales , baseImageUrl , noImageUrl , iconFindApi}: DevkitAdminConfig<TApi>) {
+export function registerDevkitBase<TApi extends Record<string, Function>>(app: App , {apiClient , locales , baseImageUrl , fallbackImageUrl, fallbackImageSvg , iconFindApi}: DevkitAdminConfig<TApi>) {
   const baseConfig: DevkitBaseConfig<TApi> = {
     apiClient,
     locales,
-    noImageUrl,
+    fallbackImageSvg,
+    fallbackImageUrl,
     baseImageUrl,
     iconFindApi,
   };

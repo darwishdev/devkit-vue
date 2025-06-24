@@ -17,6 +17,7 @@ import { AppFormProps } from "@/pkg/types/types";
 
 import FormBase from "./components/FormBase.vue";
 import { StringUnknownRecord } from "@devkit/apiclient";
+// import { onUnmounted } from "vue";
 
 const props =
   defineProps<
@@ -31,10 +32,20 @@ const props =
       TCallbakResponse
     >
   >();
+
 useAppFormStoreWithProps(props);
+// onUnmounted(() => {
+//   // store.$dispose()
+// });
 </script>
 <template>
   <Suspense>
     <FormBase v-bind="props" />
+    <template #fallback>
+      <div class="loading-indicator">
+        <p>Loading form...</p>
+        <div class="spinner"></div>
+      </div>
+    </template>
   </Suspense>
 </template>

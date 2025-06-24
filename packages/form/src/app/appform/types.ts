@@ -1,10 +1,9 @@
-import type { FormKitNode } from '@formkit/core';
+import type { FormKitNode } from "@formkit/core";
 export type FormKitInputContext<V = unknown> = {
-	node: FormKitNode<V>
-	_value: V
-	slots: any
-}
+  node: FormKitNode<V>;
+  _value: V;
+  slots: Record<string, unknown>;
+};
 export type InputEmits = {
-	(e: 'valueChange', value: unknown): void
-}
-
+  (e: "valueChange", value: unknown): void;
+};

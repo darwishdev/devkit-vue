@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import AppBtn from "./AppBtn.vue";
+import { toggleDarkTheme } from "@/pkg/utils/ThemeUtils";
+import { cacheHelper } from "@/index";
 const {
-  darkIcon = "sun",
-  lightIcon = "moon",
+  darkIcon = "sun-line",
+  lightIcon = "moon-line",
   className = "dark",
   callBack,
 } = defineProps<{
@@ -13,9 +15,8 @@ const {
   callBack?: (mode: "dark" | "light") => void;
 }>();
 const iconName = ref(lightIcon);
-const toggle = () => {
-  document.body.classList.toggle(className);
-  const isDark = document.body.classList.contains(className);
+const toggle = async () => {
+  const isDark = await toggleDarkTheme({className, cacheHelper});
   iconName.value = isDark ? darkIcon : lightIcon;
   if (callBack) {
     callBack(isDark ? "dark" : "light");
@@ -24,17 +25,14 @@ const toggle = () => {
 </script>
 
 <template>
-  <slot name="default" :toggle-locale="toggle">
-    <div class="w-24">
       <slot name="default" :toggle="toggle">
         <AppBtn
-          size="small"
-          :useReset="true"
-          :icon="iconName"
-          variant="text"
-          :action="toggle"
-        />
-      </slot>
-    </div>
-  </slot>
+        variant="text"
+      v-bind="$attrs"
+        :key="iconName"
+        :icon="iconName"
+        :action="toggle"
+      >
+      </AppBtn>
+    </slot>
 </template>

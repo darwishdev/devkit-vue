@@ -1,18 +1,18 @@
 <script setup lang="ts" generic="TApi extends Record<string, Function>">
-import { AppForm , AppFormProps } from "@/app/appform";
+import { AppForm, AppFormProps } from "@/app/appform";
 import {
   AuthLoginProviderRequest,
   AuthLoginRequest,
   AuthLoginResponse,
-} from "@/pkg/types/api_types";
+} from "@devkit/config";
 import { AuthHandler } from "@/pkg/types/types";
 import { resolveApiEndpoint } from "@devkit/apiclient";
 import { AppBtn } from "@devkit/base-components";
-import { inject, onMounted } from "vue";
+import { inject } from "vue";
 
 const authHandler = inject<AuthHandler<TApi>>("authHandler");
 const apiClient = inject<TApi>("apiClient");
-const removeTimestamps = (key: string, value: any) => {
+const removeTimestamps = (key: string, value: unknown) => {
   const timestampKeys = ["createdAt", "updatedAt", "deletedAt"];
   if (timestampKeys.includes(key)) {
     return undefined; // omit this key from the final JSON
@@ -65,7 +65,7 @@ const loginFormProps: AppFormProps<
           {
             $formkit: "text",
             prefixIcon: "tools",
-            outerClass: "col-12 sm:col-6 md:col-5",
+            outerClass: "col-span-4",
             name: "loginCode",
             validation: "required",
             placeholder: "user name",
@@ -74,7 +74,7 @@ const loginFormProps: AppFormProps<
           {
             $formkit: "password",
             prefixIcon: "tools",
-            outerClass: "col-12 sm:col-6 md:col-5",
+            outerClass: "col-span-4",
             name: "userPassword",
             validation: "required",
             placeholder: "password",
@@ -85,21 +85,21 @@ const loginFormProps: AppFormProps<
     },
   },
 };
-onMounted(() => {
-  if (!authHandler) return;
-  const hash = window.location.hash.substring(1); // remove the leading '#'
-  const params = new URLSearchParams(hash);
-  const accessToken = params.get("access_token");
-  if (accessToken) {
-    if (authHandler.providerLoginCallback) {
-      resolveApiEndpoint(authHandler.providerLoginCallback, apiClient, {
-        accessToken,
-      }).then(loginCallback);
-    }
-  }
-  console.log("routequery is", accessToken);
-  console.log("mounted changed");
-});
+// onMounted(() => {
+//   if (!authHandler) return;
+//   const hash = window.location.hash.substring(1); // remove the leading '#'
+//   const params = new URLSearchParams(hash);
+//   const accessToken = params.get("access_token");
+//   if (accessToken) {
+//     if (authHandler.providerLoginCallback) {
+//       resolveApiEndpoint(authHandler.providerLoginCallback, apiClient, {
+//         accessToken,
+//       }).then(loginCallback);
+//     }
+//   }
+//   console.log("routequery is", accessToken);
+//   console.log("mounted changed");
+// });
 
 const providerLogin = async (provider: string) => {
   if (!authHandler?.providerLogin) return;
@@ -118,15 +118,15 @@ const providerLogin = async (provider: string) => {
 </script>
 <template>
   <Message v-if="!authHandler" severity="error">{{
-    $t("provide auth handler")
+    "provide auth handler"
   }}</Message>
   <div class="form" v-else>
     <AppForm :context="loginFormProps.context" />
     <AppBtn
       v-for="provider in authHandler.allowedProviders"
       class="glass"
-      :key="provider"
       :icon="provider"
+      :key="provider"
       :action="() => providerLogin(provider)"
     />
   </div>

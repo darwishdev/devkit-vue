@@ -1,5 +1,5 @@
-export { default as Datepicker } from './Datepicker.vue';
-export { default as Upload } from './InputUploadUppy.vue';
-export { default as Dropdown } from './Dropdown.vue';
-export { default as InputDatepicker } from './InputDatepicker.vue';
-export * from './types';
+export { default as DatePicker } from "./DatePicker.vue";
+export { default as Upload } from "./InputUpload.vue";
+export { default as DropDown } from "./DropDown.vue";
+export { default as InputDatepicker } from "./InputDatepicker.vue";
+export * from "./types";

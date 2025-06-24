@@ -58,23 +58,21 @@
   },
   "homepage": "https://github.com/darwishdev/devkit_admin#readme",
   "peerDependencies": {
-    "@devkit/apiclient": "workspace:*",
     "@devkit/form": "workspace:*",
     "@devkit/config": "workspace:*",
     "@devkit/base-components": "workspace:*",
     "@formkit/core": "^1.6.9",
     "@formkit/vue": "^1.6.9",
     "@tanstack/query-persist-client-core": "^5.66.0",
+    "dexie": "^4.0.11",
+    "primevue": "^4.2.2",
     "@tanstack/vue-query": "^5.66.0",
     "@vueuse/core": "^12.5.0",
-    "dexie": "^4.0.11",
     "pinia": "^2.3.1",
     "tailwindcss": "^3.0.0",
-    "tailwindcss-primeui": "^0.4.0",
     "vue": "^3.0.0",
     "vue-i18n": "^10.0.5",
-    "vue-router": "^4.4.5",
-    "zod": "^3.24.3"
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -96,17 +94,6 @@
     "vite-plugin-static-copy": "^2.2.0"
   },
   "dependencies": {
-    "@uppy/compressor": "^2.2.1",
-    "@uppy/core": "^4.4.5",
-    "@uppy/dashboard": "^4.3.4",
-    "@uppy/golden-retriever": "^4.1.1",
-    "@uppy/image-editor": "^3.3.3",
-    "@uppy/progress-bar": "^4.2.1",
-    "@uppy/remote-sources": "^2.3.3",
-    "@uppy/tus": "^4.2.2",
-    "@uppy/vue": "^2.1.1",
-    "@vue/test-utils": "^2.4.6",
-    "preact": "^10.26.8",
-    "vitest": "^3.0.7"
+    "@devkit/apiclient": "workspace:*"
   }
 }

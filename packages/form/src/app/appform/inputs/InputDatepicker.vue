@@ -13,30 +13,6 @@
   import { useQuery } from "@tanstack/vue-query";
   import { InputEmits } from "../types";
 
-  const DateToNumber = (dateObject: Date) => {
-    console.log(dateObject);
-    const year = dateObject.getFullYear();
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Ensure two-digit month
-    const day = String(dateObject.getDate()).padStart(2, '0');  // Ensure two-digit day
-
-    // Combine year, month, and day to form the desired integer string
-    const formattedDate = `${year}${month}${day}`;
-    return parseInt(formattedDate)
-  }
-
-  const NumberToDate = (dateInt: number) => {
-    // Extract year, month, and day from the integer
-    const year = Math.floor(dateInt / 10000);
-    const month = Math.floor((dateInt % 10000) / 100);
-    const day = dateInt % 100;
-
-    // Create a Date object with extracted values (adjust month for zero-based indexing)
-    const dateObject = new Date(year, month - 1, day);
-
-    return dateObject;
-
-  };
-
   // SECTION: Constants
   const ERROR_MESSAGES = {
     INVALID_TYPE_NUMBER:
@@ -70,6 +46,7 @@
     dsiabledDatesResponseMapper,
     convertToNumber,
     disabledDatesDependsOn,
+    showTime,
     selectionMode,
   } = context;
 
@@ -79,9 +56,36 @@
     () => dependsOnFormValue.value?.value ?? undefined,
   );
   const primeProps: DatePickerProps = { ...context };
-  const formValue = ref<Date | Date[] | Array<Date | null> | undefined | null>();
+  const formValue = ref<Date | (Date | null)[] | undefined | null>();
 
 
+
+  const DateToNumber = (dateObject: Date) => {
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Ensure two-digit month
+    const day = String(dateObject.getDate()).padStart(2, '0');  // Ensure two-digit day
+    if (showTime) {
+      const hours = String(dateObject.getHours()).padStart(2, '0');
+      const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+      const formattedDate = `${year}${month}${day}${hours}${minutes}`;
+      return parseInt(formattedDate)
+    }
+    const formattedDate = `${year}${month}${day}`;
+    return parseInt(formattedDate)
+  }
+
+  const NumberToDate = (dateInt: number) => {
+    // Extract year, month, and day from the integer
+    const year = Math.floor(dateInt / 10000);
+    const month = Math.floor((dateInt % 10000) / 100);
+    const day = dateInt % 100;
+
+    // Create a Date object with extracted values (adjust month for zero-based indexing)
+    const dateObject = new Date(year, month - 1, day);
+
+    return dateObject;
+
+  };
   // SECTION: Functions - Value Handling and Type Casting
   const checkForSelectionErrors = (value: unknown) => {
     if (selectionMode === "range" && !Array.isArray(value)) {
@@ -111,7 +115,7 @@
   };
 
   const handeNumberToDateCasting = () => {
-    const { value } = node;
+    const { _value : value } = node;
     checkForSelectionErrors(value);
 
     if (Array.isArray(value) && value.length == 0) {
@@ -144,7 +148,8 @@
   };
 
   // SECTION: Functions - Event Handlers
-  const onValueChange = (value: Date) => {
+  const onValueChange = (value: Date | Date[]) => {
+    formValue.value = value
     if (!convertToNumber) {
       emit("valueChange", value);
       return
@@ -203,7 +208,7 @@
   const init = () =>
     new Promise<void>((resolve, reject) => {
       try {
-        const { value } = node;
+        const { _value: value } = node;
         if (value === null || value === undefined) {
           formValue.value = null;
           return resolve();
@@ -243,7 +248,8 @@
       DatePicker,
       {
         ...primeProps,
-        modelValue: node.context ? node.context._value : undefined,
+        size:'small',
+        modelValue: formValue.value,
         disabledDates: disabledDatesQueryResult.data.value,
         "onUpdate:modelValue": onValueChange,
       },

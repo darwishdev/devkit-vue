@@ -8,10 +8,8 @@ import { registerPinia } from './plugins/pinia'
 import { registerPrimeVue } from './plugins/primevue'
 import { registerFormKit } from './plugins/formkit'
 import { registerI18n } from './plugins/i18n'
-import { registerDevkitBase } from './plugins/devkit-base'
-import '@devkit/config/style.css';
-import { registerDevkitForm } from './plugins/form'
-import { registerDevkitDatalist } from './plugins/datalist'
+import './index.css';
+import 'primeicons/primeicons.css';
 import { registerDevkitAdmin } from './plugins/admin'
 // We spread DefaultTheme so we keep the built‐in layouts & styles.
 // Then we add our own enhanceApp() to register BaseComponents.

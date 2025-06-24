@@ -11,22 +11,24 @@
   "
 >
 import { useDatalistStoreWithKey } from "../store/DatalistStore";
-import { Panel } from "primevue";
+import { Panel, ToggleButton } from "primevue";
 import {AppForm} from "@devkit/form";
 import { objectEntries } from "@vueuse/core";
 import { useFormKitContextById } from "@formkit/vue";
 import { StringUnknownRecord } from "@devkit/apiclient";
+import { ref } from "vue";
 
 const props = defineProps<{ datalistKey: string }>();
 const datalistStore = useDatalistStoreWithKey(props.datalistKey);
 const formkCtx = useFormKitContextById(
   datalistStore.filtersFormProps.context.formKey,
 );
+
 const pannelPassThrough = {
   root: "transparent",
-  header: "relative glass",
-  content: "glass",
-  headerActions: "filters-toggler",
+  header: "relative ",
+  pcToggleButton: 'filters-panel-toggler',
+  headerActions: "filters-panel-actions",
 };
 </script>
 <template>

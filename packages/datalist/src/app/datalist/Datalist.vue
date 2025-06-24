@@ -11,8 +11,8 @@
   "
 >
 import DataTable from "primevue/datatable";
-import Menu from "primevue/menu";
 
+import { onBeforeUnmount } from "vue";
 import { Dialog } from "primevue";
 import { useDatalistStoreWithProps } from "./store/DatalistStore";
 
@@ -32,8 +32,11 @@ import {
 import DatalistFiltersForm from "./components/DatalistFiltersForm.vue";
 import { AppBtn } from "@devkit/base-components";
 import { objectEntries } from "@vueuse/core";
+import { useI18n } from "vue-i18n";
 import { computed, h, ref, VNode } from "vue";
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { type StringUnknownRecord } from "@devkit/apiclient";
+import DatalistRowActions from "./components/DatalistRowActions.vue";
+const { t } = useI18n();
 const emit = defineEmits<DatalistEmits<TRecord, TApiResponse>>();
 const props =
   defineProps<
@@ -46,7 +49,15 @@ const props =
       TFormSectionsRequest
     >
   >();
-const { hideShowDeleted, isActionsDropdown, isSelectionHidden } = props.context;
+const {
+  hideShowDeleted,
+  isActionsDropdown,
+  datalistKey,
+  hideActions,
+  rowIdentifier,
+  datatableProps,
+  isSelectionHidden,
+} = props.context;
 const datalistStore: DatalistStore<
   TApi,
   TReq,
@@ -106,7 +117,12 @@ const renderGlobalActions = () => {
       emit("create:submited", value);
     return slots[`globalActions.${actionBtn.actionKey}`]
       ? slots[`globalActions.${actionBtn.actionKey}`]!({ store: datalistStore })
-      : h(AppBtn, { action: () => actionBtn.actionFn(callback), ...actionBtn });
+      : h(AppBtn, {
+          variant: "outlined",
+          action: () => actionBtn.actionFn(callback),
+          ...actionBtn,
+          key: actionBtn.actionKey,
+        });
   });
 };
 const actionsMenuRef = ref();
@@ -115,80 +131,38 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
   if (slots.actions) {
     return slots.actions({ data });
   }
-  if (slots.actionsPrepend) {
-    children[0] = slots.actionsPrepend({ data });
-  }
-  if (isDeleteVisibile) {
-    const deleteBtn = slots["rowActions.delete"]
-      ? slots["rowActions.delete"]({ data, store: datalistStore })
-      : h(AppBtn, {
-          action: () =>
-            datalistStore.deleteRestoreOpenDialog({
-              record: data,
-              isHardDelete: true,
-            }),
-          icon: "trash",
-          label: "hard_delete",
-          severity: "danger",
-        });
-    children.push(deleteBtn);
-  }
-  if (datalistStore.optionsInUse.deleteRestoreHandler) {
-    const deleteBtn = slots["rowActions.deleteRestore"]
-      ? slots["rowActions.deleteRestore"]({ data, store: datalistStore })
-      : h(AppBtn, {
-          ...deleteRestoreButtonProps.value,
-          action: () =>
-            datalistStore.deleteRestoreOpenDialog({
-              record: data,
-            }),
-        });
-
-    children.push(deleteBtn);
-  }
-
-  return isActionsDropdown
-    ? h("div", {}, [
-        h(AppBtn, {
-          icon: "menu",
-          ariaHasPopup: true,
-          label: "open",
-          ariaControls: "actions",
-          action: (event: Event) => {
-            if (!actionsMenuRef.value) return;
-            actionsMenuRef.value.toggle(event);
-          },
-        }),
-        h(
-          Menu,
-          {
-            ref: "actionsMenuRef",
-            id: "actions",
-            popup: true,
-          },
-          {
-            start: () => [
-              children,
-              ...renderRowActions(data),
-              slots.actionsAppend ? slots.actionsAppend({ data }) : undefined,
-            ],
-          },
-        ),
-      ])
-    : h("div", { class: "d-flex" }, [
-        children,
-        ...renderRowActions(data),
-        slots.actionsAppend ? slots.actionsAppend({ data }) : undefined,
-      ]);
+  if (!rowIdentifier) return [];
+  return h(
+    DatalistRowActions,
+    {
+      data,
+      rowIdentifier: rowIdentifier as string,
+      hideShowDeleted,
+      isActionsDropdown,
+      storeKey: datalistKey,
+    },
+    slots,
+  );
 };
+onBeforeUnmount(() => {
+  // datalistStore.filtersFormStore.$dispose();
+  // datalistStore.$dispose();
+});
 </script>
 <template>
   <Dialog />
   <DataTable
-    :dataKey="(context.rowIdentifier as string) || undefined"
+    :dataKey="(rowIdentifier as string) || undefined"
     :rows="10"
     :value="datalistStore.currenData"
+    stateStorage="session"
+    :stateKey="`${datalistKey}`"
     :max-height="200"
+    :pt="{
+      header: 'transparent',
+      thead: 'transparent',
+      foorer: 'transparet',
+    }"
     :globalFilterFields="datalistStore.globalFilters"
     :filters="datalistStore.filtersFormValueRef"
     v-model:selection="datalistStore.modelSelectionRef"
@@ -198,22 +172,33 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
       datalistStore.datalistQueryResult.isLoading ||
       datalistStore.datalistQueryResult.isFetching
     "
+    v-bind="datatableProps"
   >
     <template #header="">
       <slot name="header" :store="datalistStore">
         <div class="d-flex">
           <slot name="globalActions" :store="datalistStore">
-            <div class="global-actions">
-              <div class="global-actions__start">
+            <div
+              class="global-actions flex-wrap gap-2 flex-col md:flex-row p-4 rounded border border-slate-300 dark:border-zinc-700 my-4 flex justify-between md:items-center"
+            >
+              <div class="global-actions__start flex gap-2 flex-wrap">
                 <slot name="globalActionsStartPrepend" :store="datalistStore" />
                 <component
                   v-for="(slotContent, index) in renderGlobalActions()"
-                  :key="index"
                   :is="slotContent"
                 />
                 <slot name="globalActionsStartAppend" :store="datalistStore" />
               </div>
-              <div class="global-actions__end">
+              <div
+                class="global-actions__end flex-wrap flex gap-4 items-center"
+              >
+                <div
+                  class="deleted-switch flex gap-2 items-center"
+                  v-if="isShowDeletedSwitctVisible"
+                >
+                  <ToggleSwitch v-model="datalistStore.isShowDeletedRef" />
+                  show deleted
+                </div>
                 <slot name="globalActionsEndPrepend" :store="datalistStore" />
                 <slot
                   name="globalActions.delete"
@@ -227,6 +212,8 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
                           isHardDelete: true,
                         })
                     "
+                    variant="outlined"
+                    icon="delete-bin-2-line"
                     label="hard_delete"
                     severity="danger"
                   />
@@ -243,29 +230,43 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
               </div>
             </div>
           </slot>
-          <div class="deleted-switch" v-if="isShowDeletedSwitctVisible">
-            show deleted
-            <ToggleSwitch v-model="datalistStore.isShowDeletedRef" />
+          <div
+            class="middle flex flex-wrap gap-4 justify-between items-center my-8"
+          >
+            <div class="start">
+              <h2 class="font-bold text-3xl">
+                {{ t(datalistStore.optionsInUse.title) }}
+              </h2>
+              <p
+                v-if="datalistStore.optionsInUse.description"
+                class="pu-2 me-4 hidden md:block"
+              >
+                {{ t(datalistStore.optionsInUse.description) }}
+              </p>
+            </div>
+            <IconField fluid v-if="datalistStore.globalFilters.length">
+              <InputIcon>
+                <AppIcon icon="menu-search-line" />
+              </InputIcon>
+              <InputText
+                :modelValue="
+                  (datalistStore.filtersFormStore.initialFormValue[
+                    'global'
+                  ] as string) || ''
+                "
+                @update:modelValue="
+                  (value: unknown) => {
+                    console.log('val; ', value);
+                    datalistStore.filtersFormStore.setInputValue(
+                      'global',
+                      value,
+                    );
+                  }
+                "
+                placeholder="Keyword Search"
+              />
+            </IconField>
           </div>
-          <IconField v-if="datalistStore.globalFilters.length">
-            <InputIcon>
-              <i class="pi pi-search" />
-            </InputIcon>
-            <InputText
-              :modelValue="
-                (datalistStore.filtersFormStore.initialFormValue[
-                  'global'
-                ] as string) || ''
-              "
-              @update:modelValue="
-                (value: unknown) => {
-                  console.log('val; ', value);
-                  datalistStore.filtersFormStore.setInputValue('global', value);
-                }
-              "
-              placeholder="Keyword Search"
-            />
-          </IconField>
         </div>
         <slot
           name="filtersPanel"
@@ -282,10 +283,11 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
         <h2 v-else>{{ datalistStore.deleteRestoreVariants.empty }}</h2>
       </slot>
     </template>
+
     <Column
       v-if="!isSelectionHidden"
       selectionMode="multiple"
-      :pt="{ headerCell: 'transparent' }"
+      :pt="{ headerCell: 'transparent', bodyCell: 'transparent' }"
     >
     </Column>
 
@@ -305,6 +307,7 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
         datalistStore.datatableColumnsRef,
       )"
       :key="columnKey"
+      :pt="{ headerCell: 'transparent', bodyCell: 'transparent' }"
       v-bind="columnValue?.props"
     >
       <template v-if="columnValue" #body="{ data }">
@@ -320,13 +323,22 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
         </slot>
       </template>
     </Column>
+
     <Column
       header="actions"
-      :header-style="{ width: '1rem' }"
-      v-if="!context.hideActions"
+      field="actions"
+      :frozen="true"
+      key="actions-column"
+      :pt="{ headerCell: 'transparent', bodyCell: 'transparent' }"
+      alignFrozen="right"
+      :header-style="{ width: '3rem' }"
+      v-if="!hideActions && rowIdentifier"
     >
       <template #body="{ data: record }">
-        <component :is="renderActionsColumn(record)" />
+        <component
+          :key="record[rowIdentifier]"
+          :is="renderActionsColumn(record)"
+        />
       </template>
     </Column>
   </DataTable>

@@ -18,7 +18,8 @@ export function registerDevkitBase(app: App) {
   const baseConfig: DevkitBaseConfig<typeof apiClient> = {
     apiClient,
     locales: ["en", "ar"],
-    baseImageUrl: "",
+    baseImageUrl: "http://localhost:54321/storage/v1/object/public/",
+    noImageUrl: "http://localhost:54321/storage/v1/object/public/images/noimg.webp",
     iconFindApi: "iconFind",
   };
   app.use(DevkitBaseComponentsPlugin, baseConfig);

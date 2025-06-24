@@ -1,27 +1,30 @@
-
-
 {
   "$schema": "https://turborepo.org/schema.json",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [
-        "dist/**",                      
-        "apps/docs/.vitepress/dist/**"    
+        "dist/**",
+        "packages/*/dist/**",
+        "apps/*/dist/**",
+        "apps/docs/.vitepress/dist/**"
       ]
+    },
+    "sync-api": {
+      "dependsOn": ["^sync-api"],
+      "outputs": ["node_modules/@buf/ahmeddarwish_devkit-api.bufbuild_es"]
     },
     "setup-deps": {
       "dependsOn": ["^setup-deps"],
-      "outputs": [
-        "node_modules/*"
-      ]
+      "outputs": ["node_modules/*"]
     },
     "lint": {
       "outputs": []
     },
     "dev": {
-      "cache": false
+      "dependsOn": ["^dev"],
+      "cache": false,
+      "persistent": true
     }
   }
 }
-

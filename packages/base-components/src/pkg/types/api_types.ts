@@ -95,6 +95,12 @@ export type IconFindRequest = {
 export type IconFindResponse = {
 	icon: Icon;
 }
+export type TranslationFindLocaleRequest = {
+  locale : string
+}
+export type TranslationFindLocaleResponse = {
+  translations : Record<string , string>
+}
 export type NavigationBarItem = {
 	key: string;
 	label: string;

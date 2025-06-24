@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, useAttrs } from "vue";
+import { computed, h} from "vue";
 import type { AppBtnProps, AppBtnSlots } from "@/pkg/types/types";
 import { Button } from "primevue";
 import { RouterLink } from "vue-router";
@@ -9,61 +9,57 @@ const slots = defineSlots<AppBtnSlots>();
 const props = defineProps<AppBtnProps>();
 const { locale } = useI18n();
 const {
-  action,
+  action: passedAction,
   label,
   labelAr,
   route,
+  to,
   icon,
-  useReset = true,
   size,
+  command,
   color,
   iconType,
 } = props;
-const attrs = useAttrs();
-const renderAppBtn = () => {
-  const baseProps = {
-    ...props,
-    ...attrs,
-    class: "flex",
-  };
-  const children = slots.default
-    ? slots.default()
-    : [
-        h(
-          "div",
-          {
-            class: "flex items-center gap-2 start",
-          },
-          [
+const renderAppBtnChildren = () => {
+  if(slots.default) return slots.default()
+  const children = [
             slots.icon
               ? slots.icon()
               : !icon
                 ? undefined
-                : h(AppIcon, { icon, size, color, useReset, iconType }),
+                : h(AppIcon, {  key: icon , icon, size, color,  iconType }),
             slots.label
               ? slots.label()
-              : h("span", locale.value == "ar" ? labelAr : label),
-          ],
-        ),
-        slots.end ? slots.end() : undefined,
-      ];
-  const childrenWrapper = h("div", { class: "flex justify-between" }, children);
-
-  if (route) {
-    return h(RouterLink, { ...attrs, to: route }, childrenWrapper);
+              : h("span", locale.value == "ar" ? labelAr || label : label),
+          ]
+  if (!slots.end) {
+    return children
+  } 
+  return [
+    h("div" , {
+      class:"flex grow items-center button-wrapper gap-2 start",
+    },
+      children
+    ),
+    slots.end()
+  ]
+}
+const renderAppBtn = computed(() => {
+  const children = renderAppBtnChildren()
+  const action = passedAction || command || route || to
+  if (!action) {
+    return h(Button, { ...props , action: undefined}, children);
   }
-  if (typeof action == "undefined") {
-    return h(Button, { ...baseProps }, children);
-  }
-  if (typeof action == "function") {
-    return h(Button, { ...baseProps, onClick: (e) => action(e) }, children);
+  if ( typeof action == "function") {
+    return h(Button, { ...props , action: undefined, onClick: action as (e:Event) => void }, children);
   }
   if (action.startsWith("http")) {
-    return h("a", { href: action }, childrenWrapper);
+    return h("a", { href: action }, children);
   }
-  return h(RouterLink, { ...attrs, to: action }, childrenWrapper);
-};
+  const routeLink = (route || to )|| action
+  return h(RouterLink, {   to: routeLink , class: 'flex justify-center items-center gap-2'}, children);
+});
 </script>
 <template>
-  <component class="flex" :is="renderAppBtn" />
+  <component  :is="renderAppBtn" />
 </template>

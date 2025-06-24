@@ -75,7 +75,6 @@ const tableProps: DatalistProps<
 </script>
 
 <template>
-  <h2>asdasd</h2>
   <Suspense>
   <Datalist v-bind="tableProps" />
   </Suspense>

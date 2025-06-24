@@ -9,7 +9,8 @@ import { registerDevkitForm } from './plugins/form';
 export type DevkitAdminConfig<TApi extends Record<string, Function>> = {
 	apiClient: TApi
 	baseImageUrl?: string
-	noImageUrl?: string
+	fallbackImageUrl?: string
+  fallbackImageSvg?: string
 	locales: string[]
 	iconFindApi?: ApiEndpoint<TApi, IconFindRequest, IconFindResponse>
 	filesHandler?: FilesHandler<TApi>
@@ -21,7 +22,8 @@ const DevkitAdminPlugin: Plugin<DevkitAdminConfig<any>> = {
 		const {
 			apiClient,
 			baseImageUrl,
-			noImageUrl,
+			fallbackImageSvg,
+      fallbackImageUrl,
 			locales,
 			iconFindApi,
 			filesHandler,
@@ -30,7 +32,8 @@ const DevkitAdminPlugin: Plugin<DevkitAdminConfig<any>> = {
 		app.provide('apiClient', apiClient)
 		if (filesHandler) app.provide('filesHandler', filesHandler)
 		if (baseImageUrl) app.provide('baseImageUrl', baseImageUrl)
-		if (noImageUrl) app.provide('noImageUrl', noImageUrl)
+		if (fallbackImageSvg) app.provide('fallbackImageSvg', fallbackImageSvg)
+		if (fallbackImageUrl) app.provide('fallbackImageUrl', fallbackImageUrl)
 		if (locales) app.provide('locales', locales)
 		if (iconFindApi) app.provide('iconFindApi', iconFindApi)
 		if (authHandler) app.provide('authHandler', authHandler)

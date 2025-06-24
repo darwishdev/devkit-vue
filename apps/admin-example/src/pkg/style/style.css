@@ -1,0 +1,245 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "./primevue/tailwind.css";
+
+@import "@uppy/core/dist/style.css";
+@import "@uppy/dashboard/dist/style.css";
+@import "@uppy/image-editor/dist/style.css";
+
+@import "tailwindcss/utilities";
+@import "./app_menu";
+
+/*mine*/
+
+:root {
+  --d-logo-color: var(--primary-color);
+  --menu-width: 14rem;
+  --text-color: var(--p-surface-950);
+  --border-radius: 0.5rem;
+  --transition: 0.3s;
+}
+a {
+  transition: var(--transition);
+}
+
+/* Primary and Surface Palettes */
+:root {
+  --p-primary-contrast-color: #fff;
+  --color-success: rgb(34, 197, 94);
+  --color-danger: rgb(239, 68, 68);
+  --p-zinc-50: #fafafa;
+  --p-zinc-100: #f4f4f5;
+  --p-zinc-200: #e4e4e7;
+  --p-zinc-300: #d4d4d8;
+  --p-zinc-400: #a1a1aa;
+  --p-zinc-500: #71717a;
+  --p-zinc-600: #52525b;
+  --p-zinc-700: #3f3f46;
+  --p-zinc-800: #27272a;
+  --p-zinc-900: #18181b;
+  --p-zinc-950: #09090b;
+  --p-slate-50: #f8fafc;
+  --p-slate-100: #f1f5f9;
+  --glass: hsla(0, 0%, 100%, 0.7);
+  --root-menu-item-hover-bg: rgba(68, 72, 109, 0.09);
+  --root-menu-content-hover-bg: rgba(68, 72, 109, 0.07);
+  --p-highlight-color: red;
+  --p-slate-200: #e2e8f0;
+  --p-slate-300: #cbd5e1;
+  --p-slate-400: #94a3b8;
+  --p-slate-500: #64748b;
+  --p-slate-600: #475569;
+  --p-slate-700: #334155;
+  --p-slate-800: #1e293b;
+  --p-slate-900: #0f172a;
+  --p-slate-950: #020617;
+  --p-surface-0: #ffffff;
+  --p-surface-50: var(--p-slate-50);
+  --p-surface-100: var(--p-slate-100);
+  --p-surface-200: var(--p-slate-200);
+  --p-surface-300: var(--p-slate-300);
+  --p-surface-400: var(--p-slate-400);
+  --p-surface-500: var(--p-slate-500);
+  --p-surface-600: var(--p-slate-600);
+  --p-surface-700: var(--p-slate-700);
+  --p-surface-800: var(--p-slate-800);
+  --p-surface-900: var(--p-slate-900);
+  --p-surface-950: var(--p-slate-950);
+  --surface-ground: var(--p-surface-100);
+  --sidebar-shadow: 0px 4px 50px #d9ddfc;
+  --sidebar-border: 1px solid transparent;
+  --p-primary-color: var(--p-primary-500);
+  --p-primary-50: #eff6ff;
+  --p-primary-100: #dbeafe;
+  --p-primary-200: #bfdbfe;
+  --p-primary-300: #93c5fd;
+  --p-primary-400: #60a5fa;
+  --p-primary-500: #3b82f6;
+  --p-primary-600: #2563eb;
+  --p-primary-700: #1d4ed8;
+  --p-primary-800: #1e40af;
+  --p-primary-900: #1e3a8a;
+  --p-primary-950: #172554;
+  --p-content-background: var(--p-surface-0);
+  --primary-color: var(--p-primary-500);
+  --content-padding: 1rem;
+  --menu-width: 18rem;
+  --p-content-border-radius: 6px;
+  --gap: var(--content-padding);
+  --body-bg: var(--p-surface-50);
+
+  --surface-card: var(--p-content-background);
+}
+
+.dark {
+  color-scheme: dark;
+  --p-surface-0: #ffffff;
+  --text-color: var(--p-surface-0);
+  --p-surface-50: var(--p-zinc-50);
+  --p-surface-100: var(--p-zinc-100);
+  --p-surface-200: var(--p-zinc-200);
+  --p-surface-300: var(--p-zinc-300);
+  --p-surface-400: var(--p-zinc-400);
+  --p-surface-500: var(--p-zinc-500);
+  --p-surface-600: var(--p-zinc-600);
+  --p-surface-700: var(--p-zinc-700);
+  --p-surface-800: var(--p-zinc-800);
+  --p-surface-900: var(--p-zinc-900);
+  --p-surface-950: var(--p-zinc-950);
+  --p-primary-color: var(--p-primary-400);
+  --p-primary-contrast-color: var(--p-surface-900);
+  --p-primary-hover-color: var(--p-primary-300);
+  --p-primary-active-color: var(--p-primary-200);
+  --p-content-border-color: var(--p-surface-700);
+  --p-content-hover-background: var(--p-surface-800);
+  --p-content-hover-color: var(--p-surface-0);
+  --p-highlight-background: color-mix(
+    in srgb,
+    var(--p-primary-400),
+    transparent 84%
+  );
+  --glass: rgba(255, 255, 255, 0.03);
+  --p-highlight-color: rgba(255, 255, 255, 0.87);
+  --p-highlight-focus-background: color-mix(
+    in srgb,
+    var(--p-primary-400),
+    transparent 76%
+  );
+  --p-highlight-focus-color: rgba(255, 255, 255, 0.87);
+  --p-text-color: var(--p-surface-0);
+  --p-text-hover-color: var(--p-surface-0);
+  --p-text-muted-color: var(--p-surface-400);
+  --p-text-hover-muted-color: var(--p-surface-300);
+  --p-content-background: var(--p-surface-900);
+  --body-bg: var(--p-surface-950);
+}
+.layout-wrapper {
+  background: var(--body-bg);
+  min-height: 100vh;
+  padding: var(--content-padding);
+}
+
+.app-logo-icon {
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.app-logo {
+  svg {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+:not(.custom-icon) svg:not(.custom-icon) {
+  --icon-width: 1.5rem;
+  width: var(--icon-width);
+  height: var(--icon-width);
+}
+.color-text {
+  color: var(--text-color);
+}
+.gap-2,
+.gap-4 {
+  gap: 0.5rem;
+}
+body {
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  color: var(--text-color);
+  font-size: 14px;
+  font-family:
+    Inter var,
+    sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-variation-settings: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.app-logo:hover {
+  background: transparent !important;
+}
+.desktop-menu-toggler {
+  @media (max-width: 575px) {
+    display: none;
+  }
+}
+.p-iconfield input {
+  padding-inline-start: 3rem;
+}
+
+.p-inputicon {
+  margin-top: 0;
+  transform: translateY(-40%);
+}
+input::placeholder {
+  color: var(--text-color);
+  opacity: 1;
+}
+
+.glass {
+  background: var(--glass);
+  color: var(--text-color);
+  border-color: var(--glass);
+  /* backdrop blur for the glass effect */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* gentle shadow for depth */
+}
+.p-datatable-tbody > tr,
+.p-datatable .p-paginator,
+.p-datatable-scrollable
+  > .p-datatable-table-container
+  > .p-datatable-table
+  > .p-datatable-thead,
+.p-datatable-scrollable
+  > .p-datatable-table-container
+  > .p-virtualscroller
+  > .p-datatable-table
+  > .p-datatable-thead {
+  --tw-bg-opacity: 0;
+}
+.uppy-Root .uppy-Dashboard .uppy-Dashboard-AddFiles {
+  border-color: var(--glass);
+}
+.uppy-Root .uppy-Dashboard .uppy-Dashboard-inner {
+  background: transparent;
+  border-color: var(--color-glass);
+}
+
+.uppy-DashboardTab-inner,
+.uppy-DashboardTab-btn:hover {
+  background: var(--glass);
+}
+[data-uppy-drag-drop-supported="true"] .uppy-Dashboard-AddFiles {
+  border-color: var(--glass);
+}
+.uppy-Dashboard-AddFiles-title {
+  color: var(--color-text);
+}
+
+.fallback-icon svg {
+  width: 8rem;
+}

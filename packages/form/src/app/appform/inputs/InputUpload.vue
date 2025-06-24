@@ -1,357 +1,194 @@
 <script lang="ts" setup generic="TApi extends Record<string, Function>">
-import { InputUploadProps } from "./types";
-import { computed, h, inject, onMounted, ref, watch, watchEffect } from "vue";
-import {
-  Badge,
-  FileUpload,
-  FileUploadSelectEvent,
-  useDialog,
-  useToast,
-} from "primevue";
+import { onBeforeUnmount, inject, computed } from "vue";
+import Uppy from "@uppy/core";
+import { Dashboard } from "@uppy/vue";
+import Tus, { TusBody } from "@uppy/tus";
+import ImageEditor from "@uppy/image-editor";
+import Compressor from "@uppy/compressor";
+
+import "@uppy/core/dist/style.css";
+import "@uppy/dashboard/dist/style.css";
+import "@uppy/image-editor/dist/style.css";
+
+import GallerySelectPlugin from "../plugins/GallerySelector";
+import { InputUploadProps, InputUploadMeta } from "./types";
 import { FilesHandler } from "@/pkg/types/types";
-import { ObjectKeys } from "@devkit/apiclient";
-import InputUploadDialog from "./InputUploadDialog.vue";
-import { AppBtn, AppImage } from "@devkit/base-components";
-import { useI18n } from "vue-i18n";
-import { createFileBulkRequestFromFiles } from "./InputUploadAdapter";
-const { context } = defineProps<InputUploadProps>();
-const previewFilesRef = ref<Record<string, string>>({});
+import { resolveApiEndpoint } from "@devkit/apiclient";
+
+const props = defineProps<InputUploadProps<TApi>>();
 const filesHandler = inject<FilesHandler<TApi>>("filesHandler");
-const dialog = useDialog();
-const toast = useToast();
-const { t } = useI18n();
+const apiClient = inject<TApi>("apiClient");
 const {
-  multiple = false,
-  fileLimit,
-  auto,
   node,
   bucketName = filesHandler?.defauleBucketName || "",
-} = context;
-const onSlectedFilesEvent = async (event: FileUploadSelectEvent) => {
-  if (auto || !node.parent) return;
-
-  emitValue();
-  if (node.parent.props.type == "form") {
-    const request = await createFileBulkRequestFromFiles(
-      event.files,
+  hideSelectFromGallery,
+  isMultiple,
+  dashboardOptions,
+  baseUrl: baseUrlOption,
+  fallbackImageUrl,
+  uppyOptions = {
+    autoProceed: false,
+    restrictions: {
+      maxNumberOfFiles: isMultiple ? null : 1,
+      minFileSize: null,
+      maxTotalFileSize: null,
+      minNumberOfFiles: null,
+      allowedFileTypes: null,
+      requiredMetaFields: ["bucketName"],
+    },
+    meta: {
       bucketName,
-    );
-    node.parent.props.uploads = request;
+      objectName: "",
+      isGallery: false,
+      isInitial: false,
+      contentType: "",
+    },
+  },
+
+  tusOptions = {},
+  galleryOptions = {},
+  imageEditorOptions = {},
+} = props.context;
+const fallbackImage = fallbackImageUrl || inject<string>("fallbackImageUrl");
+const baseUrl = baseUrlOption || inject<string>("baseUrl");
+const { autoProceed } = uppyOptions;
+const uploadConfig = filesHandler
+  ? await resolveApiEndpoint(filesHandler.fileUploadUrlFind, apiClient)
+  : undefined;
+
+const uppy = new Uppy({
+  ...uppyOptions,
+});
+uppy.on("upload-success", (file) => {
+  console.log("upload success done");
+  if (!file) return;
+  const path = `${file.meta.bucketName}/${file.name}`;
+  if (!path.length) return;
+  if (isMultiple) {
+    const currentList = Array.isArray(node._value)
+      ? node._value.filter((f) => f.length > 0)
+      : [];
+    node.input([...currentList, path]);
+  } else {
+    node.input(path);
   }
-};
-const emitValue = () => {
-  const allFiles: string[] = [];
-  console.log("allfiles");
-  if (fileUploadElementRef.value) {
-    const filesValue = [
-      ...fileUploadElementRef.value.files,
-      ...fileUploadElementRef.value.uploadedFiles,
-    ];
-    filesValue.forEach((file) => allFiles.push(`${bucketName}/${file.name}`));
-  }
-  const keys = [...ObjectKeys(previewFilesRef.value), ...allFiles];
-
-  console.log("allfiles", allFiles, keys);
-  if (!keys.length) return node.input(multiple ? [] : "");
-  return node.input(multiple ? keys : keys[0]);
-};
-
-const handleFileLimitExceeded = () => {
-  toast.add({
-    severity: "error",
-    summary: t("max_files"),
-    detail: t("file_limit_exceeded"),
-    life: 3000,
-  });
-};
-const isFileLimitExceeded = (len: number) => {
-  if (!multiple) {
-    return len > 0;
-  }
-
-  if (!fileLimit) return false;
-  return len + len > fileLimit;
-};
-const reflectValues = ({
-  name,
-  src,
-  bucket = "",
-}: {
-  name: string;
-  src?: string;
-  fileIndex?: number;
-  uploadedFileIndex?: number;
-  bucket?: string;
-}) => {
-  const fileName = `${bucket}${name}`;
-  previewFilesRef.value[fileName] = src || fileName;
-};
-
-onMounted(() => {
-  // In case context._value is already available on mount
-  handleValueChange(context._value);
 });
 
-// Watch for changes to context._value
-watch(
-  () => context._value,
-  (newValue) => {
-    handleValueChange(newValue);
-  },
-);
-function handleValueChange(value: any) {
-  if (!value || ObjectKeys(previewFilesRef.value).length) return;
+uppy.on("file-added", (file) => {
+  if (!file) return;
+  const currentMeta = file.meta;
+  if (currentMeta.isInitial) return;
+  uppy.setFileMeta(file.id, {
+    bucketName: bucketName,
+    objectName: file.name!,
+    contentType: file.type!,
+  });
+});
 
-  if (Array.isArray(value)) {
-    value.forEach((v: string) => {
-      if (v) {
-        previewFilesRef.value[v] = `${v}`;
-      }
-    });
-  } else {
-    previewFilesRef.value[value] = value;
+uppy.on("file-removed", (file) => {
+  const { meta } = file;
+  if (!meta.isGallery && autoProceed) {
+    if (filesHandler?.fileDeleteByBucket) {
+      resolveApiEndpoint(filesHandler.fileDeleteByBucket, apiClient, {
+        bucketName: meta.bucketName,
+        records: [meta.objectName],
+      })
+        .then(() => {
+          console.log("file removed successfully");
+        })
+        .catch((e) => {
+          console.error("file remove failur", e);
+        });
+      console.log("should remove this file from the api");
+    }
   }
-}
-const openGallery = (filesLength: number, uploadedFilesLength: number) => {
-  dialog.open(
-    h(InputUploadDialog, {
-      bucketName,
-      onChoose: async (files) => {
-        console.error(
-          "max files exceeded",
-          files.length + filesLength + uploadedFilesLength,
-        );
-        if (
-          isFileLimitExceeded(files.length + filesLength + uploadedFilesLength)
-        ) {
-          handleFileLimitExceeded();
-          console.error(
-            "max files exceeded",
-            files.length + filesLength + uploadedFilesLength,
-          );
-          return;
-        }
-        files.forEach(reflectValues);
-        emitValue();
-      },
-    }),
-  );
-};
-const removeSelectedFile = (key: string) => {
-  delete previewFilesRef.value[key];
-  emitValue();
-};
-const renderEmptySlot = () => h("h2", `drop files hear`);
-const renderHeaderSlot = ({
-  files = [],
-  uploadedFiles = [],
-  chooseCallback,
-  clearCallback,
-}: {
-  files: File[];
-  uploadedFiles: File[];
-  chooseCallback: Function;
-  clearCallback: Function;
-}) =>
-  h("div", { class: "header" }, [
-    h(
-      "div",
-      {
-        class: "flex gap-2",
-      },
-      [
-        h(AppBtn, {
-          icon: "images",
-          label: "choose",
-          rounded: true,
-          outlined: true,
-          severity: "info",
-          action: () => {
-            const limit = multiple ? fileLimit : 1;
-            console.log("limit is", limit);
-            if (limit) {
-              console.log("limit is", files, "uppp", uploadedFiles);
-              if (limit < files.length + uploadedFiles.length) {
-                handleFileLimitExceeded();
-              }
-            }
-            chooseCallback();
-          },
-        }),
-        h(AppBtn, {
-          icon: "images",
-          label: "select from gallery",
-          rounded: true,
-          outlined: true,
-          severity: "success",
-          action: () => {
-            openGallery(files.length, uploadedFiles.length);
-          },
-        }),
-        h(AppBtn, {
-          icon: "images",
-          label: "cancel",
-          rounded: true,
-          outlined: true,
-          severity: "danger",
-          action: async () => {
-            clearCallback();
-          },
-        }),
-      ],
-    ),
-    h(
-      "div",
-      {
-        class: "flex",
-      },
-      [
-        ObjectKeys(previewFilesRef.value).map((key) =>
-          h(
-            "div",
-            {
-              class: "p-fileupload-file",
-            },
-            [
-              h(AppImage, {
-                width: "50",
-                src: previewFilesRef.value[key],
-              }),
-              h(
-                "div",
-                {
-                  class: "p-fileupload-file-info",
-                  "data-pc-section": "fileinfo",
-                },
-                [
-                  h(
-                    "div",
-                    {
-                      class: "p-fileupload-file-name",
-                      "data-pc-section": "filename",
-                    },
-                    previewFilesRef.value[key],
-                  ),
-                  h(
-                    "span",
-                    {
-                      class: "p-fileupload-file-size",
-                      "data-pc-section": "filesize",
-                    },
-                    "18.385 KB",
-                  ),
-                ],
-              ),
-              h(Badge, { severity: "success" }, "Completed"),
-              h(
-                "div",
-                {
-                  class: "p-fileupload-file-actions",
-                  "data-pc-section": "fileactions",
-                },
-                [
-                  h(AppBtn, {
-                    icon: "close_red",
-                    iconOnly: true,
-                    variant: "text",
-                    action: () => {
-                      removeSelectedFile(key);
-                    },
-                  }),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-    // h(
-    //   "div",
-    //   {
-    //     class: "flex",
-    //   },
-    //   [
-    //     Array.isArray(context._value)
-    //       ? context._value.map((key) =>
-    //           h(
-    //             "div",
-    //             {
-    //               class: "p-fileupload-file",
-    //             },
-    //             [
-    //               h(AppImage, {
-    //                 width: "50",
-    //                 src: key,
-    //               }),
-    //               h(
-    //                 "div",
-    //                 {
-    //                   class: "p-fileupload-file-info",
-    //                   "data-pc-section": "fileinfo",
-    //                 },
-    //                 [
-    //                   h(
-    //                     "div",
-    //                     {
-    //                       class: "p-fileupload-file-name",
-    //                       "data-pc-section": "filename",
-    //                     },
-    //                     key,
-    //                   ),
-    //                 ],
-    //               ),
-    //               h(Badge, { severity: "success" }, "Completed"),
-    //               h(
-    //                 "div",
-    //                 {
-    //                   class: "p-fileupload-file-actions",
-    //                   "data-pc-section": "fileactions",
-    //                 },
-    //                 [
-    //                   h(AppBtn, {
-    //                     icon: "close_red",
-    //                     iconOnly: true,
-    //                     variant: "text",
-    //                     action: () => {
-    //                       removeSelectedFile(key);
-    //                     },
-    //                   }),
-    //                 ],
-    //               ),
-    //             ],
-    //           ),
-    //         )
-    //       : h("div", "hi"),
-    //   ],
-    // ),
-  ]);
-const fileUploadElementRef = ref();
-const renderInputUpload = () => {
-  return h(
-    FileUpload,
-    {
-      ...context,
-      url: filesHandler?.uploadUrl,
-      fileLimit: multiple ? fileLimit : 1,
-      onSelect: onSlectedFilesEvent,
-      ref: (r) => (fileUploadElementRef.value = r),
-      onUpload: () => {
-        emitValue();
-      },
-      onRemoveUploadedFile: (event: { file: File }) => {
-        console.log("files removed", event);
-        if (fileUploadElementRef.value) {
-          fileUploadElementRef.value.uploadedFileCount--;
-        }
-      },
+  const path = `${file.meta.bucketName}/${file.name}`;
+  if (isMultiple) {
+    const filtered = Array.isArray(node._value)
+      ? node._value.filter((v) => v !== path)
+      : [];
+    node.input(filtered);
+  } else {
+    node.input("");
+  }
+});
+
+uppy.use(Compressor);
+uppy.use(Tus<InputUploadMeta, TusBody>, {
+  endpoint: uploadConfig?.uploadUrl || "",
+  chunkSize: 6 * 1024 * 1024,
+  uploadDataDuringCreation: true,
+  removeFingerprintOnSuccess: true,
+  retryDelays: [0, 3000, 5000, 10000, 20000],
+  headers: {
+    Authorization: `Bearer ${uploadConfig?.token || ""}`,
+    "x-upsert": "true",
+  },
+  onProgress: (uploaded, total) => {
+    const percent = ((uploaded / total) * 100).toFixed(2);
+    console.log(`${uploaded}/${total} (${percent}%)`);
+  },
+  ...tusOptions,
+});
+
+if (!hideSelectFromGallery)
+  uppy.use(GallerySelectPlugin, {
+    defaultSelected: Array.isArray(node._value)
+      ? (node._value as string[])
+      : [node._value as string],
+    baseUrl,
+    bucketName,
+    fallbackImage,
+    listEndpoint: async () => {
+      if (!filesHandler) return [];
+      const response = await resolveApiEndpoint(
+        filesHandler.galleryListEndpoint,
+        apiClient,
+        { filters: { bucketId: bucketName } },
+      );
+      return response.records.map((r: { name: string }) => r.name);
     },
-    {
-      empty: renderEmptySlot,
-      header: renderHeaderSlot,
-    },
-  );
+    ...galleryOptions,
+  });
+
+uppy.use(ImageEditor, { quality: 0.8, ...imageEditorOptions });
+
+node.context!._uppyPrepareUpload = async () => {
+  if (!autoProceed && uppy.getFiles().some((f) => !f.progress.uploadComplete)) {
+    await uppy.upload();
+  }
 };
+const themName = computed(() =>
+  document.documentElement.classList.contains("dark") ? "dark" : "light",
+);
+onBeforeUnmount(() => {
+  uppy.destroy();
+});
+// const plugins = computed(() =>
+//   hideSelectFromGallery ? [] : ["GallerySelectPlugin"],
+// );
 </script>
+
 <template>
-  <component :is="renderInputUpload" />
+  <Dashboard
+    :uppy="uppy"
+    :props="{
+      theme: themName,
+      showRemoveButtonAfterComplete: true,
+      proudlyDisplayPoweredByUppy: false,
+      hideUploadButton: true,
+      metaFields: [
+        { id: 'name', name: 'Name', placeholder: 'file name' },
+        { id: 'objectName', name: 'objectName', placeholder: 'objectName' },
+        { id: 'contentType', name: 'contentType', placeholder: 'contentType' },
+        { id: 'bucketName', name: 'bucketName', placeholder: 'bucketName' },
+        {
+          id: 'caption',
+          name: 'Caption',
+          placeholder: 'describe what the image is about',
+        },
+      ],
+      ...dashboardOptions,
+    }"
+  />
 </template>

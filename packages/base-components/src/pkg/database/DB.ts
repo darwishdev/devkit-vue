@@ -1,10 +1,10 @@
 import Dexie from 'dexie';
-import { CacheHelper } from './CacheHelper';
+import { BasicCacheEntry, CacheHelper } from './CacheHelper';
 import { IconHelper } from './IconHelper';
 export class DevkitStaticDB extends Dexie {
   public cache: CacheHelper;
   public iconHelper: IconHelper;
-  private cacheHelper!: Dexie.Table<{ key: string; value: any }, string>;
+  private cacheHelper!: Dexie.Table<{ key: string; value: BasicCacheEntry }, string>;
   private icon!: Dexie.Table<{ key: string, value: string }, string>;
   constructor() {
     super(`DEVKIT_BASE`);

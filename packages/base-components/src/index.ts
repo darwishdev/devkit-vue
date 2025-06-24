@@ -3,39 +3,56 @@ import { type App, type Plugin } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { toggleLocale } from '@/pkg/utils/LocaleUtils';
 import { ApiEndpoint } from '@devkit/apiclient';
-import { IconFindRequest, IconFindResponse } from '@/pkg/types/api_types';
+import { IconFindRequest, IconFindResponse, TranslationFindLocaleRequest, TranslationFindLocaleResponse } from '@/pkg/types/api_types';
+import { toggleDarkTheme } from '@/pkg/utils/ThemeUtils';
 
 export * from '@/pkg/types/types'
 export * from '@/pkg/types/api_types'
 export * from '@/app/base/index'
 export * from '@/pkg/utils/LocaleUtils'
+export * from '@/pkg/utils/ThemeUtils'
 
 export type DevkitBaseConfig<TApi extends Record<string, Function>> = {
 	apiClient: TApi
 	baseImageUrl?: string
-	noImageUrl?: string
+	fallbackImageUrl?: string
+  fallbackImageSvg?: string
 	locales: string[]
 	iconFindApi?: ApiEndpoint<TApi, IconFindRequest, IconFindResponse>
+	translationLocaleFindApi?: ApiEndpoint<TApi, TranslationFindLocaleRequest, TranslationFindLocaleResponse>
 }
 const db = new DevkitBaseDB()
 export const cacheHelper = db.cache
 export const iconHelper = db.iconHelper
 // Function to sync i18n locale inside setup()
-export function setupI18nSync() {
+export function setupI18n<T = string>(callBack?: (locale: T) => void) {
 	const i18n = useI18n() // Must be inside setup()
-	cacheHelper.getLocale().then((locale: string) => {
+	cacheHelper.getLocale().then(async (locale: string) => {
 		if (locale === 'ar') {
-			toggleLocale({ i18n, cacheHelper })
+			await toggleLocale({ i18n, cacheHelper })
+		}
+    if(callBack) callBack(locale as T)
+	})
+}
+
+export function setupDarkTheme(className: string = 'dark') {
+	cacheHelper.getIsDark().then((isDark: boolean) => {
+		if (isDark) {
+			toggleDarkTheme({ className, cacheHelper })
 		}
 	})
 }
 const DevkitBaseComponentsPlugin: Plugin<DevkitBaseConfig<any>> = {
-	install<TApi extends Record<string, Function>>(app: App, { baseImageUrl, noImageUrl, apiClient, iconFindApi }: DevkitBaseConfig<TApi>) {
+	install<TApi extends Record<string, Function>>(app: App, {  baseImageUrl, fallbackImageSvg , fallbackImageUrl, apiClient, iconFindApi , translationLocaleFindApi}: DevkitBaseConfig<TApi>) {
 		app.provide('apiClient', apiClient)
 		app.provide('baseImageUrl', baseImageUrl)
-		app.provide('noImageUrl', noImageUrl)
+		if (fallbackImageSvg) app.provide('fallbackImageSvg', fallbackImageSvg)
+		if (fallbackImageUrl) app.provide('fallbackImageUrl', fallbackImageUrl)
 		if (iconFindApi) {
 			app.provide<ApiEndpoint<TApi, IconFindRequest, IconFindResponse>>('iconFindApi', iconFindApi)
+		}
+		if (translationLocaleFindApi) {
+			app.provide<ApiEndpoint<TApi, TranslationFindLocaleRequest, TranslationFindLocaleResponse>>('translationLocaleFindApi', translationLocaleFindApi)
 		}
 	}
 }

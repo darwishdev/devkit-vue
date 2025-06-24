@@ -26,11 +26,12 @@ import {
   StringUnknownRecord,
 } from "@devkit/apiclient";
 import { AppFormProps } from "@/pkg/types/types";
+import { GridConfiguration } from "@devkit/config";
 import { AppFormSection } from "@/pkg/types/types";
 import { useI18n } from "vue-i18n";
 import { RouteQueryFind, RouteQueryRemove } from "@/pkg/utils/QueryUtils";
 
-const dialogRef = inject("dialogRef") as any;
+const dialogRef = inject<{ value: { close: () => void } }>("dialogRef");
 const formkitSchemaComp = resolveComponent("FormKitSchema");
 const queryClient = useQueryClient();
 const formkitComp = resolveComponent("FormKit");
@@ -68,22 +69,22 @@ const getDataFromFindHandler = async () => {
   if (!findHandler) return;
   if (!findHandler.endpoint) return;
   try {
-    const findHandlerRequest: any = {};
+    const findHandlerRequest: Record<string, unknown> = {};
     const requestValue = findHandler.requestValue
       ? findHandler.requestValue
       : route.params[findHandler.routerParamName || "id"];
     findHandlerRequest[findHandler.requestPropertyName] = requestValue;
-    const resp = await resolveApiEndpoint<any, any, any>(
-      findHandler.endpoint,
-      apiClient,
-      findHandlerRequest,
-    );
+    const resp = await resolveApiEndpoint<
+      TApi,
+      Record<TFindRequestPropName, unknown>,
+      Record<TFindResponsePropName, TFormRequest>
+    >(findHandler.endpoint, apiClient, findHandlerRequest);
     if (!resp) return;
     if (findHandler.responsePropertyName) {
       if (findHandler.responsePropertyName in resp) {
         const formValue = resp[findHandler.responsePropertyName];
         if (typeof formValue == "object" && formValue) {
-          return formValue as TFormRequest;
+          return formValue;
         }
       }
     }
@@ -153,6 +154,7 @@ const mutationFn = (req: TApiRequest) =>
 
 let defaultValue: TFormRequest | undefined = undefined;
 const init = async () => {
+  console.log("form init");
   if (findHandler) {
     const initialData = await getDataFromFindHandler();
     defaultValue = initialData;
@@ -195,10 +197,13 @@ const submitMutation = useMutation({
   },
 });
 const isAppFormSection = (
-  input: any,
+  input: unknown,
 ): input is AppFormSection<TFormRequest> => {
   return (
+    typeof input !== "undefined" &&
+    input != null &&
     typeof input === "object" &&
+    "inputs" in input &&
     Array.isArray(input.inputs) &&
     !Array.isArray(input)
   );
@@ -208,16 +213,66 @@ const generateFormSchema = () => {
   const { sections } = props.context;
   for (let sectionKey in sections) {
     const currentSection = sections[sectionKey];
-    let className = `form-section`;
-    const isCurrentSectionArray = !isAppFormSection(currentSection);
+    const isCurrentSectionObject = isAppFormSection(currentSection);
+    const defaultConfig: GridConfiguration = {
+      columns: 1,
+      gap: 2,
+      smColumns: 2,
+      mdColumns: 4,
+      lgColumns: 6,
+    };
+    const gridConfig = !isCurrentSectionObject
+      ? defaultConfig
+      : (currentSection?.gridConfiguration ?? defaultConfig);
+    const classList = [
+      "form-section",
+      "grid",
+      `grid-cols-${gridConfig.columns}`,
+    ];
+    if (gridConfig.smColumns)
+      classList.push(`sm:grid-cols-${gridConfig.smColumns}`);
+    if (gridConfig.mdColumns)
+      classList.push(`md:grid-cols-${gridConfig.mdColumns}`);
+    if (gridConfig.lgColumns)
+      classList.push(`lg:grid-cols-${gridConfig.lgColumns}`);
+    if (gridConfig.xlColumns)
+      classList.push(`xl:grid-cols-${gridConfig.xlColumns}`);
+    if (isCurrentSectionObject)
+      classList.push(currentSection.wrapperClassName ?? "");
+    classList.push(`gap-${gridConfig.gap || 2}`);
+    const className = classList.join(" ");
+    if (!isCurrentSectionObject) {
+      const sectionToBePushed: FormKitSchemaNode = {
+        $el: "div",
+        attrs: {
+          class: className,
+        },
+        children: currentSection,
+      };
+      schema.push(sectionToBePushed);
+      continue;
+    }
+
+    const sectionNodes: FormKitSchemaNode[] = [
+      {
+        $el: "div",
+        attrs: {
+          class: className,
+        },
+        children: currentSection.inputs,
+      },
+    ];
+    if (currentSection.title)
+      sectionNodes.unshift({
+        $el: "div",
+        attrs: {
+          class: "section-title mb-4 font-bold",
+        },
+        children: currentSection.title,
+      });
     const sectionToBePushed: FormKitSchemaNode = {
       $el: "div",
-      attrs: {
-        class: isCurrentSectionArray
-          ? className
-          : `${className} ${currentSection.isTransparent ? " glass" : ""}`,
-      },
-      children: isCurrentSectionArray ? currentSection : currentSection.inputs,
+      children: sectionNodes,
     };
     schema.push(sectionToBePushed);
   }
@@ -226,29 +281,32 @@ const generateFormSchema = () => {
 const isBulkCreateRef = ref(false);
 const { push } = useRouter();
 
-function parseValidationError(errorMessage: string) {
-  const errorObject: Record<string, string> = {};
-
-  // Match errors in the format: "- input_name: error message"
-  const regex = /-\s(\w+):\s(.+?)\s\[/g;
-  let match;
-
-  while ((match = regex.exec(errorMessage)) !== null) {
-    const [, inputName, errorValue] = match;
-    errorObject[inputName] = errorValue;
-  }
-
-  return errorObject;
-}
-const handleError = (node: FormKitNode, error: any) => {
-  console.log("error is here from handlerRrorrr methoed", error.message);
+// function parseValidationError(errorMessage: string) {
+//   const errorObject: Record<string, string> = {};
+//
+//   // Match errors in the format: "- input_name: error message"
+//   const regex = /-\s(\w+):\s(.+?)\s\[/g;
+//   let match;
+//
+//   while ((match = regex.exec(errorMessage)) !== null) {
+//     const [, inputName, errorValue] = match;
+//     errorObject[inputName] = errorValue;
+//   }
+//
+//   return errorObject;
+// }
+const handleError = (node: FormKitNode, error: unknown) => {
   try {
-    const errorObject: any = JSON.parse(error.rawMessage);
-    node.setErrors(errorObject.globalErrors, errorObject.fieldErrors);
-    console.log(errorObject);
-  } catch (_err: any) {
-    console.log(error, "error from catch", parseValidationError(error));
-    node.setErrors([error.message]);
+    if (error && typeof error == "object") {
+      if ("rawMessage" in error) {
+        if (typeof error.rawMessage == "string") {
+          const errorObject = JSON.parse(error.rawMessage);
+          node.setErrors(errorObject.globalErrors, errorObject.fieldErrors);
+        }
+      }
+    }
+  } catch (_: unknown) {
+    node.setErrors([error as string]);
   }
 };
 
@@ -341,16 +399,34 @@ const renderAppForm = () => {
         }),
         h(
           "div",
-          { class: "custom-form-actions" },
+          { class: "custom-form-actions flex gap-2" },
           props.context.submitHandler.hideActions
             ? undefined
             : [
-                h(AppBtn, { type: "submit", label: "submit", icon: "send" }),
+                h(AppBtn, {
+                  type: "submit",
+                  class: "grow",
+                  label: t("submit"),
+                  severity: "success",
+                  icon: "check-line",
+                }),
                 props.context.useClear
-                  ? h(AppBtn, { action: formStore.clearForm, label: "clear" })
+                  ? h(AppBtn, {
+                      action: formStore.clearForm,
+                      icon: "delete-back-2-line",
+                      severity: "danger",
+                      variant: "outlined",
+                      label: t("clear"),
+                    })
                   : undefined,
                 props.context.useReset
-                  ? h(AppBtn, { action: formStore.resetForm, label: "reset" })
+                  ? h(AppBtn, {
+                      action: formStore.resetForm,
+                      variant: "outlined",
+                      severity: "help",
+                      label: t("reset"),
+                      icon: "arrow-go-back-line",
+                    })
                   : undefined,
                 props.context.usePresist
                   ? h(AppBtn, {
