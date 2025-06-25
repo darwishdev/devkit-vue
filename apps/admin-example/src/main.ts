@@ -43,9 +43,8 @@ app.use(VueQueryPlugin, { queryClient });
 const baseConfig: DevkitAdminConfig<typeof apiClient> = {
   apiClient,
   locales: ["en", "ar"],
-  baseImageUrl: "http://192.168.100.40:54321/storage/v1/object/public/",
-  fallbackImageUrl:
-    "http://192.168.100.40:54321/storage/v1/object/public/images/noimg.webp",
+  baseImageUrl: import.meta.env.VITE_BASE_IMAGE_URL,
+  fallbackImageUrl: import.meta.env.VITE_FALLBACK_IMAGE_URL,
   fallbackImageSvg: "camera-off-line",
   authHandler: {
     login: "authLogin",

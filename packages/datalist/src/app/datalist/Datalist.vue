@@ -11,11 +11,9 @@
   "
 >
 import DataTable from "primevue/datatable";
-
 import { onBeforeUnmount } from "vue";
 import { Dialog } from "primevue";
 import { useDatalistStoreWithProps } from "./store/DatalistStore";
-
 import {
   Column,
   IconField,
@@ -33,7 +31,7 @@ import DatalistFiltersForm from "./components/DatalistFiltersForm.vue";
 import { AppBtn } from "@devkit/base-components";
 import { objectEntries } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
-import { computed, h, ref, VNode } from "vue";
+import { computed, h, VNode } from "vue";
 import { type StringUnknownRecord } from "@devkit/apiclient";
 import DatalistRowActions from "./components/DatalistRowActions.vue";
 const { t } = useI18n();
@@ -96,27 +94,13 @@ const deleteRestoreButtonProps = computed(() => {
   };
 });
 await datalistStore.init();
-const renderRowActions = (record: TRecord) => {
-  return datalistStore.permittedActions.rowActions.map((actionBtn) => {
-    const callback = (value: StringUnknownRecord) =>
-      emit("update:submited", value);
-    return slots[`rowActions.${actionBtn.actionKey}`]
-      ? slots[`rowActions.${actionBtn.actionKey}`]!({
-          store: datalistStore,
-          data: record,
-        })
-      : h(AppBtn, {
-          action: () => actionBtn.actionFn(callback, record),
-          ...actionBtn,
-        });
-  });
-};
 const renderGlobalActions = () => {
   return datalistStore.permittedActions.globalActions.map((actionBtn) => {
     const callback = (value: StringUnknownRecord) =>
       emit("create:submited", value);
-    return slots[`globalActions.${actionBtn.actionKey}`]
-      ? slots[`globalActions.${actionBtn.actionKey}`]!({ store: datalistStore })
+    const slotFn = slots[`globalActions.${actionBtn.actionKey}`];
+    return slotFn
+      ? slotFn({ store: datalistStore })
       : h(AppBtn, {
           variant: "outlined",
           action: () => actionBtn.actionFn(callback),
@@ -125,9 +109,7 @@ const renderGlobalActions = () => {
         });
   });
 };
-const actionsMenuRef = ref();
 const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
-  const children: any[] = [];
   if (slots.actions) {
     return slots.actions({ data });
   }
@@ -144,9 +126,16 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
     slots,
   );
 };
+const globalInputChanged = (value: unknown) => {
+  if (!datalistStore.formElementNode) return;
+  if (typeof datalistStore.formElementNode._value != "object") return;
+  datalistStore.formElementNode.input({
+    ...datalistStore.formElementNode._value,
+    global: value,
+  });
+};
 onBeforeUnmount(() => {
-  // datalistStore.filtersFormStore.$dispose();
-  // datalistStore.$dispose();
+  datalistStore.$dispose();
 });
 </script>
 <template>
@@ -183,8 +172,10 @@ onBeforeUnmount(() => {
             >
               <div class="global-actions__start flex gap-2 flex-wrap">
                 <slot name="globalActionsStartPrepend" :store="datalistStore" />
+
+                <!-- eslint-disable-next-line vue/valid-v-for -->
                 <component
-                  v-for="(slotContent, index) in renderGlobalActions()"
+                  v-for="slotContent in renderGlobalActions()"
                   :is="slotContent"
                 />
                 <slot name="globalActionsStartAppend" :store="datalistStore" />
@@ -249,30 +240,16 @@ onBeforeUnmount(() => {
                 <AppIcon icon="menu-search-line" />
               </InputIcon>
               <InputText
-                :modelValue="
-                  (datalistStore.filtersFormStore.initialFormValue[
-                    'global'
-                  ] as string) || ''
-                "
-                @update:modelValue="
-                  (value: unknown) => {
-                    console.log('val; ', value);
-                    datalistStore.filtersFormStore.setInputValue(
-                      'global',
-                      value,
-                    );
-                  }
-                "
                 placeholder="Keyword Search"
+                :defaultValue="
+                  (datalistStore.filterFormValue?.global as string) || ''
+                "
+                @change-value="globalInputChanged"
               />
             </IconField>
           </div>
         </div>
-        <slot
-          name="filtersPanel"
-          :store="datalistStore"
-          v-if="datalistStore.filtersFormSchema.length"
-        >
+        <slot name="filtersPanel" :store="datalistStore">
           <DatalistFiltersForm :datalistKey="context.datalistKey" />
         </slot>
       </slot>
@@ -312,7 +289,7 @@ onBeforeUnmount(() => {
     >
       <template v-if="columnValue" #body="{ data }">
         <slot
-          :name="`column.${columnKey}`"
+          :name="`column.${columnKey as string}`"
           :data="data as TRecord"
           :store="datalistStore"
         >

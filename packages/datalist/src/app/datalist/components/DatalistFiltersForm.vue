@@ -11,24 +11,35 @@
   "
 >
 import { useDatalistStoreWithKey } from "../store/DatalistStore";
-import { Panel, ToggleButton } from "primevue";
-import {AppForm} from "@devkit/form";
+import { Panel } from "primevue";
+import { AppForm } from "@devkit/form";
 import { objectEntries } from "@vueuse/core";
-import { useFormKitContextById } from "@formkit/vue";
+import { useFormKitContextById, useFormKitNodeById } from "@formkit/vue";
 import { StringUnknownRecord } from "@devkit/apiclient";
-import { ref } from "vue";
 
 const props = defineProps<{ datalistKey: string }>();
 const datalistStore = useDatalistStoreWithKey(props.datalistKey);
 const formkCtx = useFormKitContextById(
   datalistStore.filtersFormProps.context.formKey,
 );
+const formNode = useFormKitNodeById(
+  datalistStore.filtersFormProps.context.formKey,
+);
 
 const pannelPassThrough = {
   root: "transparent",
   header: "relative ",
-  pcToggleButton: 'filters-panel-toggler',
+  pcToggleButton: "filters-panel-toggler",
   headerActions: "filters-panel-actions",
+};
+
+const removeFilter = (filter: string) => {
+  if (!formNode) return;
+  if (!formNode.value) return;
+  if (typeof formNode.value._value != "object") return;
+  const newValue: StringUnknownRecord = { ...formNode.value._value };
+  newValue[filter] = null;
+  formNode.value?.input(newValue);
 };
 </script>
 <template>
@@ -40,9 +51,9 @@ const pannelPassThrough = {
           <Chip
             v-if="value"
             removable
+            @click="removeFilter(key as string)"
+            @remove="removeFilter(key as string)"
             class="z-10 cursor-pointer"
-            @click="datalistStore.filtersFormStore.clearInput(key as string)"
-            @remove="datalistStore.filtersFormStore.clearInput(key as string)"
           >
             <h2>{{ key }} : {{ value }}</h2>
           </Chip>

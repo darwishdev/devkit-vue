@@ -100,7 +100,7 @@ const datalistProps:
         isPresistFilters: true,
         displayType: "card",
         isLazyFilters: false,
-        isActionsDropdown: true,
+        isActionsDropdown: false,
         options: { title: "asd", description: "asd" },
       },
     };
@@ -117,7 +117,7 @@ const datalistStore = !datalistProps
 // });
 const createSubmitted = (value: StringUnknownRecord) => {
   if (!datalistStore) return;
-  datalistStore.filtersFormStore.refetchDropdownInput("bucketId");
+  //datalistStore.filtersFormStore.refetchDropdownInput("bucketId");
   console.log("submitted value is ", value);
 };
 const dialog = useDialog();
@@ -158,7 +158,10 @@ const refetchDropdownInput = async () => {
     >
       <template #card="{ data }">
         <slot name="card" :data="data as FileObject">
-          <AppImage :src="data.name" />
+          <AppImage
+            :src="data.name"
+            class="rounded bg-gray mb-2 gallery-image"
+          />
         </slot>
       </template>
       <template #globalActionsStartAppend>
@@ -174,18 +177,37 @@ const refetchDropdownInput = async () => {
       position: relative;
       td {
         --tw-border-opacity: 0;
+        padding: 0;
+        button {
+          padding: 0;
+          span {
+            display: none;
+          }
+        }
+        .gallery-image {
+          img {
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+          }
+        }
       }
       td:first-child,
       td:last-child {
         position: absolute;
         z-index: 12;
-        top: 0;
+        top: 2rem;
       }
       td:first-child {
-        left: 0;
+        left: 1rem;
       }
       td:last-child {
-        right: 0;
+        right: 1rem;
+        inset-inline-end: 1rem !important;
+        > div.d-flex {
+          background: var(--glass);
+          border-radius: 2px;
+          padding: 2px;
+        }
       }
     }
   }

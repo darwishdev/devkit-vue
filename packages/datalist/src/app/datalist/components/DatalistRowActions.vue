@@ -1,4 +1,3 @@
-
 <script
   lang="ts"
   setup
@@ -11,18 +10,29 @@ import Menu from "primevue/menu";
 import { AppBtn } from "@devkit/base-components";
 import { computed, h, ref, VNode } from "vue";
 import { StringUnknownRecord } from "@devkit/apiclient";
-import { DatalistRowActionsEmits,DatalistRowActionsProps, DatalistRowActionsSlots } from "../types";
-import {useDatalistStoreWithKey} from '../store/DatalistStore'
+import {
+  DatalistRowActionsEmits,
+  DatalistRowActionsProps,
+  DatalistRowActionsSlots,
+} from "../types";
+import { useDatalistStoreWithKey } from "../store/DatalistStore";
 const emit = defineEmits<DatalistRowActionsEmits>();
-const slots = defineSlots<DatalistRowActionsSlots<TApi , TRecord>>()
-const {data , hideShowDeleted , rowIdentifier , isActionsDropdown , storeKey} =
+const slots = defineSlots<DatalistRowActionsSlots<TApi, TRecord>>();
+const { data, hideShowDeleted, rowIdentifier, isActionsDropdown, storeKey } =
   defineProps<DatalistRowActionsProps<TRecord>>();
-const datalistStore = useDatalistStoreWithKey<TApi , any , TRecord>(storeKey);
-const isDeleteVisibile = computed(
-  () =>
-    datalistStore.optionsInUse.deleteHandler && !hideShowDeleted &&
-     datalistStore.isShowDeletedRef,
-);
+const datalistStore = useDatalistStoreWithKey<
+  TApi,
+  StringUnknownRecord,
+  TRecord
+>(storeKey);
+const isDeleteVisibile = computed(() => {
+  if (hideShowDeleted) {
+    return typeof datalistStore.optionsInUse.deleteHandler != "undefined";
+  }
+  return (
+    datalistStore.optionsInUse.deleteHandler && datalistStore.isShowDeletedRef
+  );
+});
 
 const deleteRestoreButtonProps = computed(() => {
   return {
@@ -37,13 +47,13 @@ const renderRowActions = (record: TRecord) => {
       emit("update:submited", value);
     return slots[`rowActions.${actionBtn.actionKey}`]
       ? slots[`rowActions.${actionBtn.actionKey}`]!({
-          store: datalistStore ,
+          store: datalistStore,
           data: record,
         })
       : h(AppBtn, {
-        class: 'justify-start',
+          class: "justify-start",
           action: () => actionBtn.actionFn(callback, record),
-        variant: 'text',
+          variant: "text",
           ...actionBtn,
         });
   });
@@ -58,76 +68,77 @@ const renderActionsColumn = (): VNode | VNode[] => {
     const deleteBtn = slots["rowActions.delete"]
       ? slots["rowActions.delete"]({ data, store: datalistStore })
       : h(AppBtn, {
-        action: () =>
-          datalistStore.deleteRestoreOpenDialog({
-            record: data,
-            isHardDelete: true,
-          }),
-        icon: "delete-bin-2-line",
-        class: 'justify-start',
-        label: "hard_delete",
-        severity: "danger",
-        variant: 'text',
-      });
+          action: () =>
+            datalistStore.deleteRestoreOpenDialog({
+              record: data,
+              isHardDelete: true,
+            }),
+          icon: "delete-bin-2-line",
+          class: "justify-start",
+          label: "hard_delete",
+          severity: "danger",
+          variant: "text",
+        });
     children.push(deleteBtn);
   }
   if (datalistStore.optionsInUse.deleteRestoreHandler) {
     const deleteBtn = slots["rowActions.deleteRestore"]
       ? slots["rowActions.deleteRestore"]({ data, store: datalistStore })
       : h(AppBtn, {
-        ...deleteRestoreButtonProps.value,
-        class: 'justify-start',
-        variant: 'text',
-        action: () =>
-          datalistStore.deleteRestoreOpenDialog({
-            record: data,
-          }),
-      });
+          ...deleteRestoreButtonProps.value,
+          class: "justify-start",
+          variant: "text",
+          action: () =>
+            datalistStore.deleteRestoreOpenDialog({
+              record: data,
+            }),
+        });
 
     children.push(deleteBtn);
   }
 
   return isActionsDropdown
     ? h("div", {}, [
-      h(AppBtn, {
-        icon: "more-2-line",
-        ariaHasPopup: true,
-        variant: 'outlined',
-        ariaControls: "actions-" + data[rowIdentifier], 
-        action: (event: Event) => {
-          console.log("actions menu ref is" , actionsMenuRef.value)
-          console.log("envet ef is" , event)
-          if (!actionsMenuRef.value) return;
-          actionsMenuRef.value.toggle(event);
-        },
-      }),
-      h(
-        Menu,
-        {
-          ref: (ref) => {
-            console.log("menu ref is" , ref)
-            actionsMenuRef.value = ref
+        h(AppBtn, {
+          icon: "more-2-line",
+          ariaHasPopup: true,
+          variant: "outlined",
+          ariaControls: "actions-" + data[rowIdentifier],
+          action: (event: Event) => {
+            console.log("actions menu ref is", actionsMenuRef.value);
+            console.log("envet ef is", event);
+            if (!actionsMenuRef.value) return;
+            actionsMenuRef.value.toggle(event);
           },
-          pt:{
-          menu: 'flex flex-column'
+        }),
+        h(
+          Menu,
+          {
+            ref: (ref) => {
+              console.log("menu ref is", ref);
+              actionsMenuRef.value = ref;
+            },
+            pt: {
+              menu: "flex flex-column",
+            },
+            id: "actions-" + data[rowIdentifier],
+            popup: true,
           },
-          id: "actions-" + data[rowIdentifier], 
-          popup: true,
-        },
-        {
-          start: () => h('div' , {class: 'flex flex-col'} ,  [
-            children,
-            ...renderRowActions(data),
-            slots.actionsAppend ? slots.actionsAppend({ data }) : undefined,
-          ]),
-        },
-      ),
-    ])
+          {
+            start: () =>
+              h("div", { class: "flex flex-col" }, [
+                children,
+                ...renderRowActions(data),
+                slots.actionsAppend ? slots.actionsAppend({ data }) : undefined,
+              ]),
+          },
+        ),
+      ])
     : h("div", { class: "d-flex" }, [
-      children,
-      ...renderRowActions(data),
-      slots.actionsAppend ? slots.actionsAppend({ data }) : undefined,
-    ]);
+        children,
+        ...renderRowActions(data),
+        slots.actionsAppend ? slots.actionsAppend({ data }) : undefined,
+      ]);
 };
 </script>
 <template>

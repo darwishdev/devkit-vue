@@ -17,6 +17,7 @@ import { AppFormProps } from "@/pkg/types/types";
 
 import FormBase from "./components/FormBase.vue";
 import { StringUnknownRecord } from "@devkit/apiclient";
+import { onBeforeUnmount } from "vue";
 // import { onUnmounted } from "vue";
 
 const props =
@@ -33,10 +34,10 @@ const props =
     >
   >();
 
-useAppFormStoreWithProps(props);
-// onUnmounted(() => {
-//   // store.$dispose()
-// });
+const store = useAppFormStoreWithProps(props);
+onBeforeUnmount(() => {
+  store.$dispose();
+});
 </script>
 <template>
   <Suspense>

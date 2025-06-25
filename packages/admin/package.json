@@ -57,11 +57,6 @@
   },
   "homepage": "https://github.com/darwishdev/devkit_admin#readme",
   "peerDependencies": {
-    "@devkit/datalist": "workspace:*",
-    "@devkit/form": "workspace:*",
-    "@devkit/filemanager": "workspace:*",
-    "@devkit/config": "workspace:*",
-    "@devkit/base-components": "workspace:*",
     "@formkit/core": "^1.6.9",
     "@formkit/vue": "^1.6.9",
     "@tanstack/query-persist-client-core": "^5.66.0",
@@ -96,6 +91,11 @@
     "vite-plugin-static-copy": "^2.2.0"
   },
   "dependencies": {
-    "@devkit/apiclient": "workspace:*"
+    "@devkit/apiclient": "workspace:*",
+    "@devkit/form": "workspace:*",
+    "@devkit/datalist": "workspace:*",
+    "@devkit/filemanager": "workspace:*",
+    "@devkit/config": "workspace:*",
+    "@devkit/base-components": "workspace:*"
   }
 }

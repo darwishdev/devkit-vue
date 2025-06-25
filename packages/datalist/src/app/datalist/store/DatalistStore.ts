@@ -20,7 +20,6 @@ import {
   resolveApiEndpoint,
   StringUnknownRecord,
 } from "@devkit/apiclient";
-import { useAppFormStoreWithProps } from "@devkit/form";
 import { _constructColumns } from "../utilites/_columnUtils";
 import {
   keepPreviousData,
@@ -35,6 +34,7 @@ import { useDialog, useToast } from "primevue";
 import { AppForm } from "@devkit/form";
 import { AppFormProps, FindHandler } from "@devkit/config";
 import { DeleteRestoreVariant } from "../types";
+import { useFormKitNodeById } from "@formkit/vue";
 
 export const useDatalistStore = <
   TApi extends Record<string, Function>,
@@ -54,7 +54,7 @@ export const useDatalistStore = <
   TFormSectionsRequest
 >) =>
   defineStore(`datalist-${context.datalistKey}` as string, () => {
-    const filtersFormSchema: (FormKitSchemaNode & { name: any })[] = [];
+    const filtersFormSchema: FormKitSchemaNode[] = [];
     const filtersMatchModesMap: Map<string, FilterMatchModeValues> = new Map();
     const isShowDeletedRef = ref(false);
     const modelSelectionRef = ref<TRecord[]>(
@@ -194,7 +194,6 @@ export const useDatalistStore = <
       return { rowActions, globalActions };
     });
 
-    const filtersFormStore = useAppFormStoreWithProps(filtersFormProps);
     const debouncedRefetch = useDebounceFn(() => {
       datalistQueryResult.refetch();
     }, debounceInMilliseconds);
@@ -242,22 +241,23 @@ export const useDatalistStore = <
       if (globalFilters.length)
         filtersFormSchema.push({ $formkit: "hidden", name: "global" });
     };
-    // watch(filtersFormStore.formValueRef, async (newValue) => {
-    // 	console.log('formvaluechanged', newValue)
-    // 	if (context.isLazyFilters || !isFiltersFormValid.value || ObjectKeys(newValue).length == 0) return
-    // 	if (context.isServerSide) {
-    // 		console.log('context', context.isServerSide)
-    // 		queryClient.invalidateQueries({ queryKey: [datalistKey] })
-    // 	}
-    // })
+
+    const formElementNode = useFormKitNodeById(filtersFormKey);
     const filterFormValue = computed(() => {
+      const activeInputs: StringUnknownRecord = {};
+      if (!formElementNode) return activeInputs;
+      if (!formElementNode.value) return activeInputs;
+      if (!formElementNode.value._value) return activeInputs;
+      return formElementNode.value._value as StringUnknownRecord;
+    });
+
+    const datalistFilterFormValue = computed(() => {
       const datalistFiltersModel: DatalistFiltersModel = {};
-      if (context.isServerSide || !filtersFormStore)
+      if (context.isServerSide || !filterFormValue.value)
         return datalistFiltersModel;
-      if (!filtersFormStore.formValue) return datalistFiltersModel;
       let globalValue = "";
       for (const [filterName, filterValue] of Object.entries(
-        filtersFormStore.formValue,
+        filterFormValue.value,
       )) {
         if (filterName == "global") {
           globalValue = filterValue as string;
@@ -272,9 +272,9 @@ export const useDatalistStore = <
           matchMode: filtersMatchModesMap.get(filterName),
         };
       }
-
       return datalistFiltersModel;
     });
+    //
     function isApiResponseList<TRecord extends StringUnknownRecord>(
       response: object,
     ): response is ApiResponseList<TRecord> {
@@ -283,17 +283,13 @@ export const useDatalistStore = <
       );
     }
     const datalistQueryFn = async (): Promise<ApiResponseList<TRecord>> => {
-      console.log(
-        "query is called",
-        isFiltersFormValid.value,
-        filtersFormStore.formValue,
-      );
       const { records, responseMapper, isServerSide, requestMapper } = context;
       if (Array.isArray(records)) {
         return { records };
       }
       const requestPayload = {
-        filters: filtersFormStore.formValue,
+        //filters: {},
+        filters: filterFormValue.value,
         paginationParams: paginationParamsRef.value,
       };
       let request: TFiltersReq extends undefined ? TReq : TFiltersReq;
@@ -397,10 +393,17 @@ export const useDatalistStore = <
         push({ name: handler.routeName });
         return;
       }
-      type FormReq = TFormSectionsRequest extends undefined
-        ? StringUnknownRecord
-        : TFormSectionsRequest;
-      let findHandler: any = {};
+      //type FormReq = TFormSectionsRequest extends undefined
+      //  ? StringUnknownRecord
+      //  : TFormSectionsRequest;
+      let findHandler: FindHandler<
+        TApi,
+        TFormSectionsRequest extends undefined
+          ? StringUnknownRecord
+          : TFormSectionsRequest,
+        string,
+        string
+      >;
       if (record && options.updateHandler) {
         const updateHandler = options.updateHandler;
         findHandler = {
@@ -416,7 +419,11 @@ export const useDatalistStore = <
             TApi,
             TFormSectionsRequest extends undefined
               ? StringUnknownRecord
-              : TFormSectionsRequest
+              : TFormSectionsRequest,
+            StringUnknownRecord,
+            StringUnknownRecord,
+            string,
+            string
           >,
           {
             context: {
@@ -424,7 +431,7 @@ export const useDatalistStore = <
               sections: formSections,
               invalidateCaches: [datalistKey],
               formKey: `${datalistKey}_${variant}`,
-              findHandler,
+              findHandler: findHandler!,
               resetOnSuccess: true,
               submitHandler: {
                 endpoint: handler.endpoint,
@@ -466,7 +473,6 @@ export const useDatalistStore = <
       record?: TRecord;
       isHardDelete?: boolean;
     }) => {
-      console.log("recordis", record);
       const options: ApiListOptions | undefined =
         datalistQueryResult.data.value?.options || context.options;
       const { rowIdentifier } = context;
@@ -503,7 +509,6 @@ export const useDatalistStore = <
         queryClient.invalidateQueries({ queryKey: [context.datalistKey] });
       },
     });
-    const exportData = () => {};
 
     const currenData = computed(() => {
       if (!datalistQueryResult.data.value) return [];
@@ -515,12 +520,19 @@ export const useDatalistStore = <
     });
     const isFiltersFormValid = computed(() => {
       console.log(
-        "chec",
-        filtersFormStore?.formElementContext?.state?.valid || false,
+        "valid is here",
+        formElementNode.value?.context?.state?.valid,
+      );
+      console.log(
+        "valid is here",
+        formElementNode.value?.context?.value?.state?.valid,
       );
       return filtersFormSchema.length > 0
-        ? filtersFormStore?.formElementContext?.state?.valid || false
+        ? formElementNode.value?.context?.state?.valid || false
         : false;
+    });
+    const filtersFormCtx = computed(() => {
+      return formElementNode.value?.context || null;
     });
 
     const datalistQueryResult = useQuery<ApiResponseList<TRecord>, Error>({
@@ -555,21 +567,24 @@ export const useDatalistStore = <
       datatableColumnsRef,
       filtersValueFromReq,
       filterFormValue,
+      datalistFilterFormValue,
       currenData,
       globalFilters,
       datalistQueryResult,
       filtersFormProps,
       deleteRestoreOpenDialog,
       modelSelectionRef,
+      formElementNode,
       isFiltersFormValid,
       viewRecord,
-      filtersFormStore,
+      //filtersFormStore,
       createUpdateRecord,
       isShowDeletedRef,
       debouncedRefetch,
       permittedActions,
       filtersFormValueRef,
       optionsInUse,
+      filtersFormCtx,
       deleteRestoreVariants,
       filtersFormKey,
       dialogRef,
