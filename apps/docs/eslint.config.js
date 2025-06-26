@@ -1,4 +1,4 @@
-import { vueConfig } from "@devkit/config";
+import { defineConfig } from "eslint/config";
+import baseRules from "@devkit/config/eslint";
 
-/** @type {import("eslint").Linter.Config} */
-export default vueConfig;
+export default defineConfig([...baseRules]);

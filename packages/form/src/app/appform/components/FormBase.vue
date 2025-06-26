@@ -26,7 +26,7 @@ import {
   StringUnknownRecord,
 } from "@devkit/apiclient";
 import { AppFormProps } from "@/pkg/types/types";
-import { GridConfiguration } from "@devkit/config";
+import { GridConfig } from "@devkit/config";
 import { AppFormSection } from "@/pkg/types/types";
 import { useI18n } from "vue-i18n";
 import { RouteQueryFind, RouteQueryRemove } from "@/pkg/utils/QueryUtils";
@@ -214,7 +214,7 @@ const generateFormSchema = () => {
   for (let sectionKey in sections) {
     const currentSection = sections[sectionKey];
     const isCurrentSectionObject = isAppFormSection(currentSection);
-    const defaultConfig: GridConfiguration = {
+    const defaultConfig: GridConfig = {
       columns: 1,
       gap: 2,
       smColumns: 2,
@@ -223,7 +223,7 @@ const generateFormSchema = () => {
     };
     const gridConfig = !isCurrentSectionObject
       ? defaultConfig
-      : (currentSection?.gridConfiguration ?? defaultConfig);
+      : (currentSection?.gridConfig ?? defaultConfig);
     const classList = [
       "form-section",
       "grid",
@@ -314,14 +314,21 @@ const formSubmitHandler = async (req: TFormRequest, formNode: FormKitNode) => {
   if (props.context.syncWithUrl) {
     formStore.debouncedRouteQueryAppend(req);
   }
+  console.log("now we are calling the submit func", req, formNode._value);
 
   await runAllUploadsBeforeSubmit(formNode);
+
+  console.log("now we are calling the submit func", req, formNode._value);
   const handler = props.context.submitHandler;
-
   const apiRequest = handler.mapFunction
-    ? handler.mapFunction(req)
-    : (req as StringUnknownRecord);
+    ? handler.mapFunction(formNode._value as TFormRequest)
+    : (formNode._value as StringUnknownRecord);
 
+  console.log(
+    "now we are calling the submit func",
+    apiRequest,
+    formNode._value,
+  );
   return new Promise((resolve) => {
     submitMutation
       .mutateAsync(apiRequest as TApiRequest)

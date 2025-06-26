@@ -1,25 +1,31 @@
 <script setup lang="ts">
-import {AppForm ,type AppFormProps} from '@devkit/form'
-import type {   UserCreateUpdateRequest, UserCreateUpdateResponse } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
+import { AppForm, type AppFormProps } from "@devkit/form";
+import type {
+  UserCreateUpdateRequest,
+  UserCreateUpdateResponse,
+} from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 import { useI18n } from "vue-i18n";
 import { apiClient } from "@/pkg/api/apiClient";
-import { FileManager } from '@devkit/filemanager';
 
 const { t } = useI18n();
-const formProps : AppFormProps<typeof apiClient , UserCreateUpdateRequest , UserCreateUpdateResponse> = {
-  context :{
-    title: 'user_create',
-    formKey: 'user-create',
+const formProps: AppFormProps<
+  typeof apiClient,
+  UserCreateUpdateRequest,
+  UserCreateUpdateResponse
+> = {
+  context: {
+    title: "user_create",
+    formKey: "user-create",
     submitHandler: {
-      endpoint: 'userCreateUpdate',
-      redirectRoute: '/accounts/user'
+      endpoint: "userCreateUpdate",
+      // redirectRoute: "/accounts/user",
     },
     sections: {
-      user_info : {
-        title: t('user_create_title'),
-        gridConfiguration: {
-          columns:2,
-          gap:2,
+      user_info: {
+        title: t("user_create_title"),
+        gridConfig: {
+          columns: 2,
+          gap: 2,
         },
         inputs: [
           {
@@ -41,8 +47,8 @@ const formProps : AppFormProps<typeof apiClient , UserCreateUpdateRequest , User
             $formkit: "devkitDropdown",
             fluid: true,
             name: "userTypeId",
-            size: 'small',
-            options: 'userTypeListInput',
+            size: "small",
+            options: "userTypeListInput",
             label: t("userType"),
             placeholder: t("userType"),
           },
@@ -50,8 +56,8 @@ const formProps : AppFormProps<typeof apiClient , UserCreateUpdateRequest , User
             $formkit: "devkitDropdown",
             fluid: true,
             name: "tenantId",
-            size: 'small',
-            options: 'tenantListInput',
+            size: "small",
+            options: "tenantListInput",
             label: t("tenant"),
             placeholder: t("tenant"),
           },
@@ -75,22 +81,20 @@ const formProps : AppFormProps<typeof apiClient , UserCreateUpdateRequest , User
           {
             $formkit: "devkitUpload",
             prefixIcon: "search",
-            bucketName: 'abchotels',
+            bucketName: "abchotels",
             dashboardOptions: {
-              height: '300px',
+              height: "300px",
             },
             outerClass: "col-span-2",
             name: "userImage",
             label: t("userImage"),
             placeholder: t("userImage"),
           },
-
-        ]
-      }
-    }
-  }
-}
-
+        ],
+      },
+    },
+  },
+};
 </script>
 
 <template>

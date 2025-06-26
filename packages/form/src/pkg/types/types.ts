@@ -1,5 +1,5 @@
 import type { FormKitSchemaNode } from "@formkit/core";
-import type { GridConfiguration } from "@devkit/config";
+import type { GridConfig } from "@devkit/config";
 import type {
   AuthLoginProviderCallbackRequest,
   AuthLoginProviderRequest,
@@ -190,7 +190,7 @@ export type FindHandler<
 export type AppFormSection<TFormRequest = StringUnknownRecord> = {
   inputs: (FormKitSchemaNode & { name: keyof TFormRequest })[];
   wrapperClassName?: string;
-  gridConfiguration?: GridConfiguration;
+  gridConfig?: GridConfig;
   title?: string;
   isTransparent?: boolean;
 };

@@ -1,14 +1,10 @@
 import { type VNode } from "vue";
 import { ColumnSlots, type ColumnProps } from "primevue/column";
-import { AppFormSections } from "@devkit/config";
+import { AppFormSections, GridConfig } from "@devkit/config";
 import { ApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
 import { useDatalistStore } from "./store/DatalistStore";
 import { AppBtnProps } from "@devkit/base-components";
-import type {
-  DataTableFilterMetaData,
-  DataTablePassThroughOptionType,
-  DataTableProps,
-} from "primevue";
+import type { DataTableFilterMetaData, DataTableProps } from "primevue";
 import type { FormKitSchemaNode } from "@formkit/core";
 export type DatalistFilterInput<TReq> = FormKitSchemaNode & {
   name: keyof TReq | string;
@@ -221,6 +217,7 @@ export type DatalistContext<
   DatalistMappers<TReq, TRecord> & {
     datalistKey: string;
     title?: string;
+    gridConfig?: GridConfig;
     records: DatalistRecords<TApi, TReq, TRecord, TFiltersReq, TApiResponse>;
     options?: ApiListOptions;
     formSections?: AppFormSections<

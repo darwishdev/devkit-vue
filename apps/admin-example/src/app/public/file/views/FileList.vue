@@ -57,13 +57,6 @@ const datalistProps:
         datalistKey: "files",
         hideShowDeleted: true,
         title: "files",
-        datatableProps: {
-          pt: {
-            thead: "hidden fm",
-            tbody: "block columns-4 gap-2",
-            headerRow: "hidden fm",
-          },
-        },
         formSections: {
           upload: {
             inputs: [
@@ -80,6 +73,11 @@ const datalistProps:
               },
             ],
           },
+        },
+        gridConfig: {
+          gridType: "flex",
+          gap: 2,
+          columns: 6,
         },
         rowIdentifier: "id",
         filters: props.bucketName ? undefined : [bucketInput],

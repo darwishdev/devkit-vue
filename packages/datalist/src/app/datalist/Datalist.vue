@@ -10,7 +10,9 @@
     TFormSectionsRequest extends Record<string, unknown> | undefined = undefined
   "
 >
-import DataTable from "primevue/datatable";
+import DataTable, {
+  type DataTablePassThroughOptions,
+} from "primevue/datatable";
 import { onBeforeUnmount } from "vue";
 import { Dialog } from "primevue";
 import { useDatalistStoreWithProps } from "./store/DatalistStore";
@@ -52,6 +54,8 @@ const {
   isActionsDropdown,
   datalistKey,
   hideActions,
+  gridConfig,
+  displayType,
   rowIdentifier,
   datatableProps,
   isSelectionHidden,
@@ -137,6 +141,78 @@ const globalInputChanged = (value: unknown) => {
 onBeforeUnmount(() => {
   datalistStore.$dispose();
 });
+const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
+  if (displayType != "card") {
+    return {
+      header: "transparent",
+      thead: "transparent",
+      foorer: "transparet",
+    };
+  }
+  const config = gridConfig || {
+    columns: 1,
+    gridType: "grid",
+    gap: 2,
+    smColumns: 2,
+    mdColumns: 4,
+    lgColumns: 6,
+  };
+  const bodyClassNamesMap: Record<
+    "grid" | "flex" | "columns",
+    { display: string[]; columns: string }
+  > = {
+    grid: {
+      display: ["grid"],
+      columns: "grid-cols-",
+    },
+
+    columns: {
+      display: ["block"],
+      columns: "columns-",
+    },
+    flex: {
+      display: ["flex ,flex-wrap"],
+      columns: "[&>*]:basis-1/",
+    },
+  };
+
+  console.log(
+    "display is",
+    config.gridType,
+    config.gridType || "grid",
+    bodyClassNamesMap[config.gridType || "flex"],
+  );
+  const { display, columns: colPrefix } =
+    bodyClassNamesMap[config.gridType || "grid"];
+  // 2) build your responsive prefixes
+  const bodyClassName = [
+    "form-section",
+    ...display,
+    // base cols
+    `${colPrefix}${config.columns}`,
+    // sm breakpoint
+    config.smColumns ? `sm:${colPrefix}${config.smColumns}` : undefined,
+    // md
+    config.mdColumns ? `md:${colPrefix}${config.mdColumns}` : undefined,
+    // lg
+    config.lgColumns ? `lg:${colPrefix}${config.lgColumns}` : undefined,
+    // xl (if you have it on config)
+    (config as any).xlColumns
+      ? `xl:${colPrefix}${(config as any).xlColumns}`
+      : undefined,
+    // always add gap
+    `gap-${config.gap || 2}`,
+  ]
+    .filter((c): c is string => !!c)
+    .join(" ");
+  return {
+    header: "transparent",
+    thead: "hidden",
+    tbody: bodyClassName,
+    foorer: "transparet",
+    headerRow: "hidden",
+  };
+});
 </script>
 <template>
   <Dialog />
@@ -147,11 +223,7 @@ onBeforeUnmount(() => {
     stateStorage="session"
     :stateKey="`${datalistKey}`"
     :max-height="200"
-    :pt="{
-      header: 'transparent',
-      thead: 'transparent',
-      foorer: 'transparet',
-    }"
+    :pt="dataTablePassThrough"
     :globalFilterFields="datalistStore.globalFilters"
     :filters="datalistStore.filtersFormValueRef"
     v-model:selection="datalistStore.modelSelectionRef"

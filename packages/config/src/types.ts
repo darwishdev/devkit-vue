@@ -197,8 +197,9 @@ export type AppFormOptions = {
   isFormTransparent?: boolean;
 };
 
-export type GridConfiguration = {
+export type GridConfig = {
   columns: number;
+  gridType?: "grid" | "columns" | "flex";
   gap?: number;
   smColumns?: number;
   mdColumns?: number;

@@ -62,7 +62,11 @@ const uppy = new Uppy({
 uppy.on("upload-success", (file) => {
   console.log("upload success done");
   if (!file) return;
+
+  console.log("upload success done", file);
   const path = `${file.meta.bucketName}/${file.name}`;
+
+  console.log("upload success done", path);
   if (!path.length) return;
   if (isMultiple) {
     const currentList = Array.isArray(node._value)
