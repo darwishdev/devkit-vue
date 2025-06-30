@@ -41,9 +41,45 @@ const addAsteriskPlugin: FormKitPlugin = (node) => {
     };
   });
 };
+const scrollToErrors = (node: FormKitNode) => {
+  if (node.props.type === "form") {
+    function scrollTo(node: FormKitNode) {
+      if (!node.props.id) return;
+      const el = document.getElementById(node.props.id);
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
+      }
+    }
+
+    function scrollToErrors() {
+      node.walk((child) => {
+        // Check if this child has errors
+        if (child.ledger.value("blocking") || child.ledger.value("errors")) {
+          // We found an input with validation errors
+          scrollTo(child);
+          // Stop searching
+          return false;
+        }
+      }, true);
+    }
+
+    const onSubmitInvalid = node.props.onSubmitInvalid;
+    node.props.onSubmitInvalid = () => {
+      onSubmitInvalid(node);
+      scrollToErrors();
+    };
+    node.on("unsettled:errors", scrollToErrors);
+  }
+  return false;
+};
 const formKitConfig = (options: DefaultConfigOptions) => {
   const plugins: FormKitPlugin[] = [
     DependencyManagerPlugin,
+    scrollToErrors,
     addAsteriskPlugin,
     // FormDataGetterPlugin,
     OptionsGetterPlugin,
@@ -247,7 +283,27 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     icons: {
       ...genesisIcons,
     },
-    plugins: !options.plugins ? plugins : { ...plugins, ...options.plugins },
+    rules: {
+      email_or_phone: (node) => {
+        if (!node.value) return false;
+        if (typeof node.value != "string") return false;
+
+        const value = String(node.value ?? "").trim();
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        const egyptMobileRegex =
+          /^(?:0|(?:\+?20|0020))[ -]?1[0125](?:[ -]?\d){8}$/;
+
+        /* Optional Saudi example branch (+966 11 123 4567).
+       Remove if you only want Egyptian numbers.                */
+        const saudiMobileRegex = /^\+?966[ -]?\d{1,2}[ -]?\d{3}[ -]?\d{4}$/;
+        return (
+          emailRegex.test(value) ||
+          egyptMobileRegex.test(value) ||
+          saudiMobileRegex.test(value)
+        );
+      },
+    },
+    plugins: !options.plugins ? plugins : [...plugins, ...options.plugins],
   });
 };
 export default formKitConfig;

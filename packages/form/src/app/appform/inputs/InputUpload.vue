@@ -12,7 +12,7 @@ import "@uppy/image-editor/dist/style.css";
 
 import GallerySelectPlugin from "../plugins/GallerySelector";
 import { InputUploadProps, InputUploadMeta } from "./types";
-import { FilesHandler } from "@/pkg/types/types";
+import { FilesHandler } from "@devkit/config";
 import { resolveApiEndpoint } from "@devkit/apiclient";
 
 const props = defineProps<InputUploadProps<TApi>>();
@@ -59,15 +59,30 @@ const uploadConfig = filesHandler
 const uppy = new Uppy({
   ...uppyOptions,
 });
-uppy.on("upload-success", (file) => {
-  console.log("upload success done");
+// uppy.on("upload-success", (file) => {
+//   console.log("upload success done");
+//   if (!file) return;
+//
+//   console.log("upload success done", file);
+//   const path = `${file.meta.bucketName}/${file.name}`;
+//
+//   console.log("upload success done", path);
+//   if (!path.length) return;
+//   if (isMultiple) {
+//     const currentList = Array.isArray(node._value)
+//       ? node._value.filter((f) => f.length > 0)
+//       : [];
+//     node.input([...currentList, path]);
+//   } else {
+//     node.input(path);
+//   }
+// });
+//
+uppy.on("file-added", (file) => {
   if (!file) return;
-
-  console.log("upload success done", file);
+  const currentMeta = file.meta;
+  if (currentMeta.isInitial) return;
   const path = `${file.meta.bucketName}/${file.name}`;
-
-  console.log("upload success done", path);
-  if (!path.length) return;
   if (isMultiple) {
     const currentList = Array.isArray(node._value)
       ? node._value.filter((f) => f.length > 0)
@@ -76,12 +91,7 @@ uppy.on("upload-success", (file) => {
   } else {
     node.input(path);
   }
-});
 
-uppy.on("file-added", (file) => {
-  if (!file) return;
-  const currentMeta = file.meta;
-  if (currentMeta.isInitial) return;
   uppy.setFileMeta(file.id, {
     bucketName: bucketName,
     objectName: file.name!,
@@ -107,6 +117,7 @@ uppy.on("file-removed", (file) => {
     }
   }
   const path = `${file.meta.bucketName}/${file.name}`;
+  console.log("fiole removed", isMultiple, node._value);
   if (isMultiple) {
     const filtered = Array.isArray(node._value)
       ? node._value.filter((v) => v !== path)
@@ -115,9 +126,14 @@ uppy.on("file-removed", (file) => {
   } else {
     node.input("");
   }
+
+  console.log("fiole removed", isMultiple, node._value);
 });
 
 uppy.use(Compressor);
+
+const baseImageUrl =
+  inject<string>("baseImageUrl") || import.meta.env.VITE_BASE_IMAGE_URL;
 uppy.use(Tus<InputUploadMeta, TusBody>, {
   endpoint: uploadConfig?.uploadUrl || "",
   chunkSize: 6 * 1024 * 1024,
@@ -137,9 +153,11 @@ uppy.use(Tus<InputUploadMeta, TusBody>, {
 
 if (!hideSelectFromGallery)
   uppy.use(GallerySelectPlugin, {
-    defaultSelected: Array.isArray(node._value)
-      ? (node._value as string[])
-      : [node._value as string],
+    defaultSelected: !node._value
+      ? []
+      : Array.isArray(node._value)
+        ? node._value.map((v: string) => `${baseImageUrl}${v}`)
+        : [`${baseImageUrl}${node._value}`],
     baseUrl,
     bucketName,
     fallbackImage,

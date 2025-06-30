@@ -137,7 +137,6 @@ a {
 .layout-wrapper {
   background: var(--body-bg);
   min-height: 100vh;
-  padding: var(--content-padding);
 }
 
 .app-logo-icon {
@@ -247,4 +246,7 @@ input::placeholder {
 
 .bg-gray {
   background-color: var(--gray-bg);
+}
+.p-button-icon-only {
+  justify-content: center;
 }

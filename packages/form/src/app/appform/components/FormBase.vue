@@ -17,7 +17,7 @@ import { type FormKitSchemaNode, type FormKitNode } from "@formkit/core";
 import { h, inject, ref, resolveComponent } from "vue";
 import { useToast } from "primevue";
 import { useRoute, useRouter } from "vue-router";
-import { AppBtn } from "@devkit/base-components";
+import { AppBtn, makeGridWrapperClassName } from "@devkit/base-components";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useAppFormStoreWithProps } from "../store/AppFormStore";
 import {
@@ -25,9 +25,7 @@ import {
   resolveApiEndpoint,
   StringUnknownRecord,
 } from "@devkit/apiclient";
-import { AppFormProps } from "@/pkg/types/types";
-import { GridConfig } from "@devkit/config";
-import { AppFormSection } from "@/pkg/types/types";
+import { AppFormProps, AppFormSection } from "@devkit/config";
 import { useI18n } from "vue-i18n";
 import { RouteQueryFind, RouteQueryRemove } from "@/pkg/utils/QueryUtils";
 
@@ -65,15 +63,28 @@ const emit = defineEmits<{
 }>();
 const { t } = useI18n();
 const route = useRoute();
+function isNumeric(str: unknown) {
+  // Reject non-strings or purely whitespace
+  if (typeof str !== "string" || !str.trim()) return false;
+
+  // Convert and test
+  return !Number.isNaN(Number(str));
+}
 const getDataFromFindHandler = async () => {
   if (!findHandler) return;
   if (!findHandler.endpoint) return;
   try {
     const findHandlerRequest: Record<string, unknown> = {};
+    console.log("findis data", findHandler.requestPropertyName, route.params);
     const requestValue = findHandler.requestValue
       ? findHandler.requestValue
       : route.params[findHandler.routerParamName || "id"];
-    findHandlerRequest[findHandler.requestPropertyName] = requestValue;
+
+    console.log("findis data", requestValue);
+    findHandlerRequest[findHandler.requestPropertyName || "recordId"] =
+      isNumeric(requestValue) ? parseInt(requestValue as string) : requestValue;
+
+    console.log("findis data", findHandlerRequest);
     const resp = await resolveApiEndpoint<
       TApi,
       Record<TFindRequestPropName, unknown>,
@@ -82,7 +93,7 @@ const getDataFromFindHandler = async () => {
     if (!resp) return;
     if (findHandler.responsePropertyName) {
       if (findHandler.responsePropertyName in resp) {
-        const formValue = resp[findHandler.responsePropertyName];
+        const formValue = resp[findHandler.responsePropertyName || "request"];
         if (typeof formValue == "object" && formValue) {
           return formValue;
         }
@@ -214,38 +225,40 @@ const generateFormSchema = () => {
   for (let sectionKey in sections) {
     const currentSection = sections[sectionKey];
     const isCurrentSectionObject = isAppFormSection(currentSection);
-    const defaultConfig: GridConfig = {
-      columns: 1,
-      gap: 2,
-      smColumns: 2,
-      mdColumns: 4,
-      lgColumns: 6,
-    };
-    const gridConfig = !isCurrentSectionObject
-      ? defaultConfig
-      : (currentSection?.gridConfig ?? defaultConfig);
-    const classList = [
-      "form-section",
-      "grid",
-      `grid-cols-${gridConfig.columns}`,
-    ];
-    if (gridConfig.smColumns)
-      classList.push(`sm:grid-cols-${gridConfig.smColumns}`);
-    if (gridConfig.mdColumns)
-      classList.push(`md:grid-cols-${gridConfig.mdColumns}`);
-    if (gridConfig.lgColumns)
-      classList.push(`lg:grid-cols-${gridConfig.lgColumns}`);
-    if (gridConfig.xlColumns)
-      classList.push(`xl:grid-cols-${gridConfig.xlColumns}`);
-    if (isCurrentSectionObject)
-      classList.push(currentSection.wrapperClassName ?? "");
-    classList.push(`gap-${gridConfig.gap || 2}`);
-    const className = classList.join(" ");
+    // const defaultConfig: GridConfig = {
+    //   columns: 1,
+    //   gap: 2,
+    //   smColumns: 2,
+    //   mdColumns: 4,
+    //   lgColumns: 6,
+    // };
+    // const gridConfig = !isCurrentSectionObject
+    //   ? defaultConfig
+    //   : (currentSection?.gridConfig ?? defaultConfig);
+    //
+    // const classList = [
+    //   "form-section",
+    //   "grid",
+    //   `grid-cols-${gridConfig.columns}`,
+    // ];
+    // if (gridConfig.smColumns)
+    //   classList.push(`sm:grid-cols-${gridConfig.smColumns}`);
+    // if (gridConfig.mdColumns)
+    //   classList.push(`md:grid-cols-${gridConfig.mdColumns}`);
+    // if (gridConfig.lgColumns)
+    //   classList.push(`lg:grid-cols-${gridConfig.lgColumns}`);
+    // if (gridConfig.xlColumns)
+    //   classList.push(`xl:grid-cols-${gridConfig.xlColumns}`);
+    // if (isCurrentSectionObject)
+    //   classList.push(currentSection.wrapperClassName ?? "");
+    // classList.push(`gap-${gridConfig.gap || 2}`);
+    // const className = classList.join(" ");
+    const className = makeGridWrapperClassName(currentSection?.gridConfig);
     if (!isCurrentSectionObject) {
       const sectionToBePushed: FormKitSchemaNode = {
         $el: "div",
         attrs: {
-          class: className,
+          class: `form-section ${className}`,
         },
         children: currentSection,
       };
@@ -298,12 +311,24 @@ const { push } = useRouter();
 const handleError = (node: FormKitNode, error: unknown) => {
   try {
     if (error && typeof error == "object") {
-      if ("rawMessage" in error) {
-        if (typeof error.rawMessage == "string") {
-          const errorObject = JSON.parse(error.rawMessage);
-          node.setErrors(errorObject.globalErrors, errorObject.fieldErrors);
+      console.log("ety", error, ObjectKeys(error));
+      ObjectKeys(error).forEach((e) => console.log(e, error[e]));
+      let globalErrors: string[] = [];
+      let fieldErrors: Record<string, string> = {};
+      if ("globalErrors" in error) {
+        if (Array.isArray(error.globalErrors)) {
+          globalErrors = error.globalErrors as string[];
         }
       }
+
+      if ("fieldErrors" in error) {
+        console.log("ety", error.fieldErrors);
+        if (typeof error.fieldErrors == "object") {
+          fieldErrors = error.fieldErrors as Record<string, string>;
+        }
+      }
+
+      node.setErrors(globalErrors, fieldErrors);
     }
   } catch (_: unknown) {
     node.setErrors([error as string]);
@@ -314,21 +339,14 @@ const formSubmitHandler = async (req: TFormRequest, formNode: FormKitNode) => {
   if (props.context.syncWithUrl) {
     formStore.debouncedRouteQueryAppend(req);
   }
-  console.log("now we are calling the submit func", req, formNode._value);
 
   await runAllUploadsBeforeSubmit(formNode);
-
-  console.log("now we are calling the submit func", req, formNode._value);
   const handler = props.context.submitHandler;
-  const apiRequest = handler.mapFunction
-    ? handler.mapFunction(formNode._value as TFormRequest)
-    : (formNode._value as StringUnknownRecord);
 
-  console.log(
-    "now we are calling the submit func",
-    apiRequest,
-    formNode._value,
-  );
+  const apiRequest = handler.mapFunction
+    ? handler.mapFunction(req)
+    : (req as StringUnknownRecord);
+
   return new Promise((resolve) => {
     submitMutation
       .mutateAsync(apiRequest as TApiRequest)
@@ -357,7 +375,7 @@ const formSubmitHandler = async (req: TFormRequest, formNode: FormKitNode) => {
         }
         resolve(null);
       })
-      .catch((e: Error) => {
+      .catch((e: unknown) => {
         console.log("error from the sbmithandler", e);
         handleError(formNode, e);
         resolve(null);
@@ -385,7 +403,6 @@ const renderAppForm = () => {
         console.log("form updated");
       },
       value: defaultValue,
-
       actions: false,
       findHandler: props.context.findHandler,
       syncWithUrl: props.context.syncWithUrl,
@@ -396,6 +413,7 @@ const renderAppForm = () => {
       default: () => [
         h(formkitSchemaComp, {
           id: props.context.formKey,
+          data: formStore.formData,
           schema: {
             $el: "div",
             attrs: {

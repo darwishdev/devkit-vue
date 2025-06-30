@@ -1,7 +1,7 @@
 import { defineStore, getActivePinia } from "pinia";
 import type { AppFormProps, StringUnknownRecord } from "@/pkg/types/types";
 import type { AppFormOptions } from "@/pkg/types/types";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { objectEntries, useDebounceFn } from "@vueuse/core";
 import { RouteQueryAppend } from "@/pkg/utils/QueryUtils";
 import { useFormKitContextById, useFormKitNodeById } from "@formkit/vue";
@@ -30,6 +30,7 @@ export const useAppFormStore = <
   defineStore(`app-form-${context.formKey}` as string, () => {
     const initialFormValue: StringUnknownRecord = {};
     const formOptions: AppFormOptions = {};
+    const formData = ref<Record<string, unknown>>({});
     const debounceInMilliseconds = 1000;
     const formElementContext = useFormKitContextById(context.formKey);
     const formElementNode = useFormKitNodeById(context.formKey);
@@ -124,6 +125,7 @@ export const useAppFormStore = <
       resetForm,
       formElementNode,
       formElementContext,
+      formData,
       debouncedRouteQueryAppend,
       clearForm,
       formOptions,

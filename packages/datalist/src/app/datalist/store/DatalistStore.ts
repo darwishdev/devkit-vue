@@ -29,7 +29,7 @@ import {
 } from "@tanstack/vue-query";
 import { objectEntries, useDebounceFn } from "@vueuse/core";
 import { AppDialog } from "@devkit/base-components";
-import { useRouter } from "vue-router";
+import { RouteParamsRawGeneric, useRouter } from "vue-router";
 import { useDialog, useToast } from "primevue";
 import { AppForm } from "@devkit/form";
 import { AppFormProps, FindHandler } from "@devkit/config";
@@ -390,7 +390,14 @@ export const useDatalistStore = <
       if (!handler) return;
       const { formSections, datalistKey } = context;
       if (!formSections) {
-        push({ name: handler.routeName });
+        const routeParams: StringUnknownRecord = {};
+        if (record) {
+          routeParams["id"] = record[rowIdentifier];
+        }
+        push({
+          name: handler.routeName,
+          params: routeParams as RouteParamsRawGeneric,
+        });
         return;
       }
       //type FormReq = TFormSectionsRequest extends undefined

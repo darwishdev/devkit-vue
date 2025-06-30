@@ -15,6 +15,7 @@ import { VueQueryPlugin, QueryClient } from "@tanstack/vue-query";
 
 import { apiClient } from "./pkg/api/apiClient";
 import { AppBtn, AppIcon, AppImage } from "@devkit/base-components";
+import translateI18nPlugin from "./pkg/plugins/translateI18nPlugin";
 const app = createApp(App);
 
 app.use(router);
@@ -29,7 +30,10 @@ const queryClient = new QueryClient({
   },
 });
 
-app.use(FormkitPlugin, formKitConfig({ config: { rootClasses } }));
+app.use(
+  FormkitPlugin,
+  formKitConfig({ config: { rootClasses }, plugins: [translateI18nPlugin] }),
+);
 app.use(PrimeVue, {
   theme: "none", // or your chosen PrimeVue theme
 });
@@ -49,10 +53,19 @@ const baseConfig: DevkitAdminConfig<typeof apiClient> = {
   authHandler: {
     login: "authLogin",
     allowedProviders: ["google"],
-    providerLogin: "authLoginProvider",
-    providerLoginCallback: "authLoginProviderCallback",
-    resetPasswordEmail: "authResetPasswordEmail",
-    resetPassword: "authResetPassword",
+    redirectRoute: "/",
+    providerLogin: {
+      endpoint: "authLoginProvider",
+      callbackEndpoint: "authLoginProviderCallback",
+      callbackRoute: import.meta.env.VITE_PROVIDER_CALLBACK,
+    },
+    resetPassword: {
+      endpoint: "authResetPassword",
+      emailEndpoint: "authResetPasswordEmail",
+      route: "/auth/reset-password",
+      emailRedirectRoute: "/auth/login",
+      emailRoute: "/auth/reset-password-email",
+    },
   },
   filesHandler: {
     fileDelete: "fileDelete",

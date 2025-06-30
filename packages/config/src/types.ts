@@ -29,30 +29,41 @@ export type CacheOptions = {
 };
 
 export type FilePreview = { value: string; src: string };
-export type AuthHandler<TApi extends Record<string, Function>> = {
-  login: ApiEndpoint<TApi, AuthLoginRequest, AuthLoginResponse>;
-  allowedProviders?: string[];
-  providerLogin?: ApiEndpoint<
+export type ProviderLoginHandler<TApi extends Record<string, Function>> = {
+  endpoint: ApiEndpoint<
     TApi,
     AuthLoginProviderRequest,
     AuthLoginProviderResponse
   >;
-  redirectRoute?: string;
-  providerLoginCallback?: ApiEndpoint<
+  callbackEndpoint: ApiEndpoint<
     TApi,
     AuthLoginProviderCallbackRequest,
     AuthLoginResponse
   >;
-  resetPasswordEmail?: ApiEndpoint<
+  callbackRoute: string;
+};
+export type ResetPasswordHandler<TApi extends Record<string, Function>> = {
+  emailEndpoint: ApiEndpoint<
     TApi,
     AuthResetPasswordEmailRequest,
     AuthResetPasswordEmailResponse
   >;
-  resetPassword?: ApiEndpoint<
+  endpoint: ApiEndpoint<
     TApi,
     AuthResetPasswordRequest,
     AuthResetPasswordResponse
   >;
+  emailRoute: string;
+  emailRedirectRoute: string;
+  route: string;
+};
+export type AuthHandler<TApi extends Record<string, Function>> = {
+  login: ApiEndpoint<TApi, AuthLoginRequest, AuthLoginResponse>;
+  allowedProviders?: string[];
+  redirectRoute?: string;
+  providerLoginCallbackRoute?: string;
+  providerLogin?: ProviderLoginHandler<TApi>;
+  resetPassword?: ResetPasswordHandler<TApi>;
 };
 
 export type FilesHandler<TApi extends Record<string, Function>> = {
@@ -182,8 +193,18 @@ export type FindHandler<
     : (formResp: TFormRequest) => TFindCallbakResponse;
 };
 
+export type GridConfig = {
+  columns: number;
+  gridType?: "grid" | "columns" | "flex";
+  gap?: number;
+  smColumns?: number;
+  mdColumns?: number;
+  lgColumns?: number;
+  xlColumns?: number;
+};
 export type AppFormSection<TFormRequest = StringUnknownRecord> = {
   inputs: (FormKitSchemaNode & { name: keyof TFormRequest })[];
+  gridConfig?: GridConfig;
   isTitleHidden?: boolean;
   isTransparent?: boolean;
 };
@@ -195,14 +216,4 @@ export type AppFormOptions = {
   successMessageDetail?: string;
   isSuccessNotificationHidden?: boolean;
   isFormTransparent?: boolean;
-};
-
-export type GridConfig = {
-  columns: number;
-  gridType?: "grid" | "columns" | "flex";
-  gap?: number;
-  smColumns?: number;
-  mdColumns?: number;
-  lgColumns?: number;
-  xlColumns?: number;
 };

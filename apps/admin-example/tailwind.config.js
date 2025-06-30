@@ -21,11 +21,26 @@ export default {
       pattern: /^\[&\>\*\]:basis-(\d+)\/6$/,
       variants: ["sm", "md", "lg", "xl"],
     },
-    { pattern: /^columns-(?:[1-9]|1[0-2])$/ },
-    { pattern: /^baseis-(?:[1-9]|1[0-2])$/ },
-    { pattern: /^baseis-(?:[1-9]|1[0-2])$/ },
-    { pattern: /^grid-cols-(?:[1-9]|1[0-2])$/ },
-    { pattern: /^gap-(?:0|0\.5|1(?:\.5)?|2(?:\.5)?|3(?:\.5)?|4|5|6|7|8)$/ },
+    {
+      pattern: /^columns-(?:[1-9]|1[0-2])$/,
+      variants: ["sm", "md", "lg", "xl"],
+    },
+    {
+      pattern: /^baseis-(?:[1-9]|1[0-2])$/,
+      variants: ["sm", "md", "lg", "xl"],
+    },
+    {
+      pattern: /^baseis-(?:[1-9]|1[0-2])$/,
+      variants: ["sm", "md", "lg", "xl"],
+    },
+    {
+      pattern: /^grid-cols-(?:[1-9]|1[0-2])$/,
+      variants: ["sm", "md", "lg", "xl"],
+    },
+    {
+      pattern: /^gap-(?:0|0\.5|1(?:\.5)?|2(?:\.5)?|3(?:\.5)?|4|5|6|7|8)$/,
+      variants: ["sm", "md", "lg", "xl"],
+    },
   ],
   darkMode: ["selector"],
   theme: {

@@ -13,7 +13,7 @@
   "
 >
 import { useAppFormStoreWithProps } from "./store/AppFormStore";
-import { AppFormProps } from "@/pkg/types/types";
+import { AppFormProps } from "@devkit/config";
 
 import FormBase from "./components/FormBase.vue";
 import { StringUnknownRecord } from "@devkit/apiclient";

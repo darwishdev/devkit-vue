@@ -68,7 +68,7 @@ export const OptionsGetterPlugin: FormKitPlugin = (node) => {
     const {
       options,
       dependsOn,
-      cacheKey = node.props.name,
+      cacheKey = node.name,
       bypassCache,
       useLazy,
       optionsMapper,
@@ -76,6 +76,13 @@ export const OptionsGetterPlugin: FormKitPlugin = (node) => {
       cacheTimeout = 60 * 60 * 1000 * 200,
     } = node.props;
     const getCacheName = () => {
+      console.log(
+        "getting cache name here",
+        cacheKey,
+        node,
+        node.props,
+        node.name,
+      );
       if (!node.props.getParentFormValue || !dependsOn) return cacheKey;
       const parentValue = node.props.getParentFormValue();
       if (parentValue) {

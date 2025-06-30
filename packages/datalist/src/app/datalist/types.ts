@@ -6,13 +6,10 @@ import { useDatalistStore } from "./store/DatalistStore";
 import { AppBtnProps } from "@devkit/base-components";
 import type { DataTableFilterMetaData, DataTableProps } from "primevue";
 import type { FormKitSchemaNode } from "@formkit/core";
-export type DatalistFilterInput<TReq> = FormKitSchemaNode & {
-  name: keyof TReq | string;
-  value?: unknown;
-};
+export type DatalistFilterInput<TReq> = FormKitSchemaNode;
 export type DatalistFilter<TFiltersReq> = {
   isGlobal?: boolean;
-  input: DatalistFilterInput<TFiltersReq>;
+  input: FormKitSchemaNode;
   matchMode: FilterMatchModeValues;
 };
 export type DatalistFiltersModel = Record<string, DataTableFilterMetaData>;

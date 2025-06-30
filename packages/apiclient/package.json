@@ -22,8 +22,11 @@
     "typescript": "5.7.3"
   },
   "dependencies": {
+    "@buf/googleapis_googleapis.bufbuild_es": "2.5.2-20250411203938-61b203b9a916.1",
     "@connectrpc/connect": "^2.0.2",
     "@connectrpc/connect-web": "^2.0.2",
+    "error_details_pb": "link:@buf/googleapis_googleapis.bufbuild_es/google/rpc/error_details_pb",
+    "googleapis_googleapis.bufbuild_es": "link:@buf/googleapis_googleapis.bufbuild_es",
     "vite": "^5.0.0",
     "vite-plugin-dts": "^2.0.0"
   }

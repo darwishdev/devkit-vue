@@ -124,7 +124,7 @@ const renderInputDropdown = () => {
             ? h(AppBtn, {
                 action: forceReload,
                 label: "reload",
-                icon: "reload",
+                icon: "refresh-line",
               })
             : undefined,
           createRoute

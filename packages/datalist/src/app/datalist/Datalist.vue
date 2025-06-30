@@ -30,7 +30,7 @@ import {
   type DatalistStore,
 } from "./types";
 import DatalistFiltersForm from "./components/DatalistFiltersForm.vue";
-import { AppBtn } from "@devkit/base-components";
+import { AppBtn, makeGridWrapperClassName } from "@devkit/base-components";
 import { objectEntries } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { computed, h, VNode } from "vue";
@@ -149,62 +149,65 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
       foorer: "transparet",
     };
   }
-  const config = gridConfig || {
-    columns: 1,
-    gridType: "grid",
-    gap: 2,
-    smColumns: 2,
-    mdColumns: 4,
-    lgColumns: 6,
-  };
-  const bodyClassNamesMap: Record<
-    "grid" | "flex" | "columns",
-    { display: string[]; columns: string }
-  > = {
-    grid: {
-      display: ["grid"],
-      columns: "grid-cols-",
-    },
-
-    columns: {
-      display: ["block"],
-      columns: "columns-",
-    },
-    flex: {
-      display: ["flex ,flex-wrap"],
-      columns: "[&>*]:basis-1/",
-    },
-  };
-
-  console.log(
-    "display is",
-    config.gridType,
-    config.gridType || "grid",
-    bodyClassNamesMap[config.gridType || "flex"],
-  );
-  const { display, columns: colPrefix } =
-    bodyClassNamesMap[config.gridType || "grid"];
-  // 2) build your responsive prefixes
-  const bodyClassName = [
-    "form-section",
-    ...display,
-    // base cols
-    `${colPrefix}${config.columns}`,
-    // sm breakpoint
-    config.smColumns ? `sm:${colPrefix}${config.smColumns}` : undefined,
-    // md
-    config.mdColumns ? `md:${colPrefix}${config.mdColumns}` : undefined,
-    // lg
-    config.lgColumns ? `lg:${colPrefix}${config.lgColumns}` : undefined,
-    // xl (if you have it on config)
-    (config as any).xlColumns
-      ? `xl:${colPrefix}${(config as any).xlColumns}`
-      : undefined,
-    // always add gap
-    `gap-${config.gap || 2}`,
-  ]
-    .filter((c): c is string => !!c)
-    .join(" ");
+  // const config = gridConfig || {
+  //   columns: 1,
+  //   gridType: "grid",
+  //   gap: 2,
+  //   smColumns: 2,
+  //   mdColumns: 4,
+  //   lgColumns: 6,
+  // };
+  // const bodyClassNamesMap: Record<
+  //   "grid" | "flex" | "columns",
+  //   { display: string[]; columns: string }
+  // > = {
+  //   grid: {
+  //     display: ["grid"],
+  //     columns: "grid-cols-",
+  //   },
+  //
+  //   columns: {
+  //     display: ["block"],
+  //     columns: "columns-",
+  //   },
+  //   flex: {
+  //     display: ["flex ,flex-wrap"],
+  //     columns: "[&>*]:basis-1/",
+  //   },
+  // };
+  //
+  // console.log(
+  //   "display is",
+  //   config.gridType,
+  //   config.gridType || "grid",
+  //   bodyClassNamesMap[config.gridType || "flex"],
+  // );
+  // const { display, columns: colPrefix } =
+  //   bodyClassNamesMap[config.gridType || "grid"];
+  // // 2) build your responsive prefixes
+  // const bodyClassName = [
+  //   "form-section",
+  //   ...display,
+  //   // base cols
+  //   `${colPrefix}${config.columns}`,
+  //   // sm breakpoint
+  //   config.smColumns ? `sm:${colPrefix}${config.smColumns}` : undefined,
+  //   // md
+  //   config.mdColumns ? `md:${colPrefix}${config.mdColumns}` : undefined,
+  //   // lg
+  //   config.lgColumns ? `lg:${colPrefix}${config.lgColumns}` : undefined,
+  //   // xl (if you have it on config)
+  //   (config as any).xlColumns
+  //     ? `xl:${colPrefix}${(config as any).xlColumns}`
+  //     : undefined,
+  //   // always add gap
+  //   `gap-${config.gap || 2}`,
+  // ]
+  //   .filter((c): c is string => !!c)
+  //   .join(" ");
+  //
+  //
+  const bodyClassName = makeGridWrapperClassName(gridConfig);
   return {
     header: "transparent",
     thead: "hidden",
