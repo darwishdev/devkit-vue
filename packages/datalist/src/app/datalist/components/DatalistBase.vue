@@ -95,19 +95,21 @@ const deleteRestoreButtonProps = computed(() => {
 });
 await datalistStore.init();
 const renderGlobalActions = () => {
-  return datalistStore.permittedActions.globalActions.map((actionBtn) => {
-    const callback = (value: StringUnknownRecord) =>
-      emit("create:submited", value);
-    const slotFn = slots[`globalActions.${actionBtn.actionKey}`];
-    return slotFn
-      ? slotFn({ store: datalistStore })
-      : h(AppBtn, {
-          variant: "outlined",
-          action: () => actionBtn.actionFn(callback),
-          ...actionBtn,
-          key: actionBtn.actionKey,
-        });
-  });
+  return datalistStore.permittedActions
+    .filter((a) => a.actionKey == "create" || a.actionKey == "update")
+    .map((actionBtn) => {
+      const callback = (value: StringUnknownRecord) =>
+        emit("create:submited", value);
+      const slotFn = slots[`globalActions.${actionBtn.actionKey}`];
+      return slotFn
+        ? slotFn({ store: datalistStore })
+        : h(AppBtn, {
+            variant: "outlined",
+            action: () => actionBtn.actionFn(callback),
+            ...actionBtn,
+            key: actionBtn.actionKey,
+          });
+    });
 };
 const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
   if (slots.actions) {

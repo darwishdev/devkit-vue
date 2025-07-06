@@ -23,7 +23,7 @@ const formProps: AppFormProps<
     formKey: KEYS.CREATE_FORM_KEY,
     submitHandler: {
       endpoint: ENDPOINTS.CREATE_UPDATE,
-      redirectRoute: ROUTES.LIST,
+      redirectRoute: ROUTES.LIST.path,
     },
     invalidateCaches: [KEYS.DATALIST_KEY],
     sections: {

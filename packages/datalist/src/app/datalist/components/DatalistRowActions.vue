@@ -42,21 +42,29 @@ const deleteRestoreButtonProps = computed(() => {
   };
 });
 const renderRowActions = (record: TRecord) => {
-  return datalistStore.permittedActions.rowActions.map((actionBtn) => {
-    const callback = (value: StringUnknownRecord) =>
-      emit("update:submited", value);
-    return slots[`rowActions.${actionBtn.actionKey}`]
-      ? slots[`rowActions.${actionBtn.actionKey}`]!({
-          store: datalistStore,
-          data: record,
-        })
-      : h(AppBtn, {
-          class: "justify-start",
-          action: () => actionBtn.actionFn(callback, record),
-          variant: "text",
-          ...actionBtn,
-        });
-  });
+  return datalistStore.permittedActions
+    .filter(
+      (k) =>
+        k.actionKey == "update" ||
+        k.actionKey == "delete" ||
+        k.actionKey == "deleteRestore" ||
+        k.actionKey == "view",
+    )
+    .map((actionBtn) => {
+      const callback = (value: StringUnknownRecord) =>
+        emit("update:submited", value);
+      return slots[`rowActions.${actionBtn.actionKey}`]
+        ? slots[`rowActions.${actionBtn.actionKey}`]!({
+            store: datalistStore,
+            data: record,
+          })
+        : h(AppBtn, {
+            class: "justify-start",
+            action: () => actionBtn.actionFn(callback, record),
+            variant: "text",
+            ...actionBtn,
+          });
+    });
 };
 const actionsMenuRef = ref();
 const renderActionsColumn = (): VNode | VNode[] => {

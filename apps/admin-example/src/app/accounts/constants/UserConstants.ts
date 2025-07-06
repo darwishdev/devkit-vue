@@ -15,25 +15,70 @@ import type { FormKitSchemaNode } from "@formkit/core";
 /* ------------------------------------------------------------------ */
 
 export const ROUTE_PARAM_NAME = "id";
-
+export const FIND_REQUEST_PROP_NAME = "recordId";
+export const FIND_RESPONSE_PROP_NAME = "request";
 export const USER_TITLE = "user";
 export const USER_DESCRIPTION = "user_description";
+// export const USER_ROUTES = {
+//   LIST: "/accounts/user",
+//   CREATE: "/accounts/user/create",
+//   VIEW: `/accounts/user/:${ROUTE_PARAM_NAME}`,
+//   EDIT: `/accounts/user/update/:${ROUTE_PARAM_NAME}`,
+// } as const;
+//
+export const BREADCRUMBS = {
+  ACCOUNTS: { label: "accounts", icon: "user-community-line" } as const,
+  USERS: { label: "users", icon: "user-3-line" } as const,
+  USERS_LINK: {
+    label: "users",
+    icon: "user-3-line",
+    route: "/accounts/user",
+  } as const,
+};
 export const ROUTES = {
-  LIST: "/accounts/user",
-  CREATE: "/accounts/user/create",
-  VIEW: `/accounts/user/:${ROUTE_PARAM_NAME}`,
-  EDIT: `/accounts/user/update/:${ROUTE_PARAM_NAME}`,
-} as const;
-export type UserRoute = (typeof ROUTES)[keyof typeof ROUTES];
+  LIST: {
+    path: "/accounts/user",
+    name: "user_list",
+    breadcrumbs: [BREADCRUMBS.ACCOUNTS, BREADCRUMBS.USERS],
+  },
 
+  CREATE: {
+    path: "/accounts/user/create",
+    name: "user_create",
+    breadcrumbs: [
+      BREADCRUMBS.ACCOUNTS,
+      BREADCRUMBS.USERS_LINK,
+      { label: "user create", icon: "user-add-line" },
+    ],
+  },
+
+  FIND: {
+    path: `/accounts/user/:${ROUTE_PARAM_NAME}`,
+    name: "user_find",
+    breadcrumbs: [
+      BREADCRUMBS.ACCOUNTS,
+      BREADCRUMBS.USERS_LINK,
+      { label: "user details", icon: "eye-line" },
+    ],
+  },
+
+  UPDATE: {
+    path: `/accounts/user/update/:${ROUTE_PARAM_NAME}`,
+    name: "user_update",
+    breadcrumbs: [
+      BREADCRUMBS.ACCOUNTS,
+      BREADCRUMBS.USERS_LINK,
+      { label: "user update", icon: "user-settings-line" },
+    ],
+  },
+} as const;
 /* ------------------------------------------------------------------ */
 /*  API ENDPOINT KEYS (Buf / Connect)                                 */
 /* ------------------------------------------------------------------ */
 export const ENDPOINTS = {
   CREATE_UPDATE: "userCreateUpdate",
-  FIND_FOR_EDIT: "userFindForUpdate",
+  FIND_FOR_UPDATE: "userFindForUpdate",
 } as const;
-export type UserEndpoint = (typeof ENDPOINTS)[keyof typeof ENDPOINTS];
 
 /* ------------------------------------------------------------------ */
 /*  CACHING OR IDENTIFIER KEYS                                        */

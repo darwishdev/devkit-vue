@@ -10,7 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.5.2-20250628034354-70d05966418e.1",
+    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.6.0-20250705114439-1a953883bd4c.1",
     "@connectrpc/connect": "^2.0.2",
     "@connectrpc/connect-web": "^2.0.2",
     "@devkit/admin": "workspace:*",

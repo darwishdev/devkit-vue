@@ -76,7 +76,7 @@ const isDeleteVisibile = computed(
 const isShowDeletedSwitctVisible = computed(
   () =>
     !hideShowDeleted &&
-    (datalistStore.deleteRestoreVariants.hasDeletedRecords ||
+    (datalistStore.datalistQueryResult.data?.deletedRecords.length > 0 ||
       datalistStore.isShowDeletedRef),
 );
 const slots =
@@ -99,19 +99,21 @@ const deleteRestoreButtonProps = computed(() => {
 });
 await datalistStore.init();
 const renderGlobalActions = () => {
-  return datalistStore.permittedActions.globalActions.map((actionBtn) => {
-    const callback = (value: StringUnknownRecord) =>
-      emit("create:submited", value);
-    const slotFn = slots[`globalActions.${actionBtn.actionKey}`];
-    return slotFn
-      ? slotFn({ store: datalistStore })
-      : h(AppBtn, {
-          variant: "outlined",
-          action: () => actionBtn.actionFn(callback),
-          ...actionBtn,
-          key: actionBtn.actionKey,
-        });
-  });
+  return datalistStore.permittedActions
+    .filter((a) => a.actionKey == "create" || a.actionKey == "export")
+    .map((actionBtn) => {
+      const callback = (value: StringUnknownRecord) =>
+        emit("create:submited", value);
+      const slotFn = slots[`globalActions.${actionBtn.actionKey}`];
+      return slotFn
+        ? slotFn({ store: datalistStore })
+        : h(AppBtn, {
+            variant: "outlined",
+            action: () => actionBtn.actionFn(callback),
+            ...actionBtn,
+            key: actionBtn.actionKey,
+          });
+    });
 };
 const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
   if (slots.actions) {

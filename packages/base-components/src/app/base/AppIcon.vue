@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import {  h, inject, ref } from "vue";
+import { h, inject, ref } from "vue";
 import { iconHelper } from "@/index";
-import type { AppIconProps, AppIconSlots } from "@/pkg/types/types";
+import type { AppIconProps } from "@devkit/config";
+import type { AppIconSlots } from "@/pkg/types/types";
 import { ApiEndpoint, resolveApiEndpoint } from "@devkit/apiclient";
 import type { IconFindRequest, IconFindResponse } from "@/pkg/types/api_types";
-const {
-  icon,
-  iconType
-} = defineProps<AppIconProps>();
+const { icon, iconType } = defineProps<AppIconProps>();
 const apiClient = inject("apiClient");
 const iconFindApi =
   inject<ApiEndpoint<any, IconFindRequest, IconFindResponse>>("iconFindApi");
@@ -61,7 +59,7 @@ const renderInnerIcon = () => {
   });
 };
 const renderIcon = () => {
-  if(!topSlot && !bottomSlot) return renderInnerIcon()
+  if (!topSlot && !bottomSlot) return renderInnerIcon();
   return h("span", { class: "icon-wrapper relative" }, [
     topSlot ? topSlot() : undefined,
     renderInnerIcon(),

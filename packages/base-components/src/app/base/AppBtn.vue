@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, h} from "vue";
-import type { AppBtnProps, AppBtnSlots } from "@/pkg/types/types";
+import { computed, h } from "vue";
+import type { AppBtnProps } from "@devkit/config";
+import type { AppBtnSlots } from "@/pkg/types/types";
 import { Button } from "primevue";
 import { RouterLink } from "vue-router";
 import AppIcon from "./AppIcon.vue";
@@ -21,45 +22,63 @@ const {
   iconType,
 } = props;
 const renderAppBtnChildren = () => {
-  if(slots.default) return slots.default()
+  if (slots.default) return slots.default();
   const children = [
-            slots.icon
-              ? slots.icon()
-              : !icon
-                ? undefined
-                : h(AppIcon, {  key: icon , icon, size, color,  iconType }),
-            slots.label
-              ? slots.label()
-              : h("span", locale.value == "ar" ? labelAr || label : label),
-          ]
+    slots.icon
+      ? slots.icon()
+      : !icon
+        ? undefined
+        : h(AppIcon, { key: icon, icon, size, color, iconType }),
+    slots.label
+      ? slots.label()
+      : h("span", locale.value == "ar" ? labelAr || label : label),
+  ];
   if (!slots.end) {
-    return children
-  } 
-  return [
-    h("div" , {
-      class:"flex grow items-center button-wrapper gap-2 start",
-    },
-      children
-    ),
-    slots.end()
-  ]
-}
-const renderAppBtn = computed(() => {
-  const children = renderAppBtnChildren()
-  const action = passedAction || command || route || to
-  if (!action) {
-    return h(Button, { ...props , action: undefined}, children);
+    return children;
   }
-  if ( typeof action == "function") {
-    return h(Button, { ...props , action: undefined, onClick: action as (e:Event) => void }, children);
+  return [
+    h(
+      "div",
+      {
+        class: "flex grow items-center button-wrapper gap-2 start",
+      },
+      children,
+    ),
+    slots.end(),
+  ];
+};
+const renderAppBtn = computed(() => {
+  const children = renderAppBtnChildren();
+  const action = passedAction || command || route || to;
+
+  if (route) {
+    return h(
+      RouterLink,
+      { to: route, class: "flex justify-center items-center gap-2" },
+      children,
+    );
+  }
+  if (!action) {
+    return h(Button, { ...props, action: undefined }, children);
+  }
+  if (typeof action == "function") {
+    return h(
+      Button,
+      { ...props, action: undefined, onClick: action as (e: Event) => void },
+      children,
+    );
   }
   if (action.startsWith("http")) {
     return h("a", { href: action }, children);
   }
-  const routeLink = (route || to )|| action
-  return h(RouterLink, {   to: routeLink , class: 'flex justify-center items-center gap-2'}, children);
+  const routeLink = route || to || action;
+  return h(
+    RouterLink,
+    { to: routeLink, class: "flex justify-center items-center gap-2" },
+    children,
+  );
 });
 </script>
 <template>
-  <component  :is="renderAppBtn" />
+  <component :is="renderAppBtn" />
 </template>

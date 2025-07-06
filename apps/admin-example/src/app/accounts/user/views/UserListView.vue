@@ -35,7 +35,7 @@ const tableProps: DatalistProps<
     columns,
     records: apiClient.userList,
     viewRouter: {
-      name: ROUTES.VIEW,
+      name: ROUTES.FIND.name,
       paramName: ROUTE_PARAM_NAME,
       paramColumnName: USER_ROW_IDENTIFIER,
     },

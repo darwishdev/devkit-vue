@@ -9,6 +9,7 @@ export default {
     "./node_modules/@devkit/filemanager//dist/**/*.{vue,js,ts,jsx,tsx}",
     "./node_modules/@devkit/form/dist/**/*.{vue,js,ts,jsx,tsx}",
     "./node_modules/@devkit/base-components/dist/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@devkit/dataview/dist/**/*.{vue,js,ts,jsx,tsx}",
     "./formkit.theme.ts",
     "./index.html",
   ],

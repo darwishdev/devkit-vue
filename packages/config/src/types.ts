@@ -21,7 +21,66 @@ import type {
   GalleryListResponse,
 } from "./api_types";
 import type { RouteLocationRaw } from "vue-router";
+
 import { ApiEndpoint } from "@devkit/apiclient";
+export type AppIconProps = {
+  icon: string;
+  size?: "small" | "medium" | "large";
+  iconType?: "primevue" | "svg";
+  useReset?: boolean;
+  color?: string;
+};
+export type AppBtnProps = {
+  action?: string | Function;
+  route?: RouteLocationRaw;
+  to?: string;
+  command?: Function;
+  label?: string;
+  labelAr?: string;
+  icon?: string | undefined;
+  iconPos?: "left" | "right" | "top" | "bottom" | undefined;
+  iconClass?: string | object | undefined;
+  badge?: string | undefined;
+  badgeClass?: string | object | undefined;
+  badgeSeverity?:
+    | "secondary"
+    | "info"
+    | "success"
+    | "warn"
+    | "danger"
+    | "contrast"
+    | null
+    | undefined;
+  loading?: boolean | undefined;
+  loadingIcon?: string | undefined;
+  as?: string | object | undefined;
+  asChild?: boolean | undefined;
+  disabled?: boolean;
+  link?: boolean | undefined;
+  severity?:
+    | "secondary"
+    | "success"
+    | "info"
+    | "warn"
+    | "help"
+    | "danger"
+    | "contrast"
+    | undefined;
+  raised?: boolean | undefined;
+  rounded?: boolean | undefined;
+  text?: boolean | undefined;
+  outlined?: boolean | undefined;
+  size?: "small" | "large" | undefined;
+  plain?: boolean | undefined;
+  fluid?: boolean | undefined;
+  dt?: any;
+  pt?: any;
+  key?: string;
+  ptOptions?: any;
+  unstyled?: boolean;
+  variant?: "outlined" | "text" | "link";
+} & Partial<AppIconProps>;
+
 export type CacheOptions = {
   cacheKey: string;
   bypassCache?: boolean;
@@ -217,3 +276,99 @@ export type AppFormOptions = {
   isSuccessNotificationHidden?: boolean;
   isFormTransparent?: boolean;
 };
+
+export type DeleteRestoreVariant = AppBtnProps & {
+  disabled: boolean;
+  hasSelectedData: boolean;
+  hasDeletedRecords: boolean;
+  empty: string;
+};
+export type CreateHandler = {
+  title: string;
+  redirectRoute: string;
+  routeName: string;
+  endpoint: string;
+  redirectRouteParamName?: string;
+};
+
+export type UpdateHandler = {
+  title: string;
+  redirectRoute: string;
+  redirectRouteParamName?: string;
+  routeName: string;
+  endpoint: string;
+  findEndpoint: string;
+  findRequestProperty: string;
+  findResponseProperty: string;
+};
+
+export type DeleteHandler = {
+  endpoint: string;
+  requestProperty: string;
+};
+
+export type ImportHandler = {
+  endpoint: string;
+  importTemplateLink: string;
+};
+
+export type ApiOptions = {
+  title: string;
+  description?: string;
+  totalCount?: number;
+  createHandler?: CreateHandler;
+  updateHandler?: UpdateHandler;
+  deleteRestoreHandler?: DeleteHandler;
+  deleteHandler?: DeleteHandler;
+  importHandler?: ImportHandler;
+};
+
+export type PaginationParams = {
+  sortColumn?: string;
+  sortFunction?: string;
+  isDeleted?: boolean;
+  pageSize?: number;
+  pageNumber?: number;
+};
+
+export type DisplayType = "card" | "table" | "list";
+
+export type FilterMatchModeValues =
+  | "startsWith"
+  | "contains"
+  | "notContains"
+  | "endsWith"
+  | "equals"
+  | "notEquals"
+  | "in"
+  | "lt"
+  | "lte"
+  | "gt"
+  | "gte"
+  | "between"
+  | "dateIs"
+  | "dateIsNot"
+  | "dateBefore"
+  | "dateAfter";
+export type DatalistRequest = {
+  filters?: Record<string, unknown>;
+  paginationParams?: PaginationParams;
+};
+export type DataRouter<TRecord extends Record<string, unknown>> = {
+  name: string;
+  paramName: string;
+  paramColumnName: keyof TRecord;
+};
+
+export type AvailableActions = {
+  delete?: ActionButtonProps;
+  deleteRestore?: ActionButtonProps;
+  create?: ActionButtonProps;
+  update?: ActionButtonProps;
+  view?: ActionButtonProps;
+  export?: ActionButtonProps;
+};
+export type ActionButtonProps<TAvailableKeys = AvailableActions> = Omit<
+  AppBtnProps,
+  "action"
+> & { actionFn: Function; actionKey: keyof TAvailableKeys };

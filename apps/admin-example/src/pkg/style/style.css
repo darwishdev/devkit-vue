@@ -250,3 +250,11 @@ input::placeholder {
 .p-button-icon-only {
   justify-content: center;
 }
+td .fallback-icon {
+  width: 50px !important;
+  height: 50px;
+}
+svg {
+  width: inherit;
+  height: inherit;
+}

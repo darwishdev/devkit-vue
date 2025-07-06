@@ -1,71 +1,36 @@
+import { ROUTES as USER_ROUTES } from "./constants/UserConstants";
+
 export default [
   {
-    path: "/accounts/role",
-    name: "roles_list",
-    component: import("./role/views/RoleListView.vue"),
-    meta: {
-      breadcrumbs: [
-        {
-          label: "accounts",
-          icon: "user-community-line",
-        },
-        {
-          label: "roles",
-          icon: "award-line",
-        },
-      ],
-    },
-  },
-
-  {
-    path: "/accounts/user",
-    name: "user_list",
+    path: USER_ROUTES.LIST.path,
+    name: USER_ROUTES.LIST.name,
     component: import("./user/views/UserListView.vue"),
     meta: {
-      breadcrumbs: [
-        {
-          label: "accounts",
-          icon: "user-community-line",
-        },
-        {
-          label: "users",
-          icon: "user-3-line",
-        },
-      ],
+      breadcrumbs: USER_ROUTES.LIST.breadcrumbs,
     },
   },
   {
-    path: "/accounts/user/create",
-    name: "user_create",
-    component: import("./user/views/UserCreateView.vue"),
-    meta: {
-      breadcrumbs: [
-        {
-          label: "accounts",
-          icon: "user-community-line",
-        },
-        {
-          label: "users",
-          icon: "user-3-line",
-          route: "/accounts/user",
-        },
-        {
-          label: "user create",
-          icon: "user-add-line",
-        },
-      ],
-    },
+    path: USER_ROUTES.CREATE.path,
+    name: USER_ROUTES.CREATE.name,
+    component: () => import("./user/views/UserCreateView.vue"),
+    meta: { breadcrumbs: USER_ROUTES.CREATE.breadcrumbs },
   },
   {
-    path: "/accounts/user/:id",
-    name: "user_update",
-    component: import("./user/views/UserUpdateView.vue"),
-    meta: {
-      breadcrumbs: [
-        { label: "accounts", icon: "user-community-line" },
-        { label: "users", icon: "user-3-line", route: "/accounts/user" },
-        { label: "user update", icon: "user-settings-line" },
-      ],
-    },
+    path: USER_ROUTES.UPDATE.path,
+    name: USER_ROUTES.UPDATE.name,
+    component: () => import("./user/views/UserUpdateView.vue"),
+    meta: { breadcrumbs: USER_ROUTES.UPDATE.breadcrumbs },
+  },
+  {
+    path: USER_ROUTES.CREATE.path,
+    name: USER_ROUTES.CREATE.name,
+    component: () => import("./user/views/UserCreateView.vue"),
+    meta: { breadcrumbs: USER_ROUTES.CREATE.breadcrumbs },
+  },
+  {
+    path: USER_ROUTES.FIND.path,
+    name: USER_ROUTES.FIND.name,
+    component: () => import("./user/views/UserFindView.vue"),
+    meta: { breadcrumbs: USER_ROUTES.FIND.breadcrumbs },
   },
 ];

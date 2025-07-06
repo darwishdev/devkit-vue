@@ -1,102 +1,111 @@
 import { type VNode } from "vue";
 import { ColumnSlots, type ColumnProps } from "primevue/column";
-import { AppFormSections, GridConfig } from "@devkit/config";
+import {
+  AppFormSections,
+  GridConfig,
+  ApiOptions,
+  FilterMatchModeValues,
+  DataRouter,
+  DisplayType,
+  AvailableActions,
+} from "@devkit/config";
 import { ApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
 import { useDatalistStore } from "./store/DatalistStore";
 import { AppBtnProps } from "@devkit/base-components";
 import type { DataTableFilterMetaData, DataTableProps } from "primevue";
 import type { FormKitSchemaNode } from "@formkit/core";
-export type DatalistFilterInput<TReq> = FormKitSchemaNode;
-export type DatalistFilter<TFiltersReq> = {
+import { FormKitSetupContext } from "@formkit/vue";
+// export type DatalistFilterInput<TReq> = FormKitSchemaNode;
+export type DatalistFilter = {
   isGlobal?: boolean;
   input: FormKitSchemaNode;
   matchMode: FilterMatchModeValues;
 };
 export type DatalistFiltersModel = Record<string, DataTableFilterMetaData>;
-
-export type DeleteRestoreVariant = AppBtnProps & {
-  disabled: boolean;
-  hasSelectedData: boolean;
-  hasDeletedRecords: boolean;
-  empty: string;
-};
-export type CreateHandler = {
-  title: string;
-  redirectRoute: string;
-  routeName: string;
-  endpoint: string;
-  redirectRouteParamName?: string;
-};
-
-export type UpdateHandler = {
-  title: string;
-  redirectRoute: string;
-  redirectRouteParamName?: string;
-  routeName: string;
-  endpoint: string;
-  findEndpoint: string;
-  findRequestProperty: string;
-  findResponseProperty: string;
-};
-
-export type DeleteHandler = {
-  endpoint: string;
-  requestProperty: string;
-};
-
-export type ImportHandler = {
-  endpoint: string;
-  importTemplateLink: string;
-};
-
-export type ApiListOptions = {
-  title: string;
-  description?: string;
-  totalCount?: number;
-  createHandler?: CreateHandler;
-  updateHandler?: UpdateHandler;
-  deleteRestoreHandler?: DeleteHandler;
-  deleteHandler?: DeleteHandler;
-  importHandler?: ImportHandler;
-};
-
-export type ApiResponseList<TRecord extends Record<string, unknown>> = {
-  records: TRecord[];
-  deletedRecords?: TRecord[];
-  options?: ApiListOptions;
-};
-
-export type PaginationParams = {
-  sortColumn?: string;
-  sortFunction?: string;
-  isDeleted?: boolean;
-  pageSize?: number;
-  pageNumber?: number;
-};
-
-export type DisplayType = "card" | "table" | "list";
-
-export type FilterMatchModeValues =
-  | "startsWith"
-  | "contains"
-  | "notContains"
-  | "endsWith"
-  | "equals"
-  | "notEquals"
-  | "in"
-  | "lt"
-  | "lte"
-  | "gt"
-  | "gte"
-  | "between"
-  | "dateIs"
-  | "dateIsNot"
-  | "dateBefore"
-  | "dateAfter";
-export type DatalistRequest = {
-  filters?: Record<string, unknown>;
-  paginationParams?: PaginationParams;
-};
+//
+// export type DeleteRestoreVariant = AppBtnProps & {
+//   disabled: boolean;
+//   hasSelectedData: boolean;
+//   hasDeletedRecords: boolean;
+//   empty: string;
+// };
+// export type CreateHandler = {
+//   title: string;
+//   redirectRoute: string;
+//   routeName: string;
+//   endpoint: string;
+//   redirectRouteParamName?: string;
+// };
+//
+// export type UpdateHandler = {
+//   title: string;
+//   redirectRoute: string;
+//   redirectRouteParamName?: string;
+//   routeName: string;
+//   endpoint: string;
+//   findEndpoint: string;
+//   findRequestProperty: string;
+//   findResponseProperty: string;
+// };
+//
+// export type DeleteHandler = {
+//   endpoint: string;
+//   requestProperty: string;
+// };
+//
+// export type ImportHandler = {
+//   endpoint: string;
+//   importTemplateLink: string;
+// };
+//
+// export type ApiListOptions = {
+//   title: string;
+//   description?: string;
+//   totalCount?: number;
+//   createHandler?: CreateHandler;
+//   updateHandler?: UpdateHandler;
+//   deleteRestoreHandler?: DeleteHandler;
+//   deleteHandler?: DeleteHandler;
+//   importHandler?: ImportHandler;
+// };
+//
+// export type ApiResponseList<TRecord extends Record<string, unknown>> = {
+//   records: TRecord[];
+//   deletedRecords?: TRecord[];
+//   options?: ApiListOptions;
+// };
+//
+// export type PaginationParams = {
+//   sortColumn?: string;
+//   sortFunction?: string;
+//   isDeleted?: boolean;
+//   pageSize?: number;
+//   pageNumber?: number;
+// };
+//
+// export type DisplayType = "card" | "table" | "list";
+//
+// export type FilterMatchModeValues =
+//   | "startsWith"
+//   | "contains"
+//   | "notContains"
+//   | "endsWith"
+//   | "equals"
+//   | "notEquals"
+//   | "in"
+//   | "lt"
+//   | "lte"
+//   | "gt"
+//   | "gte"
+//   | "between"
+//   | "dateIs"
+//   | "dateIsNot"
+//   | "dateBefore"
+//   | "dateAfter";
+// export type DatalistRequest = {
+//   filters?: Record<string, unknown>;
+//   paginationParams?: PaginationParams;
+// };
 export type DatalistMappers<
   TReq extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
@@ -104,34 +113,35 @@ export type DatalistMappers<
   requestMapper?: (req: DatalistRequest) => TReq;
   responseMapper?: (response: StringUnknownRecord) => ApiResponseList<TRecord>;
 };
-export type DatalistRouter<TRecord extends Record<string, unknown>> = {
-  name: string;
-  paramName: string;
-  paramColumnName: keyof TRecord;
-};
+// export type DatalistRouter<TRecord extends Record<string, unknown>> = {
+//   name: string;
+//   paramName: string;
+//   paramColumnName: keyof TRecord;
+// };
+//
+// export type ActionButtonProps<TAvailableKeys = DatalistAvailableActions> = Omit<
+//   AppBtnProps,
+//   "action"
+// > & { actionFn: Function; actionKey: keyof TAvailableKeys };
+export type DatalistCommonActions = Pick<
+  AvailableActions,
+  "delete" | "deleteRestore"
+>;
+export type DatalistGlobalActions = DatalistCommonActions &
+  Pick<AvailableActions, "create" | "export">;
+export type DatalistRowActions = DatalistCommonActions &
+  Pick<AvailableActions, "update" | "view">;
 
-export type ActionButtonProps<TAvailableKeys = DatalistAvailableActions> = Omit<
-  AppBtnProps,
-  "action"
-> & { actionFn: Function; actionKey: keyof TAvailableKeys };
-export type DatalistCommonActions = {
-  delete?: ActionButtonProps;
-  deleteRestore?: ActionButtonProps;
-};
-export type DatalistGlobalActions = DatalistCommonActions & {
-  create?: ActionButtonProps;
-  export?: ActionButtonProps;
-};
-export type DatalistRowActions = DatalistCommonActions & {
-  update?: ActionButtonProps;
-  view?: ActionButtonProps;
-};
-
-export type DatalistAvailableActions = DatalistGlobalActions &
-  DatalistRowActions;
-export type PaginatedQueryRequest = {
-  filters: Record<string, unknown>;
-  paginationParams: PaginationParams;
+// export type DatalistAvailableActions = DatalistGlobalActions &
+//   DatalistRowActions;
+// export type PaginatedQueryRequest = {
+//   filters: Record<string, unknown>;
+//   paginationParams: PaginationParams;
+// };
+export type ApiResponseList<TRecord extends Record<string, unknown>> = {
+  records: TRecord[];
+  deletedRecords?: TRecord[];
+  options?: ApiOptions;
 };
 export type DatalistRecords<
   TApi extends Record<string, Function>,
@@ -168,7 +178,7 @@ export type DatalistColumnBase<
   props?: ColumnProps;
   slots?: ColumnSlots;
   isGlobalFilter?: boolean;
-  router?: DatalistRouter<TRecord>;
+  router?: DataRouter<TRecord>;
   editInput?: FormKitSchemaNode;
   renderHtml?: (value: TRecord) => VNode;
 };
@@ -177,13 +187,13 @@ export type DatalistColumnClientSide<
   TRecord extends Record<string, unknown>,
   TFiltersReq extends StringUnknownRecord | undefined = undefined,
 > = DatalistColumnBase<TRecord, TFiltersReq> & {
-  filters?: DatalistFilter<TFiltersReq>[];
+  filters?: FormKitSchemaNode[];
 };
 export type DatalistColumnServerSide<
   TRecord extends Record<string, unknown>,
   TFiltersReq extends StringUnknownRecord | undefined = undefined,
 > = DatalistColumnBase<TRecord, TFiltersReq> & {
-  filters?: DatalistFilterInput<TFiltersReq>[];
+  filters?: FormKitSchemaNode[];
 };
 
 export type DatalistColumnsClientSide<
@@ -216,7 +226,7 @@ export type DatalistContext<
     title?: string;
     gridConfig?: GridConfig;
     records: DatalistRecords<TApi, TReq, TRecord, TFiltersReq, TApiResponse>;
-    options?: ApiListOptions;
+    options?: ApiOptions;
     formSections?: AppFormSections<
       TFormSectionsRequest extends undefined
         ? StringUnknownRecord
@@ -228,18 +238,18 @@ export type DatalistContext<
     isSelectionHidden?: boolean;
     debounceInMilliseconds?: number;
     rowIdentifier?: keyof TRecord;
-    viewRouter?: DatalistRouter<TRecord>;
+    viewRouter?: DataRouter<TRecord>;
     initiallySelectedItems?: TRecord[];
   } & (
     | {
         isServerSide?: true;
         columns?: DatalistColumnsServerSide<TRecord, TFiltersReq>;
-        filters?: DatalistFilterInput<TFiltersReq>[];
+        filters?: FormKitSchemaNode[];
       }
     | {
         isServerSide?: false;
         columns?: DatalistColumnsClientSide<TRecord, TFiltersReq>;
-        filters?: DatalistFilter<TFiltersReq>[];
+        filters?: FormKitSchemaNode[];
       }
   );
 

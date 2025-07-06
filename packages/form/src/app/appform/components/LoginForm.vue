@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="TApi extends Record<string, Function>">
-import { AppForm, AppFormProps } from "@/app/appform";
+import { AppFormProps } from "@devkit/config";
+import AppForm from "../AppForm.vue";
 import {
   AuthLoginProviderRequest,
   AuthLoginRequest,
@@ -34,6 +35,9 @@ const loginFormProps: AppFormProps<
     },
     sections: {
       login: {
+        gridConfig: {
+          columns: 1,
+        },
         inputs: loginSectionInputs,
       },
     },
