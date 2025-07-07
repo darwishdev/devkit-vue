@@ -32,7 +32,7 @@ export const BREADCRUMBS = {
   USERS_LINK: {
     label: "users",
     icon: "user-3-line",
-    route: "/accounts/user",
+    to: "/accounts/user",
   } as const,
 };
 export const ROUTES = {
@@ -103,17 +103,6 @@ export const userNameInput: FormKitSchemaNode & { name: "userName" } = {
   placeholder: "userName",
   validation: "required",
 };
-export const userSecurityLevelInput: FormKitSchemaNode & {
-  name: "userSecurityLevel";
-} = {
-  $formkit: "number",
-  prefixIcon: "shield-keyhole-line", // 🛡️ optional: pick any icon you prefer
-  name: "userSecurityLevel",
-  value: 1,
-  label: "userSecurityLevel",
-  placeholder: "userSecurityLevel",
-  validation: "required|number",
-};
 export const userEmailInput: FormKitSchemaNode & { name: "userEmail" } = {
   $formkit: "text",
   prefixIcon: "mail-line", // ✉️
@@ -121,6 +110,20 @@ export const userEmailInput: FormKitSchemaNode & { name: "userEmail" } = {
   label: "userEmail",
   placeholder: "userEmail",
   validation: "required",
+};
+export const userRolesInput: FormKitSchemaNode & {
+  name: "roles";
+} = {
+  $formkit: "devkitDropdown",
+
+  fluid: true,
+  multiple: true,
+  prefixIcon: "shield-keyhole-line", // 🛡️ optional: pick any icon you prefer
+  name: "roles",
+  options: "roleListInput",
+  label: "roles",
+  placeholder: "roles",
+  validation: "",
 };
 
 export const userTypeInput: FormKitSchemaNode & { name: "userTypeId" } = {
@@ -187,7 +190,7 @@ export const baseDateRangeInput: FormKitSchemaNode = {
 export const USER_BASE_INPUTS = [
   userNameInput,
   userEmailInput,
-  userSecurityLevelInput,
+  userRolesInput,
   userTypeInput,
   tenantInput,
   userPhoneInput,

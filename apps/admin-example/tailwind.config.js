@@ -31,10 +31,6 @@ export default {
       variants: ["sm", "md", "lg", "xl"],
     },
     {
-      pattern: /^baseis-(?:[1-9]|1[0-2])$/,
-      variants: ["sm", "md", "lg", "xl"],
-    },
-    {
       pattern: /^grid-cols-(?:[1-9]|1[0-2])$/,
       variants: ["sm", "md", "lg", "xl"],
     },
