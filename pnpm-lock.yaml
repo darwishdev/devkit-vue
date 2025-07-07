@@ -158,8 +158,8 @@ importers:
   apps/docs:
     dependencies:
       '@buf/ahmeddarwish_devkit-api.bufbuild_es':
-        specifier: 2.5.2-20250628034354-70d05966418e.1
-        version: 2.5.2-20250628034354-70d05966418e.1(@bufbuild/protobuf@2.5.2)
+        specifier: 2.6.0-20250705114439-1a953883bd4c.1
+        version: 2.6.0-20250705114439-1a953883bd4c.1(@bufbuild/protobuf@2.5.2)
       '@connectrpc/connect':
         specifier: ^2.0.2
         version: 2.0.2(@bufbuild/protobuf@2.5.2)
@@ -1062,20 +1062,10 @@ packages:
     resolution: {integrity: sha512-ETyHEk2VHHvl9b9jZP5IHPavHYk57EhanlRRuae9XCpb/j5bDCbPPMOBfCWhnl/7EDJz0jEMCi/RhccCE8r1+Q==}
     engines: {node: '>=6.9.0'}
 
-  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.5.2-20250628034354-70d05966418e.1':
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/ahmeddarwish_devkit-api.bufbuild_es/-/ahmeddarwish_devkit-api.bufbuild_es-2.5.2-20250628034354-70d05966418e.1.tgz}
-    peerDependencies:
-      '@bufbuild/protobuf': ^2.5.2
-
   '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250705114439-1a953883bd4c.1':
     resolution: {tarball: https://buf.build/gen/npm/v1/@buf/ahmeddarwish_devkit-api.bufbuild_es/-/ahmeddarwish_devkit-api.bufbuild_es-2.6.0-20250705114439-1a953883bd4c.1.tgz}
     peerDependencies:
       '@bufbuild/protobuf': ^2.6.0
-
-  '@buf/bufbuild_protovalidate.bufbuild_es@2.5.2-20240920164238-5a7b106cbb87.1':
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/bufbuild_protovalidate.bufbuild_es/-/bufbuild_protovalidate.bufbuild_es-2.5.2-20240920164238-5a7b106cbb87.1.tgz}
-    peerDependencies:
-      '@bufbuild/protobuf': ^2.5.2
 
   '@buf/bufbuild_protovalidate.bufbuild_es@2.6.0-20240920164238-5a7b106cbb87.1':
     resolution: {tarball: https://buf.build/gen/npm/v1/@buf/bufbuild_protovalidate.bufbuild_es/-/bufbuild_protovalidate.bufbuild_es-2.6.0-20240920164238-5a7b106cbb87.1.tgz}
@@ -4512,18 +4502,9 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.5.2-20250628034354-70d05966418e.1(@bufbuild/protobuf@2.5.2)':
-    dependencies:
-      '@buf/bufbuild_protovalidate.bufbuild_es': 2.5.2-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.5.2)
-      '@bufbuild/protobuf': 2.5.2
-
   '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250705114439-1a953883bd4c.1(@bufbuild/protobuf@2.5.2)':
     dependencies:
       '@buf/bufbuild_protovalidate.bufbuild_es': 2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.5.2)
-      '@bufbuild/protobuf': 2.5.2
-
-  '@buf/bufbuild_protovalidate.bufbuild_es@2.5.2-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.5.2)':
-    dependencies:
       '@bufbuild/protobuf': 2.5.2
 
   '@buf/bufbuild_protovalidate.bufbuild_es@2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.5.2)':

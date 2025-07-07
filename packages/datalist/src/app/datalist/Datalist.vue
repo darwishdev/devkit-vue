@@ -73,12 +73,13 @@ const isDeleteVisibile = computed(
     datalistStore.optionsInUse.deleteHandler &&
     (hideShowDeleted || datalistStore.isShowDeletedRef),
 );
-const isShowDeletedSwitctVisible = computed(
-  () =>
+const isShowDeletedSwitctVisible = computed(() => {
+  const deleted = datalistStore.datalistQueryResult.data?.deletedRecords;
+  return (
     !hideShowDeleted &&
-    (datalistStore.datalistQueryResult.data?.deletedRecords.length > 0 ||
-      datalistStore.isShowDeletedRef),
-);
+    ((deleted && deleted.length > 0) || datalistStore.isShowDeletedRef)
+  );
+});
 const slots =
   defineSlots<
     DatalistSlots<
@@ -104,7 +105,9 @@ const renderGlobalActions = () => {
     .map((actionBtn) => {
       const callback = (value: StringUnknownRecord) =>
         emit("create:submited", value);
-      const slotFn = slots[`globalActions.${actionBtn.actionKey}`];
+      const slotKey =
+        `globalActions.${actionBtn.actionKey as "create" | "export"}` as const;
+      const slotFn = slots[slotKey];
       return slotFn
         ? slotFn({ store: datalistStore })
         : h(AppBtn, {

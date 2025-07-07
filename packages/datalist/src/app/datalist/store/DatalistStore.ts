@@ -2,7 +2,6 @@ import { ref, computed, inject, type Ref } from "vue";
 import { defineStore, getActivePinia } from "pinia";
 import {
   ApiOptions,
-  DeleteRestoreVariant,
   FilterMatchModeValues,
   PaginationParams,
 } from "@devkit/config";
@@ -20,13 +19,9 @@ import {
   StringUnknownRecord,
 } from "@devkit/apiclient";
 import { _constructColumns } from "../utilites/_columnUtils";
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/vue-query";
+import { keepPreviousData, useQuery } from "@tanstack/vue-query";
 import { objectEntries, useDebounceFn } from "@vueuse/core";
-import { useDialog, useToast } from "primevue";
+import { useToast } from "primevue";
 import { AppFormProps } from "@devkit/config";
 import { useFormKitNodeById } from "@formkit/vue";
 import { useActions } from "../composabales/ActionsComposable";
@@ -66,11 +61,10 @@ export const useDatalistStore = <
     const apiClient = inject<TApi>("apiClient");
     const debounceInMilliseconds = context.debounceInMilliseconds || 1000;
     const paginationParamsRef = ref<PaginationParams>();
-    const dialog = useDialog();
     const globalFilters: string[] = [];
-    const queryClient = useQueryClient();
-    const datatableColumnsRef: Ref<DatalistColumnsBase<TRecord, TFiltersReq>> =
-      ref(context.columns || {});
+    const datatableColumnsRef: Ref<DatalistColumnsBase<TRecord>> = ref(
+      context.columns || {},
+    );
     const errorRef = ref("");
     const filtersFormKey = `${context.datalistKey}-filter-form`;
     const { datalistKey, isServerSide } = context;
@@ -217,43 +211,62 @@ export const useDatalistStore = <
 
     const generateFilters = async () => {
       if (filtersFormSchema.length > 0) return;
+
       const { filters, columns } = context;
+
       let allFiltersCombined: (FormKitSchemaNode | DatalistFilter)[] = [
         ...(filters || []),
       ];
+
       if (columns) {
         for (const [columnKey, columnValue] of objectEntries(columns)) {
           if (!columnValue) continue;
-          if (columnKey == "deletedAt" && !isShowDeletedRef.value) continue;
+          if (columnKey === "deletedAt" && !isShowDeletedRef.value) continue;
+
           if (columnValue.isGlobalFilter) {
             globalFilters.push(columnKey as string);
           }
+
           datatableColumnsRef.value[columnKey] = columnValue;
+
           const columnFilters = columnValue.filters;
           if (columnFilters) {
             allFiltersCombined = [...allFiltersCombined, ...columnFilters];
           }
         }
       }
-      allFiltersCombined.forEach(
-        (filter: FormKitSchemaNode | DatalistFilter) => {
-          if (typeof filter != "string") {
-            const inputField = "input" in filter ? filter.input : filter;
-            console.log("filters is", filter);
-            if ("isGlobal" in filter) {
-              if (filter.isGlobal) {
-                globalFilters.push(inputField.name);
-              }
-            }
-            if ("matchMode" in filter)
-              filtersMatchModesMap.set(inputField.name, filter.matchMode);
-            filtersFormSchema.push(inputField);
-          }
-        },
-      );
 
-      if (globalFilters.length)
-        filtersFormSchema.push({ $formkit: "hidden", name: "global" });
+      allFiltersCombined.forEach((filter) => {
+        if (typeof filter !== "string") {
+          const inputField = "input" in filter ? filter.input : filter;
+
+          if (
+            typeof inputField === "object" &&
+            inputField !== null &&
+            "name" in inputField &&
+            typeof inputField.name === "string"
+          ) {
+            if ("isGlobal" in filter && filter.isGlobal) {
+              globalFilters.push(inputField.name);
+            }
+
+            if ("matchMode" in filter) {
+              filtersMatchModesMap.set(inputField.name, filter.matchMode);
+            }
+
+            filtersFormSchema.push(
+              inputField as FormKitSchemaNode & { name: string },
+            );
+          }
+        }
+      });
+
+      if (globalFilters.length > 0) {
+        filtersFormSchema.push({
+          $formkit: "hidden",
+          name: "global",
+        } as FormKitSchemaNode & { name: string });
+      }
     };
 
     const formElementNode = useFormKitNodeById(filtersFormKey);

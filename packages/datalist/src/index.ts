@@ -7,6 +7,7 @@ export type DevkitDatalistConfig<TApi extends Record<string, Function>> = {
   authHandler?: AuthHandler<TApi>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DevkitDatalistPlugin: Plugin<DevkitDatalistConfig<any>> = {
   install<TApi extends Record<string, Function>>(
     app: App,

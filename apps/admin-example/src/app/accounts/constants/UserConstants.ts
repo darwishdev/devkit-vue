@@ -22,8 +22,8 @@ export const USER_DESCRIPTION = "user_description";
 // export const USER_ROUTES = {
 //   LIST: "/accounts/user",
 //   CREATE: "/accounts/user/create",
-//   VIEW: `/accounts/user/:${ROUTE_PARAM_NAME}`,
-//   EDIT: `/accounts/user/update/:${ROUTE_PARAM_NAME}`,
+//   VIEW: /accounts/user/:${ROUTE_PARAM_NAME},
+//   EDIT: /accounts/user/update/:${ROUTE_PARAM_NAME},
 // } as const;
 //
 export const BREADCRUMBS = {
@@ -43,7 +43,7 @@ export const ROUTES = {
   },
 
   CREATE: {
-    path: "/accounts/user/create",
+    path: `/accounts/user/create`,
     name: "user_create",
     breadcrumbs: [
       BREADCRUMBS.ACCOUNTS,
@@ -103,7 +103,17 @@ export const userNameInput: FormKitSchemaNode & { name: "userName" } = {
   placeholder: "userName",
   validation: "required",
 };
-
+export const userSecurityLevelInput: FormKitSchemaNode & {
+  name: "userSecurityLevel";
+} = {
+  $formkit: "number",
+  prefixIcon: "shield-keyhole-line", // 🛡️ optional: pick any icon you prefer
+  name: "userSecurityLevel",
+  value: 1,
+  label: "userSecurityLevel",
+  placeholder: "userSecurityLevel",
+  validation: "required|number",
+};
 export const userEmailInput: FormKitSchemaNode & { name: "userEmail" } = {
   $formkit: "text",
   prefixIcon: "mail-line", // ✉️
@@ -177,6 +187,7 @@ export const baseDateRangeInput: FormKitSchemaNode = {
 export const USER_BASE_INPUTS = [
   userNameInput,
   userEmailInput,
+  userSecurityLevelInput,
   userTypeInput,
   tenantInput,
   userPhoneInput,
@@ -316,5 +327,3 @@ export const USER_COLUMNS_MAP = {
   updatedAt: colUpdatedAt,
   deletedAt: colDeletedAt,
 } as const satisfies DatalistColumnsBase<AccountsSchemaUserView>;
-
-/* Unique identifier key */

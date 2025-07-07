@@ -2,10 +2,10 @@ import { ref, computed, h, inject, type Ref, type ComputedRef } from "vue";
 import { useRouter, type RouteParamsRaw } from "vue-router";
 import { useToast } from "primevue";
 import { useDialog } from "primevue";
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { useMutation } from "@tanstack/vue-query";
 import { resolveApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
 import { objectEntries } from "@vueuse/core";
-import { AppBtn, AppDialog } from "@devkit/base-components";
+import { AppDialog } from "@devkit/base-components";
 import { AppForm } from "@devkit/form";
 import {
   ActionButtonProps,
@@ -22,9 +22,7 @@ import {
 /* ------------------------------------------------------------------ */
 export function useActions<
   TApi extends Record<string, Function>,
-  TReq extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
-  TApiResponse extends StringUnknownRecord | undefined = undefined,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
 >({
   options,
@@ -56,7 +54,7 @@ export function useActions<
   const router = useRouter();
   const toast = useToast();
   const dialog = useDialog();
-  const queryClient = useQueryClient();
+  //const queryClient = useQueryClient();
   const deleteRestoreVariants = computed(() => {
     const initialVariant: DeleteRestoreVariant = {
       hasSelectedData: modelSelectionRef.value.length > 0,
@@ -98,7 +96,7 @@ export function useActions<
 
   const deleteMutation = useMutation({
     mutationFn: deleteRestoreMutationFn,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: dataKeys }),
+    onSuccess: () => {},
   });
 
   const deleteRestoreOpenDialog = (params?: {
@@ -106,22 +104,41 @@ export function useActions<
     callback?: () => void;
     isHardDelete?: boolean;
   }) => {
-    console.log("hadrdddd", params?.record);
+    console.log("hadrdddd", params);
+    console.log("hadrdddd", params?.callback);
+
     dialog.open(
       h(
         AppDialog,
         {
           onConfirmed: ({ close }) => {
-            deleteMutation.mutateAsync(params || {}).finally(() => {
-              close();
-              modelSelectionRef.value = [];
-              toast.add({ detail: "deleted_succesfully", severity: "success" });
-              if (params?.callback) {
-                params.callback();
-              }
-            });
+            deleteMutation
+              .mutateAsync(params || {})
+              .then(() => {
+                toast.add({
+                  summary: "deleted_succesfully",
+                  detail: "deleted_succesfully_description",
+                  severity: "success",
+                });
+
+                modelSelectionRef.value = [];
+              })
+              .catch((e) => {
+                toast.add({
+                  summary: "error",
+                  detail: e,
+                  severity: "error",
+                });
+              })
+              .finally(() => {
+                close();
+                if (params?.callback) {
+                  params.callback();
+                }
+              });
           },
         },
+
         { default: () => h("div", [h("h2", "Are you sure?")]) },
       ),
     );

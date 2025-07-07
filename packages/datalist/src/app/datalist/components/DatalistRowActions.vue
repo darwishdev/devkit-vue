@@ -53,8 +53,10 @@ const renderRowActions = (record: TRecord) => {
     .map((actionBtn) => {
       const callback = (value: StringUnknownRecord) =>
         emit("update:submited", value);
-      return slots[`rowActions.${actionBtn.actionKey}`]
-        ? slots[`rowActions.${actionBtn.actionKey}`]!({
+
+      const slotKey = `rowActions.${actionBtn.actionKey}` as keyof typeof slots;
+      return slots[slotKey]
+        ? slots[slotKey]!({
             store: datalistStore,
             data: record,
           })
@@ -68,7 +70,7 @@ const renderRowActions = (record: TRecord) => {
 };
 const actionsMenuRef = ref();
 const renderActionsColumn = (): VNode | VNode[] => {
-  const children: any[] = [];
+  const children: (VNode | VNode[])[] = [];
   if (slots.actionsPrepend) {
     children[0] = slots.actionsPrepend({ data });
   }
@@ -87,7 +89,7 @@ const renderActionsColumn = (): VNode | VNode[] => {
           severity: "danger",
           variant: "text",
         });
-    children.push(deleteBtn);
+    if (deleteBtn) children.push(deleteBtn);
   }
   if (datalistStore.optionsInUse.deleteRestoreHandler) {
     const deleteBtn = slots["rowActions.deleteRestore"]
@@ -102,7 +104,7 @@ const renderActionsColumn = (): VNode | VNode[] => {
             }),
         });
 
-    children.push(deleteBtn);
+    if (deleteBtn) children.push(deleteBtn);
   }
 
   return isActionsDropdown

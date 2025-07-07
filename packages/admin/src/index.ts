@@ -11,7 +11,7 @@ import { registerDevkitDatalist } from "./plugins/datalist";
 import { registerDevkitFilemanager } from "./plugins/filemanager";
 import { registerDevkitForm } from "./plugins/form";
 import { registerDevkitDataView } from "./plugins/dataview";
-
+export * from "./types";
 export type DevkitAdminConfig<TApi extends Record<string, Function>> = {
   apiClient: TApi;
   baseImageUrl?: string;

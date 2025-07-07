@@ -8,14 +8,12 @@ import {
   DataRouter,
   DisplayType,
   AvailableActions,
+  PaginationParams,
 } from "@devkit/config";
 import { ApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
 import { useDatalistStore } from "./store/DatalistStore";
-import { AppBtnProps } from "@devkit/base-components";
 import type { DataTableFilterMetaData, DataTableProps } from "primevue";
 import type { FormKitSchemaNode } from "@formkit/core";
-import { FormKitSetupContext } from "@formkit/vue";
-// export type DatalistFilterInput<TReq> = FormKitSchemaNode;
 export type DatalistFilter = {
   isGlobal?: boolean;
   input: FormKitSchemaNode;
@@ -102,10 +100,10 @@ export type DatalistFiltersModel = Record<string, DataTableFilterMetaData>;
 //   | "dateIsNot"
 //   | "dateBefore"
 //   | "dateAfter";
-// export type DatalistRequest = {
-//   filters?: Record<string, unknown>;
-//   paginationParams?: PaginationParams;
-// };
+export type DatalistRequest = {
+  filters?: Record<string, unknown>;
+  paginationParams?: PaginationParams;
+};
 export type DatalistMappers<
   TReq extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
@@ -171,10 +169,7 @@ export type DatalistFlags = {
   isActionsDropdown?: boolean;
   isExportable?: boolean;
 };
-export type DatalistColumnBase<
-  TRecord extends Record<string, unknown>,
-  TFiltersReq extends StringUnknownRecord | undefined = undefined,
-> = {
+export type DatalistColumnBase<TRecord extends Record<string, unknown>> = {
   props?: ColumnProps;
   slots?: ColumnSlots;
   isGlobalFilter?: boolean;
@@ -183,35 +178,22 @@ export type DatalistColumnBase<
   renderHtml?: (value: TRecord) => VNode;
 };
 
-export type DatalistColumnClientSide<
-  TRecord extends Record<string, unknown>,
-  TFiltersReq extends StringUnknownRecord | undefined = undefined,
-> = DatalistColumnBase<TRecord, TFiltersReq> & {
-  filters?: FormKitSchemaNode[];
-};
-export type DatalistColumnServerSide<
-  TRecord extends Record<string, unknown>,
-  TFiltersReq extends StringUnknownRecord | undefined = undefined,
-> = DatalistColumnBase<TRecord, TFiltersReq> & {
-  filters?: FormKitSchemaNode[];
-};
+export type DatalistColumnClientSide<TRecord extends Record<string, unknown>> =
+  DatalistColumnBase<TRecord> & {
+    filters?: (DatalistFilter | FormKitSchemaNode)[];
+  };
+export type DatalistColumnServerSide<TRecord extends Record<string, unknown>> =
+  DatalistColumnBase<TRecord> & {
+    filters?: FormKitSchemaNode[];
+  };
 
-export type DatalistColumnsClientSide<
-  TRecord extends StringUnknownRecord,
-  TFiltersReq extends StringUnknownRecord | undefined = undefined,
-> = Partial<
-  Record<keyof TRecord, DatalistColumnClientSide<TRecord, TFiltersReq>>
+export type DatalistColumnsClientSide<TRecord extends StringUnknownRecord> =
+  Partial<Record<keyof TRecord, DatalistColumnClientSide<TRecord>>>;
+export type DatalistColumnsServerSide<TRecord extends StringUnknownRecord> =
+  Partial<Record<keyof TRecord, DatalistColumnServerSide<TRecord>>>;
+export type DatalistColumnsBase<TRecord extends StringUnknownRecord> = Partial<
+  Record<keyof TRecord, DatalistColumnBase<TRecord>>
 >;
-export type DatalistColumnsServerSide<
-  TRecord extends StringUnknownRecord,
-  TFiltersReq extends StringUnknownRecord | undefined = undefined,
-> = Partial<
-  Record<keyof TRecord, DatalistColumnServerSide<TRecord, TFiltersReq>>
->;
-export type DatalistColumnsBase<
-  TRecord extends StringUnknownRecord,
-  TFiltersReq extends StringUnknownRecord | undefined = undefined,
-> = Partial<Record<keyof TRecord, DatalistColumnBase<TRecord, TFiltersReq>>>;
 
 export type DatalistContext<
   TApi extends Record<string, Function>,
@@ -243,12 +225,12 @@ export type DatalistContext<
   } & (
     | {
         isServerSide?: true;
-        columns?: DatalistColumnsServerSide<TRecord, TFiltersReq>;
+        columns?: DatalistColumnsServerSide<TRecord>;
         filters?: FormKitSchemaNode[];
       }
     | {
         isServerSide?: false;
-        columns?: DatalistColumnsClientSide<TRecord, TFiltersReq>;
+        columns?: DatalistColumnsClientSide<TRecord>;
         filters?: FormKitSchemaNode[];
       }
   );
@@ -571,7 +553,12 @@ export type DatalistRowActionsSlots<
   [K in keyof DatalistRowActions as K extends string
     ? `rowActions.${K}`
     : never]: (props: {
-    store: DatalistStore<TApi, any, TRecord, any>;
+    store: DatalistStore<
+      TApi,
+      Record<string, unknown>,
+      TRecord,
+      Record<string, unknown>
+    >;
     data: TRecord;
   }) => VNode[] | VNode | undefined;
 };
