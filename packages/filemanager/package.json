@@ -1,6 +1,6 @@
 {
-  "name": "@devkit/filemanager",
-  "version": "0.0.262",
+  "name": "@devkitvue/filemanager",
+  "version": "1.0.0",
   "description": "Devkit Base Components is a Vue plugin offering a collection of reusable, headless components designed to streamline your Vue.js development workflow. Built for flexibility and maintainability, this library gives you complete control over styling and behavior, integrating seamlessly with PrimeVue, Vue Router, Vue I18n, and Tailwind CSS.",
   "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
@@ -60,10 +60,10 @@
   },
   "homepage": "https://github.com/darwishdev/devkit_admin#readme",
   "peerDependencies": {
-    "@devkit/base-components": "workspace:*",
-    "@devkit/config": "workspace:*",
-    "@devkit/datalist": "workspace:*",
-    "@devkit/form": "workspace:*",
+    "@devkitvue/base-components": "workspace:*",
+    "@devkitvue/config": "workspace:*",
+    "@devkitvue/datalist": "workspace:*",
+    "@devkitvue/form": "workspace:*",
     "@formkit/core": "^1.6.9",
     "@formkit/vue": "^1.6.9",
     "@tanstack/query-persist-client-core": "^5.66.0",
@@ -95,7 +95,7 @@
     "vite-plugin-static-copy": "^2.2.0"
   },
   "dependencies": {
-    "@devkit/apiclient": "workspace:*",
+    "@devkitvue/apiclient": "workspace:*",
     "@formkit/inputs": "^1.6.9"
   }
 }

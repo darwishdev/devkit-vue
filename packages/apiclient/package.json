@@ -1,7 +1,7 @@
 {
-  "name": "@devkit/apiclient",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@devkitvue/apiclient",
+  "version": "1.0.0",
+  "private": false,
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "files": [

@@ -1,11 +1,14 @@
 {
-  "name": "@devkit/config",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@devkitvue/config",
+  "version": "1.0.0",
   "type": "module",
+  "private": false,
   "main": "./dist/index.es.js",
   "module": "./dist/index.es.js",
   "types": "./dist/types/src/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist",
     "style/",
@@ -52,7 +55,7 @@
     "@formkit/core": "^1.6.9"
   },
   "dependencies": {
-    "@devkit/apiclient": "workspace:*",
+    "@devkitvue/apiclient": "workspace:*",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-turbo": "^2.5.4"
   }
