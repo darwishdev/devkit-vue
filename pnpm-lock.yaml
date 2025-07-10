@@ -32,13 +32,13 @@ importers:
     dependencies:
       '@buf/ahmeddarwish_devkit-api.bufbuild_es':
         specifier: 2.6.0-20250709111559-5e93b9c4eb87.1
-        version: 2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.5.2)
+        version: 2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect':
         specifier: ^2.0.2
-        version: 2.0.2(@bufbuild/protobuf@2.5.2)
+        version: 2.0.2(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect-web':
         specifier: ^2.0.2
-        version: 2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))
+        version: 2.0.2(@bufbuild/protobuf@2.6.0)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.6.0))
       '@devkitvue/admin':
         specifier: workspace:*
         version: link:../../packages/admin
@@ -128,8 +128,8 @@ importers:
         version: 4.5.1(vue@3.5.17(typescript@5.8.3))
     devDependencies:
       '@bufbuild/protobuf':
-        specifier: ^2.5.2
-        version: 2.5.2
+        specifier: ^2.6.0
+        version: 2.6.0
       '@devkitvue/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -165,13 +165,13 @@ importers:
     dependencies:
       '@buf/ahmeddarwish_devkit-api.bufbuild_es':
         specifier: 2.6.0-20250709111559-5e93b9c4eb87.1
-        version: 2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.5.2)
+        version: 2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect':
         specifier: ^2.0.2
-        version: 2.0.2(@bufbuild/protobuf@2.5.2)
+        version: 2.0.2(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect-web':
         specifier: ^2.0.2
-        version: 2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))
+        version: 2.0.2(@bufbuild/protobuf@2.6.0)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.6.0))
       '@devkitvue/admin':
         specifier: workspace:*
         version: link:../../packages/admin
@@ -216,8 +216,8 @@ importers:
         version: 4.5.1(vue@3.5.17(typescript@5.7.3))
     devDependencies:
       '@bufbuild/protobuf':
-        specifier: ^2.5.2
-        version: 2.5.2
+        specifier: ^2.6.0
+        version: 2.6.0
       '@devkitvue/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -270,40 +270,34 @@ importers:
         specifier: workspace:*
         version: link:../form
       '@formkit/core':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9
       '@formkit/vue':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.32)(typescript@5.7.3)))(vue@3.5.17(typescript@5.7.3))
       '@tanstack/query-persist-client-core':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2
       '@tanstack/vue-query':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2(vue@3.5.17(typescript@5.7.3))
-      '@vueuse/core':
-        specifier: ^12.5.0
-        version: 12.8.2(typescript@5.7.3)
       dexie:
-        specifier: ^4.0.11
+        specifier: '>=4.0.0'
         version: 4.0.11
       pinia:
-        specifier: ^2.3.1
-        version: 2.3.1(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
-      primeicons:
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: '>=2.0.0'
+        version: 3.0.3(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
       primevue:
-        specifier: ^4.2.2
+        specifier: '>=4.0.0'
         version: 4.3.5(vue@3.5.17(typescript@5.7.3))
       vue:
-        specifier: ^3.0.0
+        specifier: '>=3.0.0'
         version: 3.5.17(typescript@5.7.3)
       vue-i18n:
-        specifier: ^10.0.5
-        version: 10.0.7(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=10.0.0'
+        version: 11.1.7(vue@3.5.17(typescript@5.7.3))
       vue-router:
-        specifier: ^4.4.5
+        specifier: '>=4.0.0'
         version: 4.5.1(vue@3.5.17(typescript@5.7.3))
     devDependencies:
       '@eslint/js':
@@ -362,13 +356,13 @@ importers:
     dependencies:
       '@buf/googleapis_googleapis.bufbuild_es':
         specifier: 2.5.2-20250411203938-61b203b9a916.1
-        version: 2.5.2-20250411203938-61b203b9a916.1(@bufbuild/protobuf@2.5.2)
+        version: 2.5.2-20250411203938-61b203b9a916.1(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect':
         specifier: ^2.0.2
-        version: 2.0.2(@bufbuild/protobuf@2.5.2)
+        version: 2.0.2(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect-web':
         specifier: ^2.0.2
-        version: 2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))
+        version: 2.0.2(@bufbuild/protobuf@2.6.0)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.6.0))
       error_details_pb:
         specifier: link:@buf/googleapis_googleapis.bufbuild_es/google/rpc/error_details_pb
         version: link:@buf/googleapis_googleapis.bufbuild_es/google/rpc/error_details_pb
@@ -407,19 +401,19 @@ importers:
         specifier: workspace:*
         version: link:../config
       dexie:
-        specifier: ^4.0.11
+        specifier: '>=4.0.0'
         version: 4.0.11
       primevue:
-        specifier: ^4.2.2
+        specifier: '>=4.0.0'
         version: 4.3.5(vue@3.5.17(typescript@5.7.3))
       vue:
-        specifier: ^3.0.0
+        specifier: ^3.2.0
         version: 3.5.17(typescript@5.7.3)
       vue-i18n:
-        specifier: ^10.0.5
-        version: 10.0.7(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=10.0.0'
+        version: 11.1.7(vue@3.5.17(typescript@5.7.3))
       vue-router:
-        specifier: ^4.4.5
+        specifier: '>=4.0.0'
         version: 4.5.1(vue@3.5.17(typescript@5.7.3))
     devDependencies:
       '@types/google-protobuf':
@@ -462,7 +456,7 @@ importers:
         specifier: workspace:*
         version: link:../apiclient
       '@formkit/core':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9
       eslint-config-prettier:
         specifier: ^10.1.5
@@ -511,37 +505,34 @@ importers:
         specifier: workspace:*
         version: link:../form
       '@formkit/core':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9
       '@formkit/vue':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.32)(typescript@5.7.3)))(vue@3.5.17(typescript@5.7.3))
       '@tanstack/query-persist-client-core':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2
       '@tanstack/vue-query':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2(vue@3.5.17(typescript@5.7.3))
-      '@vueuse/core':
-        specifier: ^12.5.0
-        version: 12.8.2(typescript@5.7.3)
       dexie:
-        specifier: ^4.0.11
+        specifier: '>=4.0.0'
         version: 4.0.11
       pinia:
-        specifier: ^2.3.1
-        version: 2.3.1(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=2.0.0'
+        version: 3.0.3(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
       primevue:
-        specifier: ^4.2.2
+        specifier: '>=4.0.0'
         version: 4.3.5(vue@3.5.17(typescript@5.7.3))
       vue:
-        specifier: ^3.0.0
+        specifier: '>=3.0.0'
         version: 3.5.17(typescript@5.7.3)
       vue-i18n:
-        specifier: ^10.0.5
-        version: 10.0.7(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=10.0.0'
+        version: 11.1.7(vue@3.5.17(typescript@5.7.3))
       vue-router:
-        specifier: ^4.4.5
+        specifier: '>=4.0.0'
         version: 4.5.1(vue@3.5.17(typescript@5.7.3))
     devDependencies:
       '@eslint/js':
@@ -614,37 +605,34 @@ importers:
         specifier: workspace:*
         version: link:../form
       '@formkit/core':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9
       '@formkit/vue':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.32)(typescript@5.7.3)))(vue@3.5.17(typescript@5.7.3))
       '@tanstack/query-persist-client-core':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2
       '@tanstack/vue-query':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2(vue@3.5.17(typescript@5.7.3))
-      '@vueuse/core':
-        specifier: ^12.5.0
-        version: 12.8.2(typescript@5.7.3)
       dexie:
-        specifier: ^4.0.11
+        specifier: '>=4.0.0'
         version: 4.0.11
       pinia:
-        specifier: ^2.3.1
-        version: 2.3.1(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=2.0.0'
+        version: 3.0.3(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
       primevue:
-        specifier: ^4.2.2
+        specifier: '>=4.0.0'
         version: 4.3.5(vue@3.5.17(typescript@5.7.3))
       vue:
-        specifier: ^3.0.0
+        specifier: '>=3.0.0'
         version: 3.5.17(typescript@5.7.3)
       vue-i18n:
-        specifier: ^10.0.5
-        version: 10.0.7(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=10.0.0'
+        version: 11.1.7(vue@3.5.17(typescript@5.7.3))
       vue-router:
-        specifier: ^4.4.5
+        specifier: '>=4.0.0'
         version: 4.5.1(vue@3.5.17(typescript@5.7.3))
     devDependencies:
       '@eslint/js':
@@ -717,34 +705,34 @@ importers:
         specifier: workspace:*
         version: link:../form
       '@formkit/core':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9
       '@formkit/inputs':
         specifier: ^1.6.9
         version: 1.6.9
       '@formkit/vue':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.32)(typescript@5.7.3)))(vue@3.5.17(typescript@5.7.3))
       '@tanstack/query-persist-client-core':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2
       '@tanstack/vue-query':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2(vue@3.5.17(typescript@5.7.3))
       dexie:
-        specifier: ^4.0.11
+        specifier: '>=4.0.0'
         version: 4.0.11
       pinia:
-        specifier: ^2.3.1
-        version: 2.3.1(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=2.0.0'
+        version: 3.0.3(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
       vue:
-        specifier: ^3.0.0
+        specifier: '>=3.0.0'
         version: 3.5.17(typescript@5.7.3)
       vue-i18n:
-        specifier: ^10.0.5
-        version: 10.0.7(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=10.0.0'
+        version: 11.1.7(vue@3.5.17(typescript@5.7.3))
       vue-router:
-        specifier: ^4.4.5
+        specifier: '>=4.0.0'
         version: 4.5.1(vue@3.5.17(typescript@5.7.3))
     devDependencies:
       '@eslint/js':
@@ -811,67 +799,64 @@ importers:
         specifier: workspace:*
         version: link:../config
       '@formkit/core':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9
       '@formkit/inputs':
         specifier: ^1.6.9
         version: 1.6.9
       '@formkit/vue':
-        specifier: ^1.6.9
+        specifier: '>=1.6.9'
         version: 1.6.9(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@22.15.32)(typescript@5.7.3)))(vue@3.5.17(typescript@5.7.3))
       '@tanstack/query-persist-client-core':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2
       '@tanstack/vue-query':
-        specifier: ^5.66.0
+        specifier: '>=5.0.0'
         version: 5.81.2(vue@3.5.17(typescript@5.7.3))
       '@uppy/compressor':
-        specifier: ^2.2.1
+        specifier: '>=2.0.0'
         version: 2.2.1(@uppy/core@4.4.6)
       '@uppy/core':
-        specifier: ^4.4.5
+        specifier: '>=4.0.0'
         version: 4.4.6
       '@uppy/dashboard':
-        specifier: ^4.3.4
+        specifier: '>=4.0.0'
         version: 4.3.4(@uppy/core@4.4.6)
       '@uppy/image-editor':
-        specifier: ^3.3.3
+        specifier: '>=3.0.0'
         version: 3.3.3(@uppy/core@4.4.6)
       '@uppy/tus':
-        specifier: ^4.2.2
+        specifier: '>=4.0.0'
         version: 4.2.2(@uppy/core@4.4.6)
       '@uppy/vue':
-        specifier: ^2.1.1
+        specifier: '>=2.0.0'
         version: 2.2.0(@uppy/core@4.4.6)(@uppy/dashboard@4.3.4(@uppy/core@4.4.6))(@uppy/image-editor@3.3.3(@uppy/core@4.4.6))(@uppy/progress-bar@4.2.1(@uppy/core@4.4.6))(@uppy/status-bar@4.1.3(@uppy/core@4.4.6))(vue@3.5.17(typescript@5.7.3))
       '@vue/test-utils':
         specifier: ^2.4.6
         version: 2.4.6
-      '@vueuse/core':
-        specifier: ^12.5.0
-        version: 12.8.2(typescript@5.7.3)
       dexie:
-        specifier: ^4.0.11
+        specifier: '>=4.0.0'
         version: 4.0.11
       pinia:
-        specifier: ^2.3.1
-        version: 2.3.1(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=2.0.0'
+        version: 3.0.3(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3))
       preact:
-        specifier: ^10.26.8
+        specifier: '>=10.0.0'
         version: 10.26.9
       primevue:
-        specifier: ^4.3.4
+        specifier: '>=4.0.0'
         version: 4.3.5(vue@3.5.17(typescript@5.7.3))
       vitest:
         specifier: ^3.0.7
         version: 3.2.4(@types/node@22.15.32)(jiti@2.4.2)(lightningcss@1.30.1)(yaml@2.8.0)
       vue:
-        specifier: ^3.0.0
+        specifier: '>=3.0.0'
         version: 3.5.17(typescript@5.7.3)
       vue-i18n:
-        specifier: ^10.0.5
-        version: 10.0.7(vue@3.5.17(typescript@5.7.3))
+        specifier: '>=10.0.0'
+        version: 11.1.7(vue@3.5.17(typescript@5.7.3))
       vue-router:
-        specifier: ^4.4.5
+        specifier: '>=4.0.0'
         version: 4.5.1(vue@3.5.17(typescript@5.7.3))
     devDependencies:
       '@eslint/js':
@@ -1090,8 +1075,8 @@ packages:
     peerDependencies:
       '@bufbuild/protobuf': ^2.5.2
 
-  '@bufbuild/protobuf@2.5.2':
-    resolution: {integrity: sha512-foZ7qr0IsUBjzWIq+SuBLfdQCpJ1j8cTuNNT4owngTHoN5KsJb8L9t65fzz7SCeSWzescoOil/0ldqiL041ABg==}
+  '@bufbuild/protobuf@2.6.0':
+    resolution: {integrity: sha512-6cuonJVNOIL7lTj5zgo/Rc2bKAo4/GvN+rKCrUj7GdEHRzCk8zKOfFwUsL9nAVk5rSIsRmlgcpLzTRysopEeeg==}
 
   '@changesets/apply-release-plan@7.0.12':
     resolution: {integrity: sha512-EaET7As5CeuhTzvXTQCRZeBUcisoYPDDcXvgTE/2jmmypKp0RC7LxKj/yzqeh/1qFTZI7oDGFcL1PHRuQuketQ==}
@@ -1588,24 +1573,12 @@ packages:
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
-  '@intlify/core-base@10.0.7':
-    resolution: {integrity: sha512-mE71aUH5baH0me8duB4FY5qevUJizypHsYw3eCvmOx07QvmKppgOONx3dYINxuA89Z2qkAGb/K6Nrpi7aAMwew==}
-    engines: {node: '>= 16'}
-
   '@intlify/core-base@11.1.7':
     resolution: {integrity: sha512-gYiGnQeJVp3kNBeXQ73m1uFOak0ry4av8pn+IkEWigyyPWEMGzB+xFeQdmGMFn49V+oox6294oGVff8bYOhtOw==}
     engines: {node: '>= 16'}
 
-  '@intlify/message-compiler@10.0.7':
-    resolution: {integrity: sha512-nrC4cDL/UHZSUqd8sRbVz+DPukzZ8NnG5OK+EB/nlxsH35deyzyVkXP/QuR8mFZrISJ+4hCd6VtCQCcT+RO+5g==}
-    engines: {node: '>= 16'}
-
   '@intlify/message-compiler@11.1.7':
     resolution: {integrity: sha512-0ezkep1AT30NyuKj8QbRlmvMORCCRlOIIu9v8RNU8SwDjjTiFCZzczCORMns2mCH4HZ1nXgrfkKzYUbfjNRmng==}
-    engines: {node: '>= 16'}
-
-  '@intlify/shared@10.0.7':
-    resolution: {integrity: sha512-oeoq0L5+5P4ShXa6jBQcx+BT+USe3MjX0xJexZO1y7rfDJdwZ9+QP3jO4tcS1nxhBYYdjvFTqe4bmnLijV0GxQ==}
     engines: {node: '>= 16'}
 
   '@intlify/shared@11.1.7':
@@ -2421,9 +2394,6 @@ packages:
       vue:
         optional: true
 
-  '@vueuse/core@12.8.2':
-    resolution: {integrity: sha512-HbvCmZdzAu3VGi/pWYm5Ut+Kd9mn1ZHnn4L5G8kOQTPs/IwIAmJoBrmYk2ckLArgMXZj0AW3n5CAejLUO+PhdQ==}
-
   '@vueuse/core@13.4.0':
     resolution: {integrity: sha512-OnK7zW3bTq/QclEk17+vDFN3tuAm8ONb9zQUIHrYQkkFesu3WeGUx/3YzpEp+ly53IfDAT9rsYXgGW6piNZC5w==}
     peerDependencies:
@@ -2471,14 +2441,8 @@ packages:
       universal-cookie:
         optional: true
 
-  '@vueuse/metadata@12.8.2':
-    resolution: {integrity: sha512-rAyLGEuoBJ/Il5AmFHiziCPdQzRt88VxR+Y/A/QhJ1EWtWqPBBAxTAFaSkviwEuOEZNtW8pvkPgoCZQ+HxqW1A==}
-
   '@vueuse/metadata@13.4.0':
     resolution: {integrity: sha512-CPDQ/IgOeWbqItg1c/pS+Ulum63MNbpJ4eecjFJqgD/JUCJ822zLfpw6M9HzSvL6wbzMieOtIAW/H8deQASKHg==}
-
-  '@vueuse/shared@12.8.2':
-    resolution: {integrity: sha512-dznP38YzxZoNloI0qpEfpkms8knDtaoQ6Y/sfS0L7Yki4zh40LFHEhur0odJC6xTHG5dxWVPiUWBXn+wCG2s5w==}
 
   '@vueuse/shared@13.4.0':
     resolution: {integrity: sha512-+AxuKbw8R1gYy5T21V5yhadeNM7rJqb4cPaRI9DdGnnNl3uqXh+unvQ3uCaA2DjYLbNr1+l7ht/B4qEsRegX6A==}
@@ -3719,15 +3683,6 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
 
-  pinia@2.3.1:
-    resolution: {integrity: sha512-khUlZSwt9xXCaTbbxFYBKDc/bWAGWJjOgvxETwkTN7KRm66EeT1ZdZj6i2ceh9sP2Pzqsbc704r2yngBrxBVug==}
-    peerDependencies:
-      typescript: '>=4.4.4'
-      vue: ^2.7.0 || ^3.5.11
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   pinia@3.0.3:
     resolution: {integrity: sha512-ttXO/InUULUXkMHpTdp9Fj4hLpD/2AoJdmAbAeW2yu1iy1k+pkFekQXw5VpC0/5p51IOR/jDaDRfRWRnMMsGOA==}
     peerDependencies:
@@ -4438,12 +4393,6 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  vue-i18n@10.0.7:
-    resolution: {integrity: sha512-bKsk0PYwP9gdYF4nqSAT0kDpnLu1gZzlxFl885VH4mHVhEnqP16+/mAU05r1U6NIrc0fGDWP89tZ8GzeJZpe+w==}
-    engines: {node: '>= 16'}
-    peerDependencies:
-      vue: ^3.0.0
-
   vue-i18n@11.1.7:
     resolution: {integrity: sha512-CDrU7Cmyh1AxJjerQmipV9nVa//exVBdhTcWGlbfcDCN8bKp/uAe7Le6IoN4//5emIikbsSKe9Uofmf/xXkhOA==}
     engines: {node: '>= 16'}
@@ -4743,20 +4692,20 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.5.2)':
+  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.6.0)':
     dependencies:
-      '@buf/bufbuild_protovalidate.bufbuild_es': 2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.5.2)
-      '@bufbuild/protobuf': 2.5.2
+      '@buf/bufbuild_protovalidate.bufbuild_es': 2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.6.0)
+      '@bufbuild/protobuf': 2.6.0
 
-  '@buf/bufbuild_protovalidate.bufbuild_es@2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.5.2)':
+  '@buf/bufbuild_protovalidate.bufbuild_es@2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.6.0)':
     dependencies:
-      '@bufbuild/protobuf': 2.5.2
+      '@bufbuild/protobuf': 2.6.0
 
-  '@buf/googleapis_googleapis.bufbuild_es@2.5.2-20250411203938-61b203b9a916.1(@bufbuild/protobuf@2.5.2)':
+  '@buf/googleapis_googleapis.bufbuild_es@2.5.2-20250411203938-61b203b9a916.1(@bufbuild/protobuf@2.6.0)':
     dependencies:
-      '@bufbuild/protobuf': 2.5.2
+      '@bufbuild/protobuf': 2.6.0
 
-  '@bufbuild/protobuf@2.5.2': {}
+  '@bufbuild/protobuf@2.6.0': {}
 
   '@changesets/apply-release-plan@7.0.12':
     dependencies:
@@ -4900,14 +4849,14 @@ snapshots:
       human-id: 4.1.1
       prettier: 2.8.8
 
-  '@connectrpc/connect-web@2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))':
+  '@connectrpc/connect-web@2.0.2(@bufbuild/protobuf@2.6.0)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.6.0))':
     dependencies:
-      '@bufbuild/protobuf': 2.5.2
-      '@connectrpc/connect': 2.0.2(@bufbuild/protobuf@2.5.2)
+      '@bufbuild/protobuf': 2.6.0
+      '@connectrpc/connect': 2.0.2(@bufbuild/protobuf@2.6.0)
 
-  '@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2)':
+  '@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.6.0)':
     dependencies:
-      '@bufbuild/protobuf': 2.5.2
+      '@bufbuild/protobuf': 2.6.0
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -5262,27 +5211,15 @@ snapshots:
 
   '@iconify/types@2.0.0': {}
 
-  '@intlify/core-base@10.0.7':
-    dependencies:
-      '@intlify/message-compiler': 10.0.7
-      '@intlify/shared': 10.0.7
-
   '@intlify/core-base@11.1.7':
     dependencies:
       '@intlify/message-compiler': 11.1.7
       '@intlify/shared': 11.1.7
 
-  '@intlify/message-compiler@10.0.7':
-    dependencies:
-      '@intlify/shared': 10.0.7
-      source-map-js: 1.2.1
-
   '@intlify/message-compiler@11.1.7':
     dependencies:
       '@intlify/shared': 11.1.7
       source-map-js: 1.2.1
-
-  '@intlify/shared@10.0.7': {}
 
   '@intlify/shared@11.1.7': {}
 
@@ -6326,15 +6263,6 @@ snapshots:
       typescript: 5.8.3
       vue: 3.5.17(typescript@5.8.3)
 
-  '@vueuse/core@12.8.2(typescript@5.7.3)':
-    dependencies:
-      '@types/web-bluetooth': 0.0.21
-      '@vueuse/metadata': 12.8.2
-      '@vueuse/shared': 12.8.2(typescript@5.7.3)
-      vue: 3.5.17(typescript@5.7.3)
-    transitivePeerDependencies:
-      - typescript
-
   '@vueuse/core@13.4.0(vue@3.5.17(typescript@5.7.3))':
     dependencies:
       '@types/web-bluetooth': 0.0.21
@@ -6351,15 +6279,7 @@ snapshots:
       change-case: 5.4.4
       focus-trap: 7.6.5
 
-  '@vueuse/metadata@12.8.2': {}
-
   '@vueuse/metadata@13.4.0': {}
-
-  '@vueuse/shared@12.8.2(typescript@5.7.3)':
-    dependencies:
-      vue: 3.5.17(typescript@5.7.3)
-    transitivePeerDependencies:
-      - typescript
 
   '@vueuse/shared@13.4.0(vue@3.5.17(typescript@5.7.3))':
     dependencies:
@@ -7540,15 +7460,12 @@ snapshots:
 
   pify@4.0.1: {}
 
-  pinia@2.3.1(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3)):
+  pinia@3.0.3(typescript@5.7.3)(vue@3.5.17(typescript@5.7.3)):
     dependencies:
-      '@vue/devtools-api': 6.6.4
+      '@vue/devtools-api': 7.7.7
       vue: 3.5.17(typescript@5.7.3)
-      vue-demi: 0.14.10(vue@3.5.17(typescript@5.7.3))
     optionalDependencies:
       typescript: 5.7.3
-    transitivePeerDependencies:
-      - '@vue/composition-api'
 
   pinia@3.0.3(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3)):
     dependencies:
@@ -8522,10 +8439,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-i18n@10.0.7(vue@3.5.17(typescript@5.7.3)):
+  vue-i18n@11.1.7(vue@3.5.17(typescript@5.7.3)):
     dependencies:
-      '@intlify/core-base': 10.0.7
-      '@intlify/shared': 10.0.7
+      '@intlify/core-base': 11.1.7
+      '@intlify/shared': 11.1.7
       '@vue/devtools-api': 6.6.4
       vue: 3.5.17(typescript@5.7.3)
 

@@ -60,20 +60,16 @@
   },
   "homepage": "https://github.com/darwishdev/devkit_admin#readme",
   "peerDependencies": {
-    "@devkitvue/base-components": "workspace:*",
-    "@devkitvue/config": "workspace:*",
-    "@devkitvue/datalist": "workspace:*",
-    "@devkitvue/form": "workspace:*",
-    "@formkit/core": "^1.6.9",
-    "@formkit/vue": "^1.6.9",
-    "@tanstack/query-persist-client-core": "^5.66.0",
-    "@tanstack/vue-query": "^5.66.0",
-    "dexie": "^4.0.11",
-    "pinia": "^2.3.1",
+    "@formkit/core": ">=1.6.9",
+    "@formkit/vue": ">=1.6.9",
+    "@tanstack/query-persist-client-core": ">=5.0.0",
+    "@tanstack/vue-query": ">=5.0.0",
+    "dexie": ">=4.0.0",
+    "pinia": ">=2.0.0",
     "tailwindcss": "^3.0.0",
-    "vue": "^3.0.0",
-    "vue-i18n": "^10.0.5",
-    "vue-router": "^4.4.5"
+    "vue": ">=3.0.0",
+    "vue-i18n": ">=10.0.0",
+    "vue-router": ">=4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -95,6 +91,10 @@
     "vite-plugin-static-copy": "^2.2.0"
   },
   "dependencies": {
+    "@devkitvue/base-components": "workspace:*",
+    "@devkitvue/config": "workspace:*",
+    "@devkitvue/datalist": "workspace:*",
+    "@devkitvue/form": "workspace:*",
     "@devkitvue/apiclient": "workspace:*",
     "@formkit/inputs": "^1.6.9"
   }

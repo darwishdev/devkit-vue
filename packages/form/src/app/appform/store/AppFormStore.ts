@@ -1,10 +1,16 @@
 import { defineStore, getActivePinia } from "pinia";
-import type { AppFormProps, StringUnknownRecord } from "@/pkg/types/types";
-import type { AppFormOptions } from "@/pkg/types/types";
+import type {
+  AppFormOptions,
+  AppFormProps,
+  StringUnknownRecord,
+} from "@devkitvue/config";
 import { computed, ref } from "vue";
-import { objectEntries, useDebounceFn } from "@vueuse/core";
+
+import { useDebounceFn } from "@/app/appform/composables/useDebounceFn";
+// import { objectEntries, useDebounceFn } from "@vueuse/core";
 import { RouteQueryAppend } from "@/pkg/utils/QueryUtils";
 import { useFormKitContextById, useFormKitNodeById } from "@formkit/vue";
+import { ObjectEntries } from "@devkitvue/apiclient";
 
 export const useAppFormStore = <
   TApi extends Record<string, Function>,
@@ -102,7 +108,7 @@ export const useAppFormStore = <
     const activeInputs = computed(() => {
       const activeInputs: StringUnknownRecord = {};
       console.log("formvalue", formValue.value);
-      for (const [key, value] of objectEntries(formValue.value)) {
+      for (const [key, value] of ObjectEntries(formValue.value)) {
         console.log("formvalue", formValue.value);
         if (value) {
           activeInputs[key] = value;

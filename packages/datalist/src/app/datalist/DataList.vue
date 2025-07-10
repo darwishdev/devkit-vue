@@ -31,10 +31,9 @@ import {
 } from "./types";
 import DatalistFiltersForm from "./components/DatalistFiltersForm.vue";
 import { AppBtn, makeGridWrapperClassName } from "@devkitvue/base-components";
-import { objectEntries } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { computed, h, VNode } from "vue";
-import { type StringUnknownRecord } from "@devkitvue/apiclient";
+import { ObjectEntries, type StringUnknownRecord } from "@devkitvue/apiclient";
 import DatalistRowActions from "./components/DatalistRowActions.vue";
 const { t } = useI18n();
 const emit = defineEmits<DatalistEmits<TRecord, TApiResponse>>();
@@ -365,7 +364,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     </Column>
     <Column
       v-else
-      v-for="[columnKey, columnValue] in objectEntries(
+      v-for="[columnKey, columnValue] in ObjectEntries(
         datalistStore.datatableColumnsRef,
       )"
       :key="columnKey"

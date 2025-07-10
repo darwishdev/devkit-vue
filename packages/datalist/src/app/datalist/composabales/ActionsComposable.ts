@@ -3,8 +3,11 @@ import { useRouter, type RouteParamsRaw } from "vue-router";
 import { useToast } from "primevue";
 import { useDialog } from "primevue";
 import { useMutation } from "@tanstack/vue-query";
-import { resolveApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
-import { objectEntries } from "@vueuse/core";
+import {
+  ObjectEntries,
+  resolveApiEndpoint,
+  StringUnknownRecord,
+} from "@devkitvue/apiclient";
 import { AppDialog } from "@devkitvue/base-components";
 import { AppForm } from "@devkitvue/form";
 import {
@@ -270,7 +273,7 @@ export function useActions<
       },
     } as const;
 
-    for (const [k, v] of objectEntries(actionsMap)) {
+    for (const [k, v] of ObjectEntries(actionsMap)) {
       if (!v.hidden) {
         availableActions.push({
           actionKey: k,

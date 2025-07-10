@@ -20,7 +20,9 @@ import {
 } from "@devkitvue/apiclient";
 import { _constructColumns } from "../utilites/_columnUtils";
 import { keepPreviousData, useQuery } from "@tanstack/vue-query";
-import { objectEntries, useDebounceFn } from "@vueuse/core";
+import { ObjectEntries } from "@devkitvue/apiclient";
+import { useDebounceFn } from "@devkitvue/form";
+// import { objectEntries, useDebounceFn } from "@vueuse/core";
 import { useToast } from "primevue";
 import { AppFormProps } from "@devkitvue/config";
 import { useFormKitNodeById } from "@formkit/vue";
@@ -95,7 +97,7 @@ export const useDatalistStore = <
     const filtersValueFromReq = (req: StringUnknownRecord) => {
       const datalistFiltersModel: DatalistFiltersModel = {};
       if (context.isServerSide) return datalistFiltersModel;
-      for (const [filterName, filterValue] of Object.entries(req)) {
+      for (const [filterName, filterValue] of ObjectEntries(req)) {
         if (filterName == "global") {
           datalistFiltersModel[filterName] = {
             value: filterValue || null,
@@ -219,7 +221,7 @@ export const useDatalistStore = <
       ];
 
       if (columns) {
-        for (const [columnKey, columnValue] of objectEntries(columns)) {
+        for (const [columnKey, columnValue] of ObjectEntries(columns)) {
           if (!columnValue) continue;
           if (columnKey === "deletedAt" && !isShowDeletedRef.value) continue;
 

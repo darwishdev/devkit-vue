@@ -52,7 +52,7 @@
     "vue-router": "4"
   },
   "peerDependencies": {
-    "@formkit/core": "^1.6.9"
+    "@formkit/core": ">=1.6.9"
   },
   "dependencies": {
     "@devkitvue/apiclient": "workspace:*",

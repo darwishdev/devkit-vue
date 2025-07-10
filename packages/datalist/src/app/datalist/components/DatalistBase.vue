@@ -29,7 +29,7 @@ import {
 } from "../types";
 import DatalistFiltersForm from "./DatalistFiltersForm.vue";
 import { AppBtn } from "@devkitvue/base-components";
-import { objectEntries } from "@vueuse/core";
+import { ObjectEntries } from "@devkitvue/apiclient";
 import { useI18n } from "vue-i18n";
 import { computed, h, VNode } from "vue";
 import { type StringUnknownRecord } from "@devkitvue/apiclient";
@@ -294,7 +294,7 @@ onBeforeUnmount(() => {
     </Column>
     <Column
       v-else
-      v-for="[columnKey, columnValue] in objectEntries(
+      v-for="[columnKey, columnValue] in ObjectEntries(
         datalistStore.datatableColumnsRef,
       )"
       :key="columnKey"

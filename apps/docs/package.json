@@ -29,7 +29,7 @@
     "vue-router": "4"
   },
   "devDependencies": {
-    "@bufbuild/protobuf": "^2.5.2",
+    "@bufbuild/protobuf": "^2.6.0",
     "@devkitvue/config": "workspace:*",
     "@vitest/coverage-istanbul": "^3.0.7",
     "eslint": "^9.21.0",
