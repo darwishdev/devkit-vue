@@ -1,5 +1,13 @@
 # @devkitvue/form
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [70fbf97]
+  - @devkitvue/config@1.3.0
+  - @devkitvue/base-components@1.2.1
+
 ## 1.1.0
 
 ### Minor Changes

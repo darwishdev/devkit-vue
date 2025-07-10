@@ -1,5 +1,16 @@
 # @devkitvue/admin-example
 
+## 1.2.1
+
+### Patch Changes
+
+- @devkitvue/admin@1.2.1
+- @devkitvue/base-components@1.2.1
+- @devkitvue/datalist@2.1.1
+- @devkitvue/dataview@2.1.1
+- @devkitvue/filemanager@2.1.1
+- @devkitvue/form@1.1.1
+
 ## 1.2.0
 
 ### Minor Changes

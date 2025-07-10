@@ -1,5 +1,11 @@
 # @devkitvue/config
 
+## 1.3.0
+
+### Minor Changes
+
+- 70fbf97: change the base eslint export
+
 ## 1.2.0
 
 ### Minor Changes
