@@ -1,6 +1,7 @@
 {
   "name": "@devkitvue/form",
   "version": "1.0.0",
+  "private": false,
   "description": "Devkit Base Components is a Vue plugin offering a collection of reusable, headless components designed to streamline your Vue.js development workflow. Built for flexibility and maintainability, this library gives you complete control over styling and behavior, integrating seamlessly with PrimeVue, Vue Router, Vue I18n, and Tailwind CSS.",
   "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
@@ -17,10 +18,10 @@
         "default": "./dist/index.es.js"
       }
     },
-    "./style": {
+    "./style.css": {
       "import": {
         "types": "./dist/style.d.ts",
-        "default": "./dist/style.css"
+        "default": "./dist/index.css"
       }
     }
   },
@@ -60,23 +61,23 @@
   },
   "homepage": "https://github.com/darwishdev/devkit_admin#readme",
   "peerDependencies": {
-    "@devkitvue/config": "workspace:*",
     "@devkitvue/base-components": "workspace:*",
+    "@devkitvue/config": "workspace:*",
     "@formkit/core": "^1.6.9",
     "@formkit/vue": "^1.6.9",
     "@tanstack/query-persist-client-core": "^5.66.0",
     "@tanstack/vue-query": "^5.66.0",
-    "@vueuse/core": "^12.5.0",
-    "dexie": "^4.0.11",
-    "pinia": "^2.3.1",
-    "primevue": "^4.3.4",
     "@uppy/compressor": "^2.2.1",
     "@uppy/core": "^4.4.5",
     "@uppy/dashboard": "^4.3.4",
     "@uppy/image-editor": "^3.3.3",
     "@uppy/tus": "^4.2.2",
     "@uppy/vue": "^2.1.1",
+    "@vueuse/core": "^12.5.0",
+    "dexie": "^4.0.11",
+    "pinia": "^2.3.1",
     "preact": "^10.26.8",
+    "primevue": "^4.3.4",
     "tailwindcss": "^3.0.0",
     "vue": "^3.0.0",
     "vue-i18n": "^10.0.5",
@@ -103,6 +104,7 @@
   },
   "dependencies": {
     "@devkitvue/apiclient": "workspace:*",
+    "@formkit/inputs": "^1.6.9",
     "@vue/test-utils": "^2.4.6",
     "vitest": "^3.0.7"
   }

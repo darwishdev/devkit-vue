@@ -1,5 +1,11 @@
 # @devkitvue/config
 
+## 1.1.0
+
+### Minor Changes
+
+- 1329605: add components to admin
+
 ## 1.0.0
 
 ### Major Changes
