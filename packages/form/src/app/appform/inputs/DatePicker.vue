@@ -7,7 +7,7 @@
     TDisabledDatesResp extends StringUnknownRecord
   "
 >
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { StringUnknownRecord } from "@devkitvue/apiclient";
 import InputDatepicker from "./InputDatepicker.vue";
 import { InputDatepickerProps } from "./types";
 import { onErrorCaptured, ref } from "vue";

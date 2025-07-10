@@ -2,9 +2,9 @@
 title: Form
 ---
 
-# Installing `@devkit/form`
+# Installing `@devkitvue/form`
 
-The `@devkit/form` plugin wraps FormKit and integrates with your API client, providing:
+The `@devkitvue/form` plugin wraps FormKit and integrates with your API client, providing:
 
 - `<AppForm>` – dynamic form renderer  
 - `<LoginForm>` – built-in authentication form  
@@ -16,7 +16,7 @@ The `@devkit/form` plugin wraps FormKit and integrates with your API client, pro
 ## 1. Install Peer Dependencies
 
 ```bash
-pnpm add @devkit/form @devkit/apiclient @devkit/base-components \
+pnpm add @devkitvue/form @devkitvue/apiclient @devkitvue/base-components \
   @formkit/core @formkit/vue \
   @tanstack/query-persist-client-core @tanstack/vue-query \
   @vueuse/core dexie pinia primevue \
@@ -32,7 +32,7 @@ In your main entry (e.g. `main.ts`):
 
 ```ts
 import { createApp } from 'vue'
-import DevkitFormPlugin, { DevkitFormConfig, formKitConfig, LoginForm, AppForm } from '@devkit/form'
+import DevkitFormPlugin, { DevkitFormConfig, formKitConfig, LoginForm, AppForm } from '@devkitvue/form'
 import { apiClient } from '@/pkg/apiClient'  // adjust path
 
 const app = createApp(App)
@@ -115,8 +115,8 @@ These handlers are provided via Vue’s `provide` and injected into custom FormK
 </template>
 
 <script setup lang="ts">
-import { AppForm } from '@devkit/form'
-import type { AppFormSections } from '@devkit/form'
+import { AppForm } from '@devkitvue/form'
+import type { AppFormSections } from '@devkitvue/form'
 
 // define your form schema...
 const userFormSections: AppFormSections = [ /* … */ ]
@@ -135,7 +135,7 @@ function onSubmit(values: Record<string, unknown>) {
 </template>
 
 <script setup lang="ts">
-import { LoginForm } from '@devkit/form'
+import { LoginForm } from '@devkitvue/form'
 </script>
 ```
 

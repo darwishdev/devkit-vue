@@ -1,4 +1,4 @@
-import { FilesHandler } from "@devkit/config";
+import { FilesHandler } from "@devkitvue/config";
 import { type App, type Plugin } from "vue";
 export * from "./app/filemanager";
 export type DevkitFilemanagerConfig<TApi extends Record<string, Function>> = {

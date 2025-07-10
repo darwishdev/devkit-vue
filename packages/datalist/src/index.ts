@@ -1,4 +1,4 @@
-import { FilesHandler, AuthHandler } from "@devkit/config";
+import { FilesHandler, AuthHandler } from "@devkitvue/config";
 import { type App, type Plugin } from "vue";
 export * from "./app/datalist";
 export type DevkitDatalistConfig<TApi extends Record<string, Function>> = {

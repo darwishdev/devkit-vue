@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LoginForm } from "@devkit/form";
+import { LoginForm } from "@devkitvue/form";
 </script>
 
 <template>

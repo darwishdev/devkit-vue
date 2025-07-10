@@ -13,6 +13,7 @@ import LoginView from "../views/LoginView.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import ForbiddenView from "../views/ForbiddenView.vue";
+import ErrorLayout from "../components/ErrorLayout.vue";
 const appRoutes = [...accountsRoutes, ...publicRoutes];
 const authMiddleWare = async (
   _: RouteLocationNormalized,
@@ -78,11 +79,25 @@ const router = createRouter({
         },
       ],
     },
-    { path: "/403", name: "forbidden", component: ForbiddenView },
     {
-      path: "/:pathMatch(.*)*", // MUST be last
-      name: "not-found",
-      component: NotFoundView,
+      path: "/error",
+      component: ErrorLayout,
+      children: [
+        {
+          path: "403",
+          name: "forbidden",
+          component: ForbiddenView,
+        },
+        {
+          path: "404",
+          name: "not-found",
+          component: NotFoundView,
+        },
+      ],
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/error/404",
     },
   ],
 });

@@ -12,10 +12,10 @@
 >
 import { useDatalistStoreWithKey } from "../store/DatalistStore";
 import { Panel } from "primevue";
-import { AppForm } from "@devkit/form";
+import { AppForm } from "@devkitvue/form";
 import { objectEntries } from "@vueuse/core";
 import { useFormKitContextById, useFormKitNodeById } from "@formkit/vue";
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { StringUnknownRecord } from "@devkitvue/apiclient";
 
 const props = defineProps<{ datalistKey: string }>();
 const datalistStore = useDatalistStoreWithKey(props.datalistKey);

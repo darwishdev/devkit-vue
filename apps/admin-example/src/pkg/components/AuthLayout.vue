@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AppLocaleToggler, AppThemeToggler } from "@devkit/base-components";
+import { AppLocaleToggler, AppThemeToggler } from "@devkitvue/base-components";
 import { setLanguage } from "../plugins/i18n.config";
 import { type SUPPORTE_LOCALES_TYPE } from "../plugins/i18n.config";
 const localeToggled = async (locale: string) => {

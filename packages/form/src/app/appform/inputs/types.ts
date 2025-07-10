@@ -1,11 +1,12 @@
 import { DBDropdownOptions } from "@/pkg/database/DbTypes";
 import { CacheOptions, FilesHandler } from "@/pkg/types/types";
-import { ApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
+import { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import type {
   DatePickerProps,
   MultiSelectProps,
   MultiSelectSlots,
   SelectButtonProps,
+  SelectPassThroughOptions,
   SelectProps,
   SelectSlots,
 } from "primevue";
@@ -52,7 +53,9 @@ export type DropdownContext<
     multiple?: TComponentType extends "single" ? false : true;
     useButtons?: boolean;
     responseOptionsKey?: keyof TOptionsResp;
+    iconKey?: string;
     convertToFlat?: boolean;
+    pt?: SelectPassThroughOptions;
     hideReload?: boolean;
     debounceInMilliSeconds?: number;
     createRoute?: string;

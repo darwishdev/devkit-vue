@@ -1,11 +1,11 @@
 import { type VNode } from "vue";
-import { AppFormSections } from "@devkit/config";
-import { ApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
+import { AppFormSections } from "@devkitvue/config";
+import { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import {
   DeleteHandler,
   UpdateHandler,
   ActionButtonProps,
-} from "@devkit/datalist";
+} from "@devkitvue/datalist";
 
 import type { DataTableFilterMetaData } from "primevue";
 export type DatalistFiltersModel = Record<string, DataTableFilterMetaData>;

@@ -5,8 +5,9 @@ import type {
   FormKitSectionsSchema,
 } from "@formkit/core";
 import { DependencyManagerPlugin, OptionsGetterPlugin } from "./OptionsGetter";
-import { DatePicker, Upload, DropDown } from "../inputs";
+import { DatePicker, Upload, DropDown, InputIcon } from "../inputs";
 import { genesisIcons } from "@formkit/icons";
+import InputIcon from "../inputs/InputIcon.vue";
 const isCheckboxAndRadioMultiple: FormKitPlugin = (node: FormKitNode) =>
   (node.props.type === "checkbox" || node.props.type === "radio") &&
   node.props.options;
@@ -175,6 +176,8 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     ...commonDropdownProps,
     "editable",
     "inputStyle",
+    "iconKey",
+    "pt",
     "inputClass",
     "labelId",
     "labelStyle",
@@ -264,6 +267,10 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     props: singleDropdownProps,
   });
 
+  const iconInput = createInput(InputIcon, {
+    props: singleDropdownProps,
+  });
+
   const datePickerInput = createInput(DatePicker, {
     props: datepickerContextKeys,
   });
@@ -276,6 +283,7 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     devkitDropdown: dropdownInput,
     devkitDatepicker: datePickerInput,
     devkitUpload: uploadInput,
+    devkitIcon: iconInput,
   };
   return defaultConfig({
     ...options,

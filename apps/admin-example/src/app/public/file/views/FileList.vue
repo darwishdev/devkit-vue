@@ -5,19 +5,19 @@ import {
   Datalist,
   useDatalistStoreWithProps,
   type DatalistProps,
-} from "@devkit/datalist";
+} from "@devkitvue/datalist";
 import { bucketInput, bucketsForm } from "./schemas";
-import type { FilesHandler, StringUnknownRecord } from "@devkit/config";
+import type { FilesHandler, StringUnknownRecord } from "@devkitvue/config";
 import { useDialog } from "primevue";
 import type {
   BucketCreateUpdateRequest,
   GalleryListRequest,
   FileObject,
   GalleryListResponse,
-} from "@devkit/config";
+} from "@devkitvue/config";
 import { useI18n } from "vue-i18n";
 import { useFormKitNodeById } from "@formkit/vue";
-import { AppForm } from "@devkit/form";
+import { AppForm } from "@devkitvue/form";
 const fileInput = ref<HTMLInputElement | null>(null);
 const filesHandler = inject<FilesHandler<TApi>>("filesHandler");
 const formElementNode = useFormKitNodeById("files-filter-form");

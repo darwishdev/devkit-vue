@@ -28,11 +28,11 @@ import {
   type DatalistStore,
 } from "../types";
 import DatalistFiltersForm from "./DatalistFiltersForm.vue";
-import { AppBtn } from "@devkit/base-components";
+import { AppBtn } from "@devkitvue/base-components";
 import { objectEntries } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { computed, h, VNode } from "vue";
-import { type StringUnknownRecord } from "@devkit/apiclient";
+import { type StringUnknownRecord } from "@devkitvue/apiclient";
 import DatalistRowActions from "./DatalistRowActions.vue";
 const { t } = useI18n();
 const emit = defineEmits<DatalistEmits<TRecord, TApiResponse>>();

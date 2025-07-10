@@ -1,7 +1,7 @@
 import { App } from "vue";
 import DevkitDatalistPlugin, {
   DevkitDatalistConfig
-} from "@devkit/datalist";
+} from "@devkitvue/datalist";
 import { DevkitAdminConfig } from "..";
 
 export function registerDevkitDatalist<TApi extends Record<string , Function>>(app: App , {apiClient , authHandler , filesHandler} : DevkitAdminConfig<TApi>) {

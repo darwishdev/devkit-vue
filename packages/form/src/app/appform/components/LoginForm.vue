@@ -1,14 +1,14 @@
 <script setup lang="ts" generic="TApi extends Record<string, Function>">
-import { AppFormProps } from "@devkit/config";
+import { AppFormProps } from "@devkitvue/config";
 import AppForm from "../AppForm.vue";
 import {
   AuthLoginProviderRequest,
   AuthLoginRequest,
   AuthLoginResponse,
-} from "@devkit/config";
-import { AuthHandler } from "@devkit/config";
-import { resolveApiEndpoint } from "@devkit/apiclient";
-import { AppBtn } from "@devkit/base-components";
+} from "@devkitvue/config";
+import { AuthHandler } from "@devkitvue/config";
+import { resolveApiEndpoint } from "@devkitvue/apiclient";
+import { AppBtn } from "@devkitvue/base-components";
 import { inject } from "vue";
 import { loginCallback, loginSectionInputs } from "../forms/AuthForms";
 

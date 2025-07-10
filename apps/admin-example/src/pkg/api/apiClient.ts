@@ -1,5 +1,5 @@
 import { createClient } from "@connectrpc/connect";
-import { AuthInterceptor, ErrorInterceptor } from "@devkit/apiclient";
+import { AuthInterceptor, ErrorInterceptor } from "@devkitvue/apiclient";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { DevkitService } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/devkit_service_pb";
 import router from "@/pkg/router";

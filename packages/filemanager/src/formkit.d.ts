@@ -4,7 +4,7 @@ import {
   DropdownContext,
   InputDropdownSlots,
   InputUploadContext,
-} from "@devkit/form";
+} from "@devkitvue/form";
 declare module "@formkit/inputs" {
   interface FormKitInputProps<Props extends FormKitInputs<Props>> {
     // This key and the `type` should match:

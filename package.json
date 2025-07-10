@@ -6,12 +6,12 @@
     "setup-deps": "turbo run setup-deps",
     "sync-api": "turbo run sync-api",
     "build": "turbo run build",
-    "build:datalist": "turbo run build --filter=@devkit/datalist",
-    "build:filemanager": "turbo run build --filter=@devkit/filemanager",
-    "build:form": "turbo run build --filter=@devkit/form",
+    "build:datalist": "turbo run build --filter=@devkitvue/datalist",
+    "build:filemanager": "turbo run build --filter=@devkitvue/filemanager",
+    "build:form": "turbo run build --filter=@devkitvue/form",
     "lint": "turbo run lint",
-    "dev:admin": "turbo run dev --filter=@devkit/admin-example",
-    "dev:docs": "turbo run dev --filter=@devkit/docs",
+    "dev:admin": "turbo run dev --filter=@devkitvue/admin-example",
+    "dev:docs": "turbo run dev --filter=@devkitvue/docs",
     "test": "turbo run test",
     "dev": "turbo run dev --parallel",
     "view-report": "turbo run view-report"
@@ -23,6 +23,7 @@
     }
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.5",
     "jiti": "^2.4.2",
     "postcss-import": "^16.1.0",
     "prettier": "^3.5.0",

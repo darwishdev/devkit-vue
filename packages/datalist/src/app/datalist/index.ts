@@ -7,3 +7,4 @@ export { ColumnText } from "./columns/ColumnText";
 export { ColumnBase } from "./columns/ColumnBase";
 export { ColumnDate } from "./columns/ColumnDate";
 export { ColumnImage } from "./columns/ColumnImage";
+export { ColumnIcon } from "./columns/ColumnIcon";

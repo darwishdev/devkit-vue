@@ -22,9 +22,9 @@ import {
 import {
   resolveApiEndpoint,
   type StringUnknownRecord,
-} from "@devkit/apiclient";
-import { useActions } from "@devkit/datalist";
-import { AppBtn } from "@devkit/base-components";
+} from "@devkitvue/apiclient";
+import { useActions } from "@devkitvue/datalist";
+import { AppBtn } from "@devkitvue/base-components";
 import { useRoute, useRouter } from "vue-router";
 import { useToast } from "primevue";
 const emit = defineEmits<DataViewEmits>();

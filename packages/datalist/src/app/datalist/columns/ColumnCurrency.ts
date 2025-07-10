@@ -1,5 +1,5 @@
 import { h } from "vue";
-import { StringUnknownRecord } from "@devkit/config";
+import { StringUnknownRecord } from "@devkitvue/config";
 import { ColumnBase } from "./ColumnBase";
 import {
   DatalistColumnClientSide,

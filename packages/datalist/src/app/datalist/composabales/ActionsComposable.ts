@@ -3,10 +3,10 @@ import { useRouter, type RouteParamsRaw } from "vue-router";
 import { useToast } from "primevue";
 import { useDialog } from "primevue";
 import { useMutation } from "@tanstack/vue-query";
-import { resolveApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
+import { resolveApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import { objectEntries } from "@vueuse/core";
-import { AppDialog } from "@devkit/base-components";
-import { AppForm } from "@devkit/form";
+import { AppDialog } from "@devkitvue/base-components";
+import { AppForm } from "@devkitvue/form";
 import {
   ActionButtonProps,
   ApiOptions,
@@ -15,7 +15,7 @@ import {
   DataRouter,
   DeleteRestoreVariant,
   FindHandler,
-} from "@devkit/config";
+} from "@devkitvue/config";
 
 /* ------------------------------------------------------------------ */
 /* Composable                                                          */

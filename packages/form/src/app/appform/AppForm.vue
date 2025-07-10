@@ -13,10 +13,10 @@
   "
 >
 import { useAppFormStoreWithProps } from "./store/AppFormStore";
-import { AppFormProps } from "@devkit/config";
+import { AppFormProps } from "@devkitvue/config";
 
 import FormBase from "./components/FormBase.vue";
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { StringUnknownRecord } from "@devkitvue/apiclient";
 import { onBeforeUnmount } from "vue";
 // import { onUnmounted } from "vue";
 

@@ -1,5 +1,5 @@
 import type { DBDropdownOptions } from "@/pkg/database/DbTypes";
-import { resolveApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
+import { resolveApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import { db, DropdownContext } from "@/index";
 import { CacheOptions } from "@/pkg/types/types";
 import { useDebounceFn, useMemoize } from "@vueuse/core";

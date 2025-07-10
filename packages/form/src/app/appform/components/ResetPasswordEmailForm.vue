@@ -3,8 +3,8 @@ import AppForm from "@/app/appform/AppForm.vue";
 import {
   AuthResetPasswordEmailRequest,
   AuthResetPasswordEmailResponse,
-} from "@devkit/config";
-import { AuthHandler, AppFormProps } from "@devkit/config";
+} from "@devkitvue/config";
+import { AuthHandler, AppFormProps } from "@devkitvue/config";
 import { inject } from "vue";
 import {
   loginRoute,

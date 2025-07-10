@@ -38,7 +38,7 @@ Key features include:
 ```vue
 <script setup lang="ts">
 import { apiClient } from "../../../../src/apiClient.ts";
-import Datalist from "@devkit/datalist";
+import Datalist from "@devkitvue/datalist";
 
 const columns = {
   id: { props: { field: "id", header: "ID" }, isGlobalFilter: true },
@@ -90,7 +90,7 @@ const tableProps = {
 ```
 <script setup lang="ts">
 import { apiClient } from "../../../../src/apiClient.ts";
-import Datalist from "@devkit/datalist";
+import Datalist from "@devkitvue/datalist";
 
 const columns = {
   id: { props: { field: "id", header: "ID" }, isGlobalFilter: true },

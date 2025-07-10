@@ -5,7 +5,7 @@
 <!--   GalleryListRequest, -->
 <!--   GalleryListResponse, -->
 <!-- } from "@/pkg/types/api_types"; -->
-<!-- import { AppBtn, AppImage } from "@devkit/base-components"; -->
+<!-- import { AppBtn, AppImage } from "@devkitvue/base-components"; -->
 <!-- import { DynamicDialogInstance } from "primevue/dynamicdialogoptions"; -->
 <!---->
 <!-- const dialog = inject<ComputedRef<DynamicDialogInstance>>("dialogRef"); -->

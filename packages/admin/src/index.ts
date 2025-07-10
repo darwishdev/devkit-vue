@@ -1,17 +1,19 @@
-import { ApiEndpoint } from "@devkit/apiclient";
+import { ApiEndpoint } from "@devkitvue/apiclient";
 import {
   FilesHandler,
   AuthHandler,
   IconFindRequest,
   IconFindResponse,
-} from "@devkit/config";
+} from "@devkitvue/config";
 import { type App, type Plugin } from "vue";
 import { registerDevkitBase } from "./plugins/devkit-base";
 import { registerDevkitDatalist } from "./plugins/datalist";
 import { registerDevkitFilemanager } from "./plugins/filemanager";
 import { registerDevkitForm } from "./plugins/form";
 import { registerDevkitDataView } from "./plugins/dataview";
+
 export * from "./types";
+export * from "./components/index";
 export type DevkitAdminConfig<TApi extends Record<string, Function>> = {
   apiClient: TApi;
   baseImageUrl?: string;

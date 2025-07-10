@@ -1,4 +1,4 @@
-import { ObjectKeys, StringUnknownRecord } from "@devkit/apiclient"
+import { ObjectKeys, StringUnknownRecord } from "@devkitvue/apiclient"
 import { DatalistColumnBase,  DatalistColumnsBase } from "../types"
 import { ColumnText } from "../columns/ColumnText"
 export const _constructColumns = <TRecord extends StringUnknownRecord>

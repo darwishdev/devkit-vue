@@ -1,7 +1,40 @@
 import type { FormKitSchemaNode } from "@formkit/core";
-import type { DatalistColumnsBase } from "@devkit/datalist";
-import { StringUnknownRecord } from "@devkit/apiclient";
+import type { DatalistColumnsBase } from "@devkitvue/datalist";
+import { StringUnknownRecord } from "@devkitvue/apiclient";
+import { CommandPallete } from "@devkitvue/config";
+import { AppMenuItem } from "@devkitvue/base-components";
+export type AppHeaderProps<SUPPORTE_LOCALES_TYPE> = {
+  setLanguage?: (
+    locale: SUPPORTE_LOCALES_TYPE,
+  ) => Promise<Record<string, string> | undefined>;
+};
+export type AppHeaderEmits<SUPPORTE_LOCALES_TYPE> = {
+  (e: "localeChanged", locale: SUPPORTE_LOCALES_TYPE): void;
+  (e: "loggedOut"): void;
+  (e: "sidebarToggled"): void;
+  (e: "searchToggled"): void;
+  (e: "searchSelected", item: CommandPallete): void;
+};
 
+// Define the component's slots for full customization
+export type AppHeaderSlots = {
+  logo?: (props: {}) => any;
+  "sidebar-toggler"?: (props: { toggle: () => void }) => any;
+  search?: (props: {
+    isSearching: boolean;
+    toggle: () => void;
+    suggestions: CommandPallete[];
+  }) => any;
+  "theme-toggler"?: (props: {}) => any;
+  "locale-toggler"?: (props: {
+    toggle: (locale: string) => Promise<void>;
+  }) => any;
+  "profile-menu"?: (props: {
+    toggle: (event?: Event) => void;
+    items: AppMenuItem[];
+  }) => any;
+  breadcrumb?: (props: {}) => any;
+};
 export interface FeatureConstants<
   TApi extends Record<string, Function>,
   TView extends StringUnknownRecord,

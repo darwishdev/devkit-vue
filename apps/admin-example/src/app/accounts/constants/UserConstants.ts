@@ -3,7 +3,7 @@ import {
   ColumnDate,
   ColumnImage,
   type DatalistColumnsBase,
-} from "@devkit/datalist";
+} from "@devkitvue/datalist";
 import type { AccountsSchemaUserView } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 import type { FormKitSchemaNode } from "@formkit/core";
 /* =====================================================================
@@ -187,11 +187,22 @@ export const baseDateRangeInput: FormKitSchemaNode = {
   placeholder: "dateRange",
 } as const;
 /** Convenient bundles – feel free to make more */
+
+export const icon: FormKitSchemaNode & { name: "userEmail" } = {
+  $formkit: "devkitIcon",
+  fluid: true,
+  label: "icon",
+  placeholder: "icon",
+
+  name: "userEmail",
+};
+
 export const USER_BASE_INPUTS = [
   userNameInput,
   userEmailInput,
   userRolesInput,
   userTypeInput,
+  icon,
   tenantInput,
   userPhoneInput,
   userPasswordInput,

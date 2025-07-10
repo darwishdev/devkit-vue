@@ -2,7 +2,7 @@ import DevkitBaseDB from "@/pkg/database/DB";
 import { type App, type Plugin } from "vue";
 import { useI18n } from "vue-i18n";
 import { toggleLocale } from "@/pkg/utils/LocaleUtils";
-import { ApiEndpoint } from "@devkit/apiclient";
+import { ApiEndpoint } from "@devkitvue/apiclient";
 import {
   IconFindRequest,
   IconFindResponse,

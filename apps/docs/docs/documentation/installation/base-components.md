@@ -2,9 +2,9 @@
 title: Base Components
 ---
 
-# Installing `@devkit/base-components`
+# Installing `@devkitvue/base-components`
 
-The `@devkit/base-components` plugin provides common UI components and utilities, including:
+The `@devkitvue/base-components` plugin provides common UI components and utilities, including:
 
 - **AppBtn**, **AppIcon**, **AppImage**, **AppThemeToggler**, **AppLocaleToggler**, **AppSection**, **AppDialog**, **AppBreadcrumb**, **AppMenu**  
 - Helpers: `cacheHelper`, `iconHelper` and `setupI18nSync()` for locale persistence  
@@ -15,7 +15,7 @@ The `@devkit/base-components` plugin provides common UI components and utilities
 ## 1. Install Peer Dependencies
 
 ```bash
-pnpm add @devkit/base-components @devkit/apiclient dexie primevue tailwindcss tailwindcss-primeui vue-i18n
+pnpm add @devkitvue/base-components @devkitvue/apiclient dexie primevue tailwindcss tailwindcss-primeui vue-i18n
 ````
 
 <aside>
@@ -30,7 +30,7 @@ In your main entry (e.g. `main.ts`):
 
 ```ts
 import { createApp } from 'vue'
-import DevkitBaseComponentsPlugin, { DevkitBaseConfig } from '@devkit/base-components'
+import DevkitBaseComponentsPlugin, { DevkitBaseConfig } from '@devkitvue/base-components'
 import { apiClient } from '@/pkg/apiClient'  // adjust path as needed
 
 const app = createApp(App)
@@ -120,7 +120,7 @@ Once registered, import and use any component:
 </template>
 
 <script setup lang="ts">
-import { AppBtn } from '@devkit/base-components'
+import { AppBtn } from '@devkitvue/base-components'
 </script>
 ```
 

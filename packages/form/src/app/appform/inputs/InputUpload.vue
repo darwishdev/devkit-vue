@@ -12,8 +12,8 @@ import "@uppy/image-editor/dist/style.css";
 
 import GallerySelectPlugin from "../plugins/GallerySelector";
 import { InputUploadProps, InputUploadMeta } from "./types";
-import { FilesHandler } from "@devkit/config";
-import { resolveApiEndpoint } from "@devkit/apiclient";
+import { FilesHandler } from "@devkitvue/config";
+import { resolveApiEndpoint } from "@devkitvue/apiclient";
 
 const props = defineProps<InputUploadProps<TApi>>();
 const filesHandler = inject<FilesHandler<TApi>>("filesHandler");

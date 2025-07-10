@@ -1,7 +1,7 @@
 import type { TranslationFindLocaleResponse } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/public_translation_pb";
 import { apiClient } from "../api/apiClient";
 import { createI18n } from "vue-i18n";
-import { cacheHelper } from "@devkit/base-components";
+import { cacheHelper } from "@devkitvue/base-components";
 export type SUPPORTE_LOCALES_TYPE = "en" | "ar";
 export const SUPPORT_LOCALES: SUPPORTE_LOCALES_TYPE[] = ["en", "ar"];
 const translationListApi = (locale: SUPPORTE_LOCALES_TYPE) => {

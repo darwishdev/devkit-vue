@@ -13,7 +13,7 @@ import "@uppy/image-editor/dist/style.css";
 import GallerySelectPlugin from "../plugins/GallerySelector";
 import { InputUploadProps, InputUploadMeta } from "./types";
 import { FilesHandler } from "@/pkg/types/types";
-import { resolveApiEndpoint } from "@devkit/apiclient";
+import { resolveApiEndpoint } from "@devkitvue/apiclient";
 
 const props = defineProps<InputUploadProps<TApi>>();
 const filesHandler = inject<FilesHandler<TApi>>("filesHandler");

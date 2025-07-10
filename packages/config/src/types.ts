@@ -22,7 +22,7 @@ import type {
 } from "./api_types";
 import type { RouteLocationRaw } from "vue-router";
 
-import { ApiEndpoint } from "@devkit/apiclient";
+import { ApiEndpoint } from "@devkitvue/apiclient";
 export type AppIconProps = {
   icon: string;
   size?: "small" | "medium" | "large";
@@ -372,3 +372,13 @@ export type ActionButtonProps<TAvailableKeys = AvailableActions> = Omit<
   AppBtnProps,
   "action"
 > & { actionFn: Function; actionKey: keyof TAvailableKeys };
+
+export type CommandPallete = {
+  menuKey: string;
+  label: string;
+  labelAr: string;
+  icon: string;
+  route: string;
+  keywords: string;
+  tenantId: number;
+};

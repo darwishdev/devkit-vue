@@ -1,4 +1,4 @@
-import type { GridConfig } from "@devkit/config";
+import type { GridConfig } from "@devkitvue/config";
 const DEFAULT_GRID_CONFIG: GridConfig = {
   columns: 1,
   gridType: "grid",

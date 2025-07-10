@@ -1,5 +1,5 @@
 // import { FormKitPlugin } from "@formkit/core";
-// import { ObjectKeys, resolveApiEndpoint } from "@devkit/apiclient";
+// import { ObjectKeys, resolveApiEndpoint } from "@devkitvue/apiclient";
 // import { FindHandler } from "@/pkg/types/types";
 // import { useRoute } from "vue-router";
 // import { RouteQueryFind, RouteQueryRemove } from "@/pkg/utils/QueryUtils";

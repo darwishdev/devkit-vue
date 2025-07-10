@@ -4,7 +4,7 @@ import {
   ApiOptions,
   FilterMatchModeValues,
   PaginationParams,
-} from "@devkit/config";
+} from "@devkitvue/config";
 import {
   DatalistFiltersModel,
   DatalistFilter,
@@ -17,12 +17,12 @@ import {
   ObjectKeys,
   resolveApiEndpoint,
   StringUnknownRecord,
-} from "@devkit/apiclient";
+} from "@devkitvue/apiclient";
 import { _constructColumns } from "../utilites/_columnUtils";
 import { keepPreviousData, useQuery } from "@tanstack/vue-query";
 import { objectEntries, useDebounceFn } from "@vueuse/core";
 import { useToast } from "primevue";
-import { AppFormProps } from "@devkit/config";
+import { AppFormProps } from "@devkitvue/config";
 import { useFormKitNodeById } from "@formkit/vue";
 import { useActions } from "../composabales/ActionsComposable";
 
@@ -570,7 +570,7 @@ export const useDatalistStore = <
       );
       return filtersFormSchema.length > 0
         ? formElementNode.value?.context?.state?.valid || false
-        : false;
+        : true;
     });
     const filtersFormCtx = computed(() => {
       return formElementNode.value?.context || null;
@@ -580,17 +580,25 @@ export const useDatalistStore = <
       queryKey: [context.datalistKey],
       queryFn: () =>
         datalistQueryFn().then(async (response) => {
+          console.log(
+            "constructed columns is here",
+            initialCallbackFinished,
+            response.records.length > 0,
+            context.displayType == "table",
+            ObjectKeys(datatableColumnsRef.value).length == 0,
+          );
           if (initialCallbackFinished) return response;
           const { records } = response;
           if (
             records.length > 0 &&
-            context.displayType == "table" &&
+            context.displayType != "card" &&
             ObjectKeys(datatableColumnsRef.value).length == 0
           ) {
             const datalistColumns = _constructColumns(
               records[0],
               context.execludedColumns,
             );
+            console.log("constructed columns is here", datalistColumns);
             datatableColumnsRef.value = datalistColumns;
           }
           initialCallbackFinished = true;

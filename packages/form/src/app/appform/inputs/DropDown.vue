@@ -8,7 +8,7 @@
     TComponentType extends 'single' | 'multi' | 'button' = 'single'
   "
 >
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { StringUnknownRecord } from "@devkitvue/apiclient";
 import Select, { SelectProps } from "primevue/select";
 import { h } from "vue";
 import {
@@ -17,7 +17,7 @@ import {
   SelectButton,
   SelectButtonProps,
 } from "primevue";
-import { AppBtn, AppIcon } from "@devkit/base-components";
+import { AppBtn, AppIcon } from "@devkitvue/base-components";
 import { InputDropdownProps, DropdownOptions } from "./types";
 import { renderErr, renderLoading } from "./_baseInputComponents";
 const props =
@@ -28,7 +28,15 @@ const { context } = props;
 const emit = defineEmits<{
   (e: "valueChange", value: unknown): void;
 }>();
-const { options, dependsOn, createRoute, node, useLazy, hideReload } = context;
+const {
+  options,
+  dependsOn,
+  createRoute,
+  node,
+  useLazy,
+  hideReload,
+  iconKey = "icon",
+} = context;
 const getPrimevueProps = () => {
   const primevuePops: typeof context.useButtons extends true
     ? SelectButtonProps
@@ -80,7 +88,7 @@ const renderOption = (optionProps: {
   let note = "";
   if (option && typeof option == "object") {
     const optionsMap = option as Record<string, unknown>;
-    icon = "icon" in optionsMap ? (optionsMap.icon as string) : "";
+    icon = iconKey in optionsMap ? (optionsMap[iconKey] as string) : "";
     if (typeof selectProps.optionLabel === "string") {
       if (selectProps.optionLabel in optionsMap) {
         const key = selectProps.optionLabel;
@@ -93,7 +101,7 @@ const renderOption = (optionProps: {
   return h(
     "div",
     {
-      class: `flex items-center ${selected ? "selected" : ""}`,
+      class: `flex ${context.pt?.option || ""} items-center ${selected ? "selected" : ""}`,
     },
     [
       icon ? h(AppIcon, { icon }) : undefined,
@@ -109,7 +117,7 @@ const renderInputDropdown = () => {
     {
       ...selectProps,
       size: "small",
-      pt: { overlay: "z-2000" },
+      pt: { overlay: "z-2000", ...(context.pt || {}) },
       modelValue: context._value,
       "onUpdate:modelValue": onValueChange,
       loading: node.props.isLoading.value,
@@ -152,3 +160,23 @@ const renderInputDropdown = () => {
 <template>
   <component :is="renderInputDropdown" />
 </template>
+<style>
+.uppy-Root .uppy-Dashboard .uppy-Dashboard-AddFiles {
+  border-color: var(--glass);
+}
+.uppy-Root .uppy-Dashboard .uppy-Dashboard-inner {
+  background: transparent;
+  border-color: var(--color-glass);
+}
+
+.uppy-DashboardTab-inner,
+.uppy-DashboardTab-btn:hover {
+  background: var(--glass);
+}
+[data-uppy-drag-drop-supported="true"] .uppy-Dashboard-AddFiles {
+  border-color: var(--glass);
+}
+.uppy-Dashboard-AddFiles-title {
+  color: var(--color-text);
+}
+</style>

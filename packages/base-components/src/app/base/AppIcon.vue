@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { h, inject, ref } from "vue";
 import { iconHelper } from "@/index";
-import type { AppIconProps } from "@devkit/config";
+import type { AppIconProps } from "@devkitvue/config";
 import type { AppIconSlots } from "@/pkg/types/types";
-import { ApiEndpoint, resolveApiEndpoint } from "@devkit/apiclient";
+import { ApiEndpoint, resolveApiEndpoint } from "@devkitvue/apiclient";
 import type { IconFindRequest, IconFindResponse } from "@/pkg/types/api_types";
 const { icon, iconType } = defineProps<AppIconProps>();
 const apiClient = inject("apiClient");
@@ -70,3 +70,87 @@ const renderIcon = () => {
 <template>
   <component :is="renderIcon" />
 </template>
+<style>
+.fallback-icon svg {
+  width: 100%;
+}
+
+svg {
+  width: inherit;
+  height: inherit;
+}
+
+.app-logo {
+  svg {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.app-logo-icon {
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.bg-gray {
+  background-color: var(--gray-bg);
+}
+.p-button-icon-only {
+  justify-content: center;
+}
+
+:not(.custom-icon) svg:not(.custom-icon) {
+  --icon-width: 1.5rem;
+  width: var(--icon-width);
+  height: var(--icon-width);
+}
+
+.app-logo:hover {
+  background: transparent !important;
+}
+/* .uppy-Root .uppy-Dashboard .uppy-Dashboard-AddFiles { */
+/*   border-color: var(--glass); */
+/* } */
+/* .uppy-Root .uppy-Dashboard .uppy-Dashboard-inner { */
+/*   background: transparent; */
+/*   border-color: var(--color-glass); */
+/* } */
+/**/
+/* .uppy-DashboardTab-inner, */
+/* .uppy-DashboardTab-btn:hover { */
+/*   background: var(--glass); */
+/* } */
+/* [data-uppy-drag-drop-supported="true"] .uppy-Dashboard-AddFiles { */
+/*   border-color: var(--glass); */
+/* } */
+/* .uppy-Dashboard-AddFiles-title { */
+/*   color: var(--color-text); */
+/* } */
+/**/
+.fallback-icon svg {
+  width: 100%;
+}
+
+svg {
+  width: inherit;
+  height: inherit;
+}
+.app-logo-icon {
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.app-logo {
+  svg {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+:not(.custom-icon) svg:not(.custom-icon) {
+  --icon-width: 1.5rem;
+  width: var(--icon-width);
+  height: var(--icon-width);
+}
+</style>

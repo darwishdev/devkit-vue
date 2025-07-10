@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, h } from "vue";
-import type { AppBtnProps } from "@devkit/config";
+import type { AppBtnProps } from "@devkitvue/config";
 import type { AppBtnSlots } from "@/pkg/types/types";
 import { Button } from "primevue";
 import { RouterLink } from "vue-router";
@@ -82,3 +82,8 @@ const renderAppBtn = computed(() => {
 <template>
   <component :is="renderAppBtn" />
 </template>
+<style>
+.p-button-icon-only {
+  justify-content: center;
+}
+</style>

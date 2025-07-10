@@ -9,8 +9,8 @@ import {
   DisplayType,
   AvailableActions,
   PaginationParams,
-} from "@devkit/config";
-import { ApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
+} from "@devkitvue/config";
+import { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import { useDatalistStore } from "./store/DatalistStore";
 import type { DataTableFilterMetaData, DataTableProps } from "primevue";
 import type { FormKitSchemaNode } from "@formkit/core";
@@ -149,6 +149,7 @@ export type DatalistRecords<
   TApiResponse extends StringUnknownRecord | undefined = undefined,
 > =
   | TRecord[]
+  | ApiResponseList<TRecord>
   | ApiEndpoint<
       TApi,
       TFiltersReq extends undefined ? TReq : TFiltersReq,
@@ -369,6 +370,8 @@ export type DatalistSlots<
       TFormSectionsRequest
     >;
   }) => VNode[] | VNode;
+
+  title?: () => VNode[] | VNode;
   globalActionsStartAppend?: (props: {
     store: DatalistStore<
       TApi,

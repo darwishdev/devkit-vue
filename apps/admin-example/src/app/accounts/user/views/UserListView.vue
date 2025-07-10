@@ -3,7 +3,7 @@ import {
   Datalist,
   type DatalistColumnsBase,
   type DatalistProps,
-} from "@devkit/datalist";
+} from "@devkitvue/datalist";
 import type {
   AccountsSchemaUserView,
   UserListRequest,

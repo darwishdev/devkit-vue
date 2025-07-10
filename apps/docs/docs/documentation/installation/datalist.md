@@ -1,20 +1,20 @@
 ---
 title: Datalist
 ---
-# Installing `@devkit/datalist`
+# Installing `@devkitvue/datalist`
 
-The `@devkit/datalist` plugin provides a PrimeVue-based datatable wrapper with built-in integration for API calls, server-side filtering, sorting, pagination, and optional auth/file handlers.
+The `@devkitvue/datalist` plugin provides a PrimeVue-based datatable wrapper with built-in integration for API calls, server-side filtering, sorting, pagination, and optional auth/file handlers.
 
 ---
 
 ## 1. Install Peer Dependencies
 
 ```bash
-pnpm add @devkit/datalist \
-  @devkit/apiclient \
-  @devkit/form \
-  @devkit/config \
-  @devkit/base-components \
+pnpm add @devkitvue/datalist \
+  @devkitvue/apiclient \
+  @devkitvue/form \
+  @devkitvue/config \
+  @devkitvue/base-components \
   @formkit/core @formkit/vue \
   @tanstack/query-persist-client-core @tanstack/vue-query \
   @vueuse/core dexie pinia primevue \
@@ -30,7 +30,7 @@ In your main entry (e.g. `main.ts`), register with your generated API client and
 
 ```ts
 import { createApp } from 'vue'
-import DevkitDatalistPlugin, { DevkitDatalistConfig } from '@devkit/datalist'
+import DevkitDatalistPlugin, { DevkitDatalistConfig } from '@devkitvue/datalist'
 import { apiClient } from '@/pkg/apiClient'  // adjust to your path
 
 const app = createApp(App)

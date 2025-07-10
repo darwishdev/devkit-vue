@@ -5,7 +5,7 @@ import {
   DatalistColumnServerSide,
   DatalistFilter,
 } from "../types";
-import { DataRouter, StringUnknownRecord } from "@devkit/config";
+import { DataRouter, StringUnknownRecord } from "@devkitvue/config";
 
 export class ColumnBase<TRecord extends Record<string, unknown>> {
   props: ColumnProps = {};
