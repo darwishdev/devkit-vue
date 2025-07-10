@@ -1,5 +1,11 @@
 # @devkitvue/config
 
+## 1.2.0
+
+### Minor Changes
+
+- f7aa3d5: fix peer dependencies issues
+
 ## 1.1.0
 
 ### Minor Changes

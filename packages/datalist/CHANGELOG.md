@@ -1,5 +1,18 @@
 # @devkitvue/datalist
 
+## 2.1.0
+
+### Minor Changes
+
+- f7aa3d5: fix peer dependencies issues
+
+### Patch Changes
+
+- Updated dependencies [f7aa3d5]
+  - @devkitvue/base-components@1.2.0
+  - @devkitvue/config@1.2.0
+  - @devkitvue/form@1.1.0
+
 ## 2.0.0
 
 ### Minor Changes
