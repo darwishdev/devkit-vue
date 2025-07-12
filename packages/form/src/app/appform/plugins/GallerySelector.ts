@@ -184,6 +184,7 @@ export default class GallerySelectPlugin extends UIPlugin<
         },
         images.map((url) => {
           const fullSrc = baseUrl ? `${baseUrl}/${url}` : url;
+          console.log("url is ", url);
           const isChecked = selected.has(url);
 
           return h(

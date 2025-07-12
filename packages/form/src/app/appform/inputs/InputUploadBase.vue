@@ -50,7 +50,7 @@ const {
   imageEditorOptions = {},
 } = props.context;
 const fallbackImage = fallbackImageUrl || inject<string>("fallbackImageUrl");
-const baseUrl = baseUrlOption || inject<string>("baseUrl");
+const baseUrl = baseUrlOption || inject<string>("baseImageUrl");
 const { autoProceed } = uppyOptions;
 const uploadConfig = filesHandler
   ? await resolveApiEndpoint(filesHandler.fileUploadUrlFind, apiClient)
