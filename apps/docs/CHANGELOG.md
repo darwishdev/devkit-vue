@@ -1,5 +1,15 @@
 # @devkitvue/docs
 
+## 1.2.3
+
+### Patch Changes
+
+- Updated dependencies [f844b68]
+  - @devkitvue/form@1.3.0
+  - @devkitvue/admin@1.2.3
+  - @devkitvue/datalist@2.2.1
+  - @devkitvue/filemanager@2.1.3
+
 ## 1.2.2
 
 ### Patch Changes

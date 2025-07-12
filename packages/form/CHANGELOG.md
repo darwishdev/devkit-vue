@@ -1,5 +1,11 @@
 # @devkitvue/form
 
+## 1.3.0
+
+### Minor Changes
+
+- f844b68: fix base url on gallery selector plugin on input upload
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @devkitvue/dataview
 
+## 2.2.1
+
+### Patch Changes
+
+- Updated dependencies [f844b68]
+  - @devkitvue/form@1.3.0
+  - @devkitvue/datalist@2.2.1
+
 ## 2.2.0
 
 ### Minor Changes
