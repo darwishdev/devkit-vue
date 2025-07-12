@@ -34,6 +34,9 @@ const props =
     >
   >();
 
+const emit = defineEmits<{
+  (e: "input", req: TFormRequest): void;
+}>();
 const store = useAppFormStoreWithProps(props);
 onBeforeUnmount(() => {
   store.$dispose();
@@ -41,7 +44,7 @@ onBeforeUnmount(() => {
 </script>
 <template>
   <Suspense>
-    <FormBase v-bind="props" />
+    <FormBase @input="(req) => emit('input', req)" v-bind="props" />
     <template #fallback>
       <div class="loading-indicator">
         <p>Loading form...</p>

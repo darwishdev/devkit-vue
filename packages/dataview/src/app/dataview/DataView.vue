@@ -3,14 +3,11 @@
   setup
   generic="
     TApi extends Record<string, Function>,
-    TReq extends Record<string, unknown> = StringUnknownRecord,
     TRecord extends Record<string, unknown> = StringUnknownRecord,
-    TApiResponse extends Record<string, unknown> | undefined = undefined,
     TFormSectionsRequest extends Record<string, unknown> | undefined = undefined
   "
 >
 import { computed, h, inject, ref } from "vue";
-
 import { useQuery } from "@tanstack/vue-query";
 import {
   ApiResponseFind,
@@ -29,37 +26,55 @@ import { useRoute, useRouter } from "vue-router";
 import { useToast } from "primevue";
 const emit = defineEmits<DataViewEmits>();
 const { context } =
-  defineProps<
-    DataViewProps<TApi, TReq, TRecord, TApiResponse, TFormSectionsRequest>
-  >();
+  defineProps<DataViewProps<TApi, TRecord, TFormSectionsRequest>>();
 const slots = defineSlots<DataViewSlots<TRecord>>();
 const isDeletedRef = ref(false);
 const route = useRoute();
-
-const errorRef = ref("");
 const toast = useToast();
 const apiClient = inject<TApi>("apiClient");
+const {
+  requestValue,
+  viewKey,
+  routerParamName = "id",
+  record,
+  datalistKey,
+  requestMapper,
+} = context;
+
+const handleError = (e: unknown) => {
+  if (e instanceof Error) {
+    toast.add({
+      severity: "error",
+      summary: "failed",
+      detail: e.message,
+      life: 3000,
+    });
+    return;
+  }
+  toast.add({
+    severity: "error",
+    summary: "failed",
+    detail: e,
+    life: 3000,
+  });
+};
+const computedRequestValue = computed(() => {
+  if (requestValue) return context.requestValue;
+  try {
+    const rawParam = route.params[routerParamName!] as string;
+    return /^\d+$/.test(rawParam) ? Number(rawParam) : rawParam;
+  } catch (e: unknown) {
+    handleError(e);
+    return 0;
+  }
+});
 const queryFn = async (): Promise<ApiResponseFind<TRecord>> => {
-  const {
-    requestValue,
-    rowIdentifier,
-    routerParamName = "id",
-    record,
-    responseMapper,
-    requestMapper,
-  } = context;
   if (typeof record == "object") {
     return { record: record as TRecord, options: context.options };
   }
   try {
-    const rawParam = route.params[routerParamName!] as string;
-    const parsedParam: string | number = !rawParam
-      ? ""
-      : /^\d+$/.test(rawParam)
-        ? Number(rawParam)
-        : rawParam;
     const req: DataFindRequest = {
-      recordId: requestValue ?? parsedParam,
+      recordId: computedRequestValue.value,
     };
 
     if (requestMapper) {
@@ -70,23 +85,13 @@ const queryFn = async (): Promise<ApiResponseFind<TRecord>> => {
       typeof req,
       ApiResponseFind<TRecord>
     >(record, apiClient, req);
-    console.log("api response is", apiResponse);
     // const newResponse = responseMapper
     //   ? responseMapper(apiResponse)
     //   : apiResponse;
     isDeletedRef.value = apiResponse.record.deletedAt != "";
     return apiResponse;
   } catch (e) {
-    console.log("error on fetching data", e);
-    if (e instanceof Error) {
-      errorRef.value = e.message;
-      toast.add({
-        severity: "error",
-        summary: "failed",
-        detail: e.message,
-        life: 3000,
-      });
-    }
+    handleError(e);
     throw e;
   }
   // resolveApiEndpoint(records, apiClient, request)
@@ -94,7 +99,7 @@ const queryFn = async (): Promise<ApiResponseFind<TRecord>> => {
 
 // let initialCallbackFinished = false;
 const datalistQueryResult = useQuery<ApiResponseFind<TRecord>, Error>({
-  queryKey: [context.datalistKey],
+  queryKey: [viewKey, computedRequestValue],
   queryFn: () =>
     queryFn().then(async (response) => {
       return response;
@@ -102,7 +107,9 @@ const datalistQueryResult = useQuery<ApiResponseFind<TRecord>, Error>({
   enabled: true,
 });
 const optionsInUse = computed(
-  () => datalistQueryResult.data.value?.options || context.options,
+  () =>
+    datalistQueryResult.data.value?.options ||
+    context.options || { title: context.viewKey },
 );
 const currentData = computed(() => {
   return datalistQueryResult.data.value?.record || undefined;
@@ -118,21 +125,26 @@ const {
 } = useActions({
   title: "hamada",
   isDeletedRef: isDeletedRef,
+  dataKeys: [datalistKey || ""],
   options: optionsInUse,
   formSections: context.formSections,
   rowIdentifier: context.rowIdentifier,
-  dataKeys: [],
 });
 
 const renderActions = () => {
   return permittedActions.value
     .filter((k) => ["delete", "deleteRestore", "update"].includes(k.actionKey))
     .map((actionBtn) => {
-      const callback = (value: StringUnknownRecord) =>
-        emit(`${actionBtn.actionKey}:submited`, value);
-      const slotFn = slots[`actions.${actionBtn.actionKey}`];
+      const typedActionKey = actionBtn.actionKey as
+        | "delete"
+        | "deleteRestore"
+        | "update";
+      const callbackKey = `${typedActionKey}:submited` as const;
+      const slotKey = `actions.${typedActionKey}` as const;
+      const callback = (value: StringUnknownRecord) => emit(callbackKey, value);
+      const slotFn = slots[slotKey];
       return slotFn
-        ? slotFn({ data: {} })
+        ? slotFn({ record: currentData.value! })
         : h(AppBtn, {
             variant: "outlined",
             action: () => actionBtn.actionFn(callback, currentData.value),
@@ -152,6 +164,7 @@ console.log(
 );
 const { push } = useRouter();
 const deleteRestoreButtonProps = computed(() => {
+  console.log("Crrent data is", currentData);
   return {
     key: deleteRestoreVariants.value.label,
     action: () => deleteRestoreOpenDialog({ record: currentData.value }),
@@ -179,7 +192,7 @@ const deleteRestoreButtonProps = computed(() => {
         <div class="mt-16 flex flex-col gap-1 text-white">
           <h2 class="text-2xl font-semibold">
             <slot name="cardTitle" :data="currentData">
-              {{ context.titleKey ? currentData[context.titleKey] : "" }}
+              {{ context.headerKey ? currentData[context.headerKey] : "" }}
             </slot>
           </h2>
           <p class="text-sm text-gray-300">
@@ -197,7 +210,7 @@ const deleteRestoreButtonProps = computed(() => {
               () =>
                 deleteRestoreOpenDialog({
                   record: currentData,
-                  callback: () => push(context.listRouter || '/'),
+                  callback: () => push(context.listRoute || '/'),
                   isHardDelete: true,
                 })
             "

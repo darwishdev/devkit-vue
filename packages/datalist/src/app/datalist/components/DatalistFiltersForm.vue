@@ -63,6 +63,7 @@ const removeFilter = (filter: string) => {
       @input="
         (req: StringUnknownRecord) => {
           if (!datalistStore.filtersFormProps.context.isLazy) {
+            console.log('filtersform change', req);
             datalistStore.filtersFormValueRef =
               datalistStore.filtersValueFromReq(req);
           }

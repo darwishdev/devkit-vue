@@ -51,13 +51,14 @@ export type DataFindRecord<
 export type DataViewContext<
   TApi extends Record<string, Function>,
   TRecord extends StringUnknownRecord,
-  TApiResponse extends StringUnknownRecord | undefined = undefined,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
 > = DataFindMappers<DataFindRequest, TRecord> & {
+  viewKey: string;
   title?: string;
   requestValue?: unknown;
   routerParamName?: string;
   listRoute?: string;
+  datalistKey?: string;
   headerKey?: keyof TRecord;
   subHeaderKey?: keyof TRecord;
   imageKey?: keyof TRecord;
@@ -76,18 +77,10 @@ export type DataViewContext<
 };
 export type DataViewProps<
   TApi extends Record<string, Function>,
-  TReq extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
-  TApiResponse extends StringUnknownRecord | undefined = undefined,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
 > = {
-  context: DataViewContext<
-    TApi,
-    TReq,
-    TRecord,
-    TApiResponse,
-    TFormSectionsRequest
-  >;
+  context: DataViewContext<TApi, TRecord, TFormSectionsRequest>;
 };
 export type DataViewActionsSlots<TRecord extends StringUnknownRecord> = {
   [K in keyof DataFindAvailableActions as K extends string

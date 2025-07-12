@@ -135,6 +135,7 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
   );
 };
 const globalInputChanged = (value: unknown) => {
+  console.log("global input changed", value);
   if (!datalistStore.formElementNode) return;
   if (typeof datalistStore.formElementNode._value != "object") return;
   datalistStore.formElementNode.input({
@@ -325,7 +326,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
                 :defaultValue="
                   (datalistStore.filterFormValue?.global as string) || ''
                 "
-                @change-value="globalInputChanged"
+                @value-change="globalInputChanged"
               />
             </IconField>
           </div>

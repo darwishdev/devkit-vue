@@ -2,7 +2,7 @@ import { ref, computed, h, inject, type Ref, type ComputedRef } from "vue";
 import { useRouter, type RouteParamsRaw } from "vue-router";
 import { useToast } from "primevue";
 import { useDialog } from "primevue";
-import { useMutation } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import {
   ObjectEntries,
   resolveApiEndpoint,
@@ -57,7 +57,7 @@ export function useActions<
   const router = useRouter();
   const toast = useToast();
   const dialog = useDialog();
-  //const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const deleteRestoreVariants = computed(() => {
     const initialVariant: DeleteRestoreVariant = {
       hasSelectedData: modelSelectionRef.value.length > 0,
@@ -116,7 +116,7 @@ export function useActions<
         {
           onConfirmed: ({ close }) => {
             deleteMutation
-              .mutateAsync(params || {})
+              .mutateAsync({ ...params })
               .then(() => {
                 toast.add({
                   summary: "deleted_succesfully",
@@ -135,6 +135,7 @@ export function useActions<
               })
               .finally(() => {
                 close();
+                queryClient.invalidateQueries({ queryKey: dataKeys });
                 if (params?.callback) {
                   params.callback();
                 }

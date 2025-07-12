@@ -40,7 +40,7 @@ const tableProps: DatalistProps<
       paramColumnName: USER_ROW_IDENTIFIER,
     },
     isActionsDropdown: true,
-    isLazyFilters: true,
+    isLazyFilters: false,
     options: {
       title: USER_TITLE,
       description: USER_DESCRIPTION,
