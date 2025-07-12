@@ -9,17 +9,15 @@ import type {
   UserListRequest,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 import {
-  USER_COLUMNS_MAP,
+  COLUMNS_MAP,
   ROUTES,
   KEYS,
   USER_ROW_IDENTIFIER,
   ROUTE_PARAM_NAME,
-  USER_TITLE,
-  USER_DESCRIPTION,
+  TITLE,
+  DESCRIPTION,
 } from "../../constants/UserConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
-
-const columns: DatalistColumnsBase<AccountsSchemaUserView> = USER_COLUMNS_MAP;
 
 const tableProps: DatalistProps<
   typeof apiClient,
@@ -32,7 +30,7 @@ const tableProps: DatalistProps<
   context: {
     datalistKey: KEYS.DATALIST_KEY,
     rowIdentifier: USER_ROW_IDENTIFIER,
-    columns,
+    columns: COLUMNS_MAP,
     records: apiClient.userList,
     viewRouter: {
       name: ROUTES.FIND.name,
@@ -42,8 +40,8 @@ const tableProps: DatalistProps<
     isActionsDropdown: true,
     isLazyFilters: false,
     options: {
-      title: USER_TITLE,
-      description: USER_DESCRIPTION,
+      title: TITLE,
+      description: DESCRIPTION,
     },
   },
 };

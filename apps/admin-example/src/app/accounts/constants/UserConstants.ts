@@ -17,15 +17,9 @@ import type { FormKitSchemaNode } from "@formkit/core";
 export const ROUTE_PARAM_NAME = "id";
 export const FIND_REQUEST_PROP_NAME = "recordId";
 export const FIND_RESPONSE_PROP_NAME = "request";
-export const USER_TITLE = "user";
-export const USER_DESCRIPTION = "user_description";
-// export const USER_ROUTES = {
-//   LIST: "/accounts/user",
-//   CREATE: "/accounts/user/create",
-//   VIEW: /accounts/user/:${ROUTE_PARAM_NAME},
-//   EDIT: /accounts/user/update/:${ROUTE_PARAM_NAME},
-// } as const;
-//
+export const TITLE = "user";
+export const DESCRIPTION = "user_description";
+
 export const BREADCRUMBS = {
   ACCOUNTS: { label: "accounts", icon: "user-community-line" } as const,
   USERS: { label: "users", icon: "user-3-line" } as const,
@@ -330,7 +324,7 @@ export const colDeletedAt = new ColumnDate("deletedAt", {
 /* ------------------------------------------------------------------ */
 /*  OPTIONAL: aggregated helper you can still pass to <Datalist>      */
 /* ------------------------------------------------------------------ */
-export const USER_COLUMNS_MAP = {
+export const COLUMNS_MAP = {
   userId: colUserId,
   userName: colUserName,
   userEmail: colUserEmail,

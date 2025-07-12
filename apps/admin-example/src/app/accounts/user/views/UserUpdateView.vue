@@ -6,7 +6,7 @@ import type {
   UserCreateUpdateResponse,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 import {
-  USER_TITLE,
+  TITLE,
   FIND_RESPONSE_PROP_NAME,
   FIND_REQUEST_PROP_NAME,
   KEYS,
@@ -21,7 +21,7 @@ const formProps: AppFormProps<
   UserCreateUpdateResponse
 > = {
   context: {
-    title: USER_TITLE,
+    title: TITLE,
     formKey: KEYS.CREATE_FORM_KEY,
     findHandler: {
       endpoint: ENDPOINTS.FIND_FOR_UPDATE,

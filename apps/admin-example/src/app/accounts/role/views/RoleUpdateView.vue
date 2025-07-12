@@ -1,26 +1,38 @@
 <script setup lang="ts">
+import { type AppFormProps } from "@devkitvue/config";
 import { AppForm } from "@devkitvue/form";
 import type {
   UserCreateUpdateRequest,
   UserCreateUpdateResponse,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
-import type { AppFormProps } from "@devkitvue/config";
-import { apiClient } from "@/pkg/api/apiClient";
 import {
-  ENDPOINTS,
-  KEYS,
-  ROUTES,
-  USER_BASE_INPUTS,
   TITLE,
-} from "../../constants/UserConstants";
+  FIND_RESPONSE_PROP_NAME,
+  FIND_REQUEST_PROP_NAME,
+  KEYS,
+  ENDPOINTS,
+  ROUTES,
+  BASE_INPUTS,
+} from "../../constants/RoleConstants";
+
+import type {
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse,
+} from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_role_pb";
+import { apiClient } from "@/pkg/api/apiClient";
 const formProps: AppFormProps<
   typeof apiClient,
-  UserCreateUpdateRequest,
-  UserCreateUpdateResponse
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse
 > = {
   context: {
     title: TITLE,
     formKey: KEYS.CREATE_FORM_KEY,
+    findHandler: {
+      endpoint: ENDPOINTS.FIND_FOR_UPDATE,
+      responsePropertyName: FIND_RESPONSE_PROP_NAME,
+      requestPropertyName: FIND_REQUEST_PROP_NAME,
+    },
     submitHandler: {
       endpoint: ENDPOINTS.CREATE_UPDATE,
       redirectRoute: ROUTES.LIST.path,
@@ -29,7 +41,7 @@ const formProps: AppFormProps<
     sections: {
       user_info: {
         gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "columns" },
-        inputs: [...USER_BASE_INPUTS], // ⬅️ fields from the factory
+        inputs: [...BASE_INPUTS], // ⬅️ fields from the factory
       },
     },
   },
@@ -37,7 +49,7 @@ const formProps: AppFormProps<
 </script>
 
 <template>
-  <div class="glass rounded p-4">
+  <div class="glass gap-8 rounded-lg p-4">
     <AppForm :context="formProps.context" />
   </div>
 </template>

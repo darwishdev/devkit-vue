@@ -10,13 +10,17 @@ import {
   ENDPOINTS,
   KEYS,
   ROUTES,
-  USER_BASE_INPUTS,
+  BASE_INPUTS,
   TITLE,
-} from "../../constants/UserConstants";
+} from "../../constants/RoleConstants";
+import type {
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse,
+} from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_role_pb";
 const formProps: AppFormProps<
   typeof apiClient,
-  UserCreateUpdateRequest,
-  UserCreateUpdateResponse
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse
 > = {
   context: {
     title: TITLE,
@@ -29,7 +33,7 @@ const formProps: AppFormProps<
     sections: {
       user_info: {
         gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "columns" },
-        inputs: [...USER_BASE_INPUTS], // ⬅️ fields from the factory
+        inputs: [...BASE_INPUTS], // ⬅️ fields from the factory
       },
     },
   },
