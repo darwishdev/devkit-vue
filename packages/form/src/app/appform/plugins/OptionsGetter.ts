@@ -1,6 +1,6 @@
 import { FormKitPlugin } from "@formkit/core";
 import { db } from "@/index";
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { StringUnknownRecord } from "@devkitvue/apiclient";
 import { useMemoizedDropdownOptions } from "./OptionsGetterUtils";
 import { inject, ref } from "vue";
 
@@ -59,7 +59,11 @@ export const DependencyManagerPlugin: FormKitPlugin = (node) => {
 export const OptionsGetterPlugin: FormKitPlugin = (node) => {
   if (!node.props) return;
   const inputyType = node.props.type;
-  if (inputyType == "devkitDropdown" || inputyType == "devkitMultiDropdown") {
+  if (
+    inputyType == "devkitDropdown" ||
+    inputyType == "devkitMultiDropdown" ||
+    inputyType == "devkitIcon"
+  ) {
     node.props.isLoading = ref(false);
     node.props.optionsArray = ref([]);
     node.props.errorMessageRef = ref("");

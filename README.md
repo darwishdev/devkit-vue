@@ -20,13 +20,13 @@ This monorepo contains the following internal packages:
 
 | Package | Description |
 |--------|-------------|
-| [`@devkit/admin`](./packages/admin) | Ready-made admin panel template built from all internal packages |
-| [`@devkit/form`](./packages/form) | FormKit-based wrapper with custom inputs & smart form handling |
-| [`@devkit/datalist`](./packages/datalist) | Powerful datatable wrapper with actions, filters, and layouts |
-| [`@devkit/filemanager`](./packages/filemanager) | Bucket-based file manager with upload/delete/rename support |
-| [`@devkit/base-components`](./packages/base-components) | Common UI components like `APPBtn`, `APPImage`, etc. |
-| [`@devkit/api-client`](./packages/api-client) | Typed gRPC API client helpers, like `resolveApiEndpoint` |
-| [`@devkit/config`](./packages/config) | Shared TS configs, styles, and aliases across all packages |
+| [`@devkitvue/admin`](./packages/admin) | Ready-made admin panel template built from all internal packages |
+| [`@devkitvue/form`](./packages/form) | FormKit-based wrapper with custom inputs & smart form handling |
+| [`@devkitvue/datalist`](./packages/datalist) | Powerful datatable wrapper with actions, filters, and layouts |
+| [`@devkitvue/filemanager`](./packages/filemanager) | Bucket-based file manager with upload/delete/rename support |
+| [`@devkitvue/base-components`](./packages/base-components) | Common UI components like `APPBtn`, `APPImage`, etc. |
+| [`@devkitvue/api-client`](./packages/api-client) | Typed gRPC API client helpers, like `resolveApiEndpoint` |
+| [`@devkitvue/config`](./packages/config) | Shared TS configs, styles, and aliases across all packages |
 
 ---
 
@@ -38,7 +38,7 @@ This monorepo contains the following internal packages:
 - **FormKit** for declarative, extendable form rendering  
 - **PrimeVue** for UI primitives  
 - **Flexible API client support**:  
-  DevKit is **deeply optimized for gRPC APIs** using the included `@devkit/api-client`, but you can also integrate it with any custom REST or HTTP API.  
+  DevKit is **deeply optimized for gRPC APIs** using the included `@devkitvue/api-client`, but you can also integrate it with any custom REST or HTTP API.  
   Simply create your own API SDK that wraps your API calls and pass it as the `apiClient` option during app/plugin setup — everything will work seamlessly.
 
 ---
@@ -102,7 +102,7 @@ DevKit supports any API SDK:
 
 ```ts
 import { createApp } from 'vue'
-import AdminApp from '@devkit/admin'
+import AdminApp from '@devkitvue/admin'
 import myCustomApiClient from './my-rest-api-sdk' // your REST wrapper
 
 createApp(App)
@@ -160,7 +160,7 @@ Visit the [Docs Site](./apps/docs) for:
 Each package can contain its own tests using Vitest:
 
 ```bash
-pnpm --filter @devkit/form test
+pnpm --filter @devkitvue/form test
 ```
 
 ---

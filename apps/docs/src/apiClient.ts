@@ -1,7 +1,7 @@
 import { Client, createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { DevkitService } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/devkit_service_pb";
-import { AuthInterceptor } from "@devkit/apiclient";
+import { AuthInterceptor } from "@devkitvue/apiclient";
 
 const transport = createConnectTransport({
   baseUrl: "http://192.168.100.40:9090",

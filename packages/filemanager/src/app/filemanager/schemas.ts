@@ -1,5 +1,5 @@
 
-import { AppFormSections , BucketCreateUpdateRequest } from "@devkit/config";
+import { AppFormSections , BucketCreateUpdateRequest } from "@devkitvue/config";
 export const bucketInput = {
 	$formkit: "devkitDropdown",
 	useButtons: true,

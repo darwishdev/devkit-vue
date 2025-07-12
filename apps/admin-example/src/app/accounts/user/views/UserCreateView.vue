@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { AppForm } from "@devkit/form";
+import { AppForm } from "@devkitvue/form";
 import type {
   UserCreateUpdateRequest,
   UserCreateUpdateResponse,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
-import type { AppFormProps } from "@devkit/config";
+import type { AppFormProps } from "@devkitvue/config";
 import { apiClient } from "@/pkg/api/apiClient";
 import {
   ENDPOINTS,

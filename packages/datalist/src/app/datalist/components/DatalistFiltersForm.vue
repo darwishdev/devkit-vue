@@ -12,10 +12,9 @@
 >
 import { useDatalistStoreWithKey } from "../store/DatalistStore";
 import { Panel } from "primevue";
-import { AppForm } from "@devkit/form";
-import { objectEntries } from "@vueuse/core";
+import { AppForm } from "@devkitvue/form";
 import { useFormKitContextById, useFormKitNodeById } from "@formkit/vue";
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { ObjectEntries, StringUnknownRecord } from "@devkitvue/apiclient";
 
 const props = defineProps<{ datalistKey: string }>();
 const datalistStore = useDatalistStoreWithKey(props.datalistKey);
@@ -47,7 +46,7 @@ const removeFilter = (filter: string) => {
     <template #header>
       <div v-if="formkCtx" class="filters-header flex gap-4">
         <strong>Filters </strong>
-        <div v-for="[key, value] in objectEntries(formkCtx._value)" :key="key">
+        <div v-for="[key, value] in ObjectEntries(formkCtx._value)" :key="key">
           <Chip
             v-if="value"
             removable
@@ -64,6 +63,7 @@ const removeFilter = (filter: string) => {
       @input="
         (req: StringUnknownRecord) => {
           if (!datalistStore.filtersFormProps.context.isLazy) {
+            console.log('filtersform change', req);
             datalistStore.filtersFormValueRef =
               datalistStore.filtersValueFromReq(req);
           }

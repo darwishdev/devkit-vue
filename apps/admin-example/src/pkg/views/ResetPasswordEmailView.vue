@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ResetPasswordEmailForm } from "@devkit/form";
+import { ResetPasswordEmailForm } from "@devkitvue/form";
 </script>
 
 <template>

@@ -6,6 +6,7 @@ export { default as ResetPasswordEmailForm } from "./components/ResetPasswordEma
 export { default as ProviderLoginCallback } from "./components/ProviderLoginCallback.vue";
 export * from "./forms/AuthForms";
 export * from "./inputs/index";
+export * from "./composables/index";
 export * from "./types";
 export {
   OptionsGetterPlugin,
@@ -20,5 +21,5 @@ export type {
   FindHandlerEndpoint,
   AppFormSection,
   AppFormOptions,
-} from "../../pkg/types/types";
+} from "@devkitvue/config";
 export * from "./store/AppFormStore";

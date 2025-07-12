@@ -1,7 +1,7 @@
 import { h } from "vue";
 import { ColumnBase } from "./ColumnBase";
 import { DatalistColumnBase } from "../types";
-import { AppIcon } from "@devkit/base-components";
+import { AppIcon } from "@devkitvue/base-components";
 
 export class ColumnIcon<TRecord extends Record<string, unknown>>
   extends ColumnBase<TRecord>

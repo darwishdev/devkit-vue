@@ -29,7 +29,7 @@ export default defineConfig({
 		rollupOptions: {
 			external: [
 				'vue',
-				"@devkit/apiclient",
+				"@devkitvue/apiclient",
 				'dexie',
 				'tailwindcss',
 				'tailwindcss-primeui',

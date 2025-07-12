@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProviderLoginCallback } from "@devkit/form";
+import { ProviderLoginCallback } from "@devkitvue/form";
 </script>
 
 <template>

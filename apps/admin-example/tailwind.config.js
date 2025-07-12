@@ -5,11 +5,12 @@ export default {
     "./src/*.{vue,js,ts,html}",
     "./src/**/*.{vue,js,ts,html}",
     "./src/app/**/**/**/*.{vue,js,ts,html}",
-    "./node_modules/@devkit/datalist/dist/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/@devkit/filemanager//dist/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/@devkit/form/dist/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/@devkit/base-components/dist/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/@devkit/dataview/dist/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@devkitvue/datalist/dist/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@devkitvue/filemanager//dist/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@devkitvue/form/dist/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@devkitvue/base-components/dist/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@devkitvue/admin/dist/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@devkitvue/dataview/dist/**/*.{vue,js,ts,jsx,tsx}",
     "./formkit.theme.ts",
     "./index.html",
   ],
@@ -24,10 +25,6 @@ export default {
     },
     {
       pattern: /^columns-(?:[1-9]|1[0-2])$/,
-      variants: ["sm", "md", "lg", "xl"],
-    },
-    {
-      pattern: /^baseis-(?:[1-9]|1[0-2])$/,
       variants: ["sm", "md", "lg", "xl"],
     },
     {

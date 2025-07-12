@@ -5,15 +5,15 @@ import {
   Datalist,
   useDatalistStoreWithProps,
   type DatalistProps,
-} from "@devkit/datalist";
+} from "@devkitvue/datalist";
 import { bucketInput, bucketsForm } from "./schemas";
-import { FilesHandler, StringUnknownRecord } from "@devkit/config";
+import { FilesHandler, StringUnknownRecord } from "@devkitvue/config";
 import {
   BucketCreateUpdateRequest,
   GalleryListRequest,
   FileObject,
   GalleryListResponse,
-} from "@devkit/config";
+} from "@devkitvue/config";
 const fileInput = ref<HTMLInputElement | null>(null);
 const filesHandler = inject<FilesHandler<TApi>>("filesHandler");
 const props = defineProps<{

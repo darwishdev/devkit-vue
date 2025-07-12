@@ -1,4 +1,4 @@
-import { AuthLoginResponse } from "@devkit/config";
+import { AuthLoginResponse } from "@devkitvue/config";
 import { FormKitSchemaNode } from "@formkit/core";
 
 export const emailInput: FormKitSchemaNode & { name: "email" } = {

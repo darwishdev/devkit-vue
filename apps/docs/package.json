@@ -1,6 +1,6 @@
 {
-  "name": "@devkit/docs",
-  "version": "0.1.0",
+  "name": "@devkitvue/docs",
+  "version": "1.2.3",
   "type": "module",
   "private": true,
   "scripts": {
@@ -10,15 +10,15 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.6.0-20250705114439-1a953883bd4c.1",
+    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.6.0-20250709111559-5e93b9c4eb87.1",
     "@connectrpc/connect": "^2.0.2",
     "@connectrpc/connect-web": "^2.0.2",
-    "@devkit/admin": "workspace:*",
-    "@devkit/apiclient": "workspace:*",
-    "@devkit/base-components": "workspace:*",
-    "@devkit/datalist": "workspace:*",
-    "@devkit/filemanager": "workspace:*",
-    "@devkit/form": "workspace:*",
+    "@devkitvue/admin": "workspace:*",
+    "@devkitvue/apiclient": "workspace:*",
+    "@devkitvue/base-components": "workspace:*",
+    "@devkitvue/datalist": "workspace:*",
+    "@devkitvue/filemanager": "workspace:*",
+    "@devkitvue/form": "workspace:*",
     "@formkit/core": "^1.6.9",
     "@formkit/vue": "^1.6.9",
     "change-case": "^5.4.4",
@@ -29,8 +29,8 @@
     "vue-router": "4"
   },
   "devDependencies": {
-    "@bufbuild/protobuf": "^2.5.2",
-    "@devkit/config": "workspace:*",
+    "@bufbuild/protobuf": "^2.6.0",
+    "@devkitvue/config": "workspace:*",
     "@vitest/coverage-istanbul": "^3.0.7",
     "eslint": "^9.21.0",
     "postcss": "^8.5.3",

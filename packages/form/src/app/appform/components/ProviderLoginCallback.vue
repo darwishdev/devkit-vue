@@ -2,10 +2,10 @@
 import { inject, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { loginCallback } from "../forms/AuthForms";
-import { ObjectKeys, resolveApiEndpoint } from "@devkit/apiclient";
-import { AuthHandler } from "@devkit/config";
+import { ObjectKeys, resolveApiEndpoint } from "@devkitvue/apiclient";
+import { AuthHandler } from "@devkitvue/config";
 import { ref } from "vue";
-import { AppBtn } from "@devkit/base-components";
+import { AppBtn } from "@devkitvue/base-components";
 const apiClient = inject<TApi>("apiClient");
 const authHandler = inject<AuthHandler<TApi>>("authHandler");
 const { push } = useRouter();

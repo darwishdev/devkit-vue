@@ -1,21 +1,21 @@
 ---
 title: File Manager
 ---
-# Installing `@devkit/filemanager`
+# Installing `@devkitvue/filemanager`
 
-The `@devkit/filemanager` plugin provides a file management UI component and integrates with your API client and file handler configuration.
+The `@devkitvue/filemanager` plugin provides a file management UI component and integrates with your API client and file handler configuration.
 
 ---
 
 ## 1. Install Peer Dependencies
 
 ```base
-pnpm add @devkit/filemanager&#x20;
-@devkit/apiclient&#x20;
-@devkit/datalist&#x20;
-@devkit/form&#x20;
-@devkit/config&#x20;
-@devkit/base-components&#x20;
+pnpm add @devkitvue/filemanager&#x20;
+@devkitvue/apiclient&#x20;
+@devkitvue/datalist&#x20;
+@devkitvue/form&#x20;
+@devkitvue/config&#x20;
+@devkitvue/base-components&#x20;
 @formkit/core @formkit/vue&#x20;
 @tanstack/query-persist-client-core @tanstack/vue-query&#x20;
 @vueuse/core dexie pinia primevue&#x20;
@@ -28,7 +28,7 @@ tailwindcss tailwindcss-primeui vue-i18n
 In your main entry (e.g. `main.ts`), register with your API client and optional `filesHandler`:
 ```ts
 import { createApp } from 'vue'
-import DevkitFilemanagerPlugin, { DevkitFilemanagerConfig } from '@devkit/filemanager'
+import DevkitFilemanagerPlugin, { DevkitFilemanagerConfig } from '@devkitvue/filemanager'
 import { apiClient } from '@/pkg/apiClient'  // adjust to your path
 
 const app = createApp(App)
@@ -69,7 +69,7 @@ Once registered, import and use the `<FileManager>` component to browse, upload,
 </template>  
 
 <script setup lang="ts">  
-import { FileManager } from '@devkit/filemanager'  
+import { FileManager } from '@devkitvue/filemanager'  
 </script>  
 ```
 The `<FileManager>` UI will hook into your configured `filesHandler` endpoints to list buckets, upload files, show previews, and perform batch actions.

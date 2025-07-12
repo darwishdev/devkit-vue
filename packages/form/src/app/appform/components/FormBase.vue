@@ -17,15 +17,15 @@ import { type FormKitSchemaNode, type FormKitNode } from "@formkit/core";
 import { h, inject, ref, resolveComponent } from "vue";
 import { useToast } from "primevue";
 import { useRoute, useRouter } from "vue-router";
-import { AppBtn, makeGridWrapperClassName } from "@devkit/base-components";
+import { AppBtn, makeGridWrapperClassName } from "@devkitvue/base-components";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { useAppFormStoreWithProps } from "../store/AppFormStore";
 import {
   ObjectKeys,
   resolveApiEndpoint,
   StringUnknownRecord,
-} from "@devkit/apiclient";
-import { AppFormProps, AppFormSection } from "@devkit/config";
+} from "@devkitvue/apiclient";
+import { AppFormProps, AppFormSection } from "@devkitvue/config";
 import { useI18n } from "vue-i18n";
 import { RouteQueryFind, RouteQueryRemove } from "@/pkg/utils/QueryUtils";
 
@@ -431,6 +431,7 @@ const renderAppForm = () => {
                 h(AppBtn, {
                   type: "submit",
                   class: "grow",
+                  outlined: true,
                   label: t("submit"),
                   severity: "success",
                   icon: "check-line",

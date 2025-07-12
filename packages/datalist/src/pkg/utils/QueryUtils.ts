@@ -1,4 +1,4 @@
-import { StringUnknownRecord } from "@devkit/config";
+import { StringUnknownRecord } from "@devkitvue/config";
 
 const parseURI = () => {
   const [currentPath, currentQueryString] = history.state.current.split("?");

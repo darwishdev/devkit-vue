@@ -51,7 +51,7 @@ Key features include:
 
 ```vue
 <script setup lang="ts">
-import type { AppFormProps } from '@devkit/form'
+import type { AppFormProps } from '@devkitvue/form'
 import { MyApiClient } from '@/api'
 
 const props: AppFormProps<typeof MyApiClient> = {
@@ -76,7 +76,7 @@ const props: AppFormProps<typeof MyApiClient> = {
 </template>
 ```
 <script setup lang="ts">
-import type { AppFormProps } from '@devkit/form'
+import type { AppFormProps } from '@devkitvue/form'
 import { MyApiClient } from '@/api'
 
 const props: AppFormProps<typeof MyApiClient> = {

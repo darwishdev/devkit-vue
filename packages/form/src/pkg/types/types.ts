@@ -1,5 +1,5 @@
 // import type { FormKitSchemaNode } from "@formkit/core";
-// import type { GridConfig } from "@devkit/config";
+// import type { GridConfig } from "@devkitvue/config";
 // import type {
 //   AuthLoginProviderCallbackRequest,
 //   AuthLoginProviderRequest,
@@ -19,9 +19,9 @@
 //   FileUploadUrlFindResponse,
 //   GalleryListRequest,
 //   GalleryListResponse,
-// } from "@devkit/config";
+// } from "@devkitvue/config";
 // import type { RouteLocationRaw } from "vue-router";
-// import { ApiEndpoint } from "@devkit/apiclient";
+// import { ApiEndpoint } from "@devkitvue/apiclient";
 // export type StringUnknownRecord = Record<string, unknown>;
 // export type CacheOptions = {
 //   cacheKey: string;

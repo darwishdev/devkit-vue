@@ -30,11 +30,10 @@ import {
   type DatalistStore,
 } from "./types";
 import DatalistFiltersForm from "./components/DatalistFiltersForm.vue";
-import { AppBtn, makeGridWrapperClassName } from "@devkit/base-components";
-import { objectEntries } from "@vueuse/core";
+import { AppBtn, makeGridWrapperClassName } from "@devkitvue/base-components";
 import { useI18n } from "vue-i18n";
 import { computed, h, VNode } from "vue";
-import { type StringUnknownRecord } from "@devkit/apiclient";
+import { ObjectEntries, type StringUnknownRecord } from "@devkitvue/apiclient";
 import DatalistRowActions from "./components/DatalistRowActions.vue";
 const { t } = useI18n();
 const emit = defineEmits<DatalistEmits<TRecord, TApiResponse>>();
@@ -136,6 +135,7 @@ const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
   );
 };
 const globalInputChanged = (value: unknown) => {
+  console.log("global input changed", value);
   if (!datalistStore.formElementNode) return;
   if (typeof datalistStore.formElementNode._value != "object") return;
   datalistStore.formElementNode.input({
@@ -304,17 +304,19 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
           <div
             class="middle flex flex-wrap gap-4 justify-between items-center my-8"
           >
-            <div class="start">
-              <h2 class="font-bold text-3xl">
-                {{ t(datalistStore.optionsInUse.title) }}
-              </h2>
-              <p
-                v-if="datalistStore.optionsInUse.description"
-                class="pu-2 me-4 hidden md:block"
-              >
-                {{ t(datalistStore.optionsInUse.description) }}
-              </p>
-            </div>
+            <slot name="title">
+              <div class="start">
+                <h2 class="font-bold text-3xl">
+                  {{ t(datalistStore.optionsInUse.title) }}
+                </h2>
+                <p
+                  v-if="datalistStore.optionsInUse.description"
+                  class="pu-2 me-4 hidden md:block"
+                >
+                  {{ t(datalistStore.optionsInUse.description) }}
+                </p>
+              </div>
+            </slot>
             <IconField fluid v-if="datalistStore.globalFilters.length">
               <InputIcon>
                 <AppIcon icon="menu-search-line" />
@@ -324,13 +326,16 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
                 :defaultValue="
                   (datalistStore.filterFormValue?.global as string) || ''
                 "
-                @change-value="globalInputChanged"
+                @value-change="globalInputChanged"
               />
             </IconField>
           </div>
         </div>
         <slot name="filtersPanel" :store="datalistStore">
-          <DatalistFiltersForm :datalistKey="context.datalistKey" />
+          <DatalistFiltersForm
+            v-if="datalistStore.filtersFormSchema.length"
+            :datalistKey="context.datalistKey"
+          />
         </slot>
       </slot>
     </template>
@@ -360,7 +365,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     </Column>
     <Column
       v-else
-      v-for="[columnKey, columnValue] in objectEntries(
+      v-for="[columnKey, columnValue] in ObjectEntries(
         datalistStore.datatableColumnsRef,
       )"
       :key="columnKey"
@@ -400,3 +405,28 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     </Column>
   </DataTable>
 </template>
+<style>
+td .fallback-icon {
+  width: 50px !important;
+  height: 50px;
+}
+
+.p-datatable-tbody > tr,
+.p-datatable .p-paginator,
+.p-datatable-scrollable
+  > .p-datatable-table-container
+  > .p-datatable-table
+  > .p-datatable-thead,
+.p-datatable-scrollable
+  > .p-datatable-table-container
+  > .p-virtualscroller
+  > .p-datatable-table
+  > .p-datatable-thead {
+  --tw-bg-opacity: 0;
+}
+
+td .fallback-icon {
+  width: 50px !important;
+  height: 50px;
+}
+</style>

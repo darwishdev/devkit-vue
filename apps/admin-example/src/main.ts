@@ -6,15 +6,15 @@ import { rootClasses } from "../formkit.theme";
 import { i18n } from "./pkg/plugins/i18n.config";
 import "primeicons/primeicons.css";
 import router from "@/pkg/router";
-import DevkitAdminPlugin, { type DevkitAdminConfig } from "@devkit/admin";
+import DevkitAdminPlugin, { type DevkitAdminConfig } from "@devkitvue/admin";
 import PrimeVue from "primevue/config";
 import { ToastService, DialogService } from "primevue";
 import { plugin as FormkitPlugin } from "@formkit/vue";
-import { formKitConfig } from "@devkit/form";
+import { formKitConfig } from "@devkitvue/form";
 import { VueQueryPlugin, QueryClient } from "@tanstack/vue-query";
 
 import { apiClient } from "./pkg/api/apiClient";
-import { AppBtn, AppIcon, AppImage } from "@devkit/base-components";
+import { AppBtn, AppIcon, AppImage } from "@devkitvue/base-components";
 import translateI18nPlugin from "./pkg/plugins/translateI18nPlugin";
 const app = createApp(App);
 

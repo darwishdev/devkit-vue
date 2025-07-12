@@ -1,13 +1,13 @@
 import { type App, type Plugin } from "vue";
-import type { DevkitFormConfig } from "./pkg/types/types";
-import * as adminTypes from "./pkg/types/types";
+import type { DevkitFormConfig } from "@devkitvue/config";
+// import * as adminTypes from "./pkg/types/types";
 export * from "./app/appform";
 export type { DevkitFormConfig };
 import DevkitFormDB from "./pkg/database/DB";
 
 const db = new DevkitFormDB();
 
-export { db, adminTypes };
+export { db };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DevkitFormPlugin: Plugin<DevkitFormConfig<any>> = {
   install<TApi extends Record<string, Function>>(

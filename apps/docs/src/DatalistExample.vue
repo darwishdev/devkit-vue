@@ -1,13 +1,13 @@
 
 <script setup lang="ts">
-import type { AppFormSections } from "@devkit/form";
+import type { AppFormSections } from "@devkitvue/form";
 import  {
   Datalist,
   ColumnText,
   type DatalistColumnsBase,
   type DatalistProps,
   ColumnImage,
-} from "@devkit/datalist";
+} from "@devkitvue/datalist";
 
 import { useI18n } from "vue-i18n";
 import type { SectionCreateUpdateRequest, SectionListRequest, TenantsSchemaSection } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/tenant_section_pb";

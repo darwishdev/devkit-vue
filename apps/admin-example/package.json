@@ -1,7 +1,7 @@
 {
-  "name": "@devkit/admin-example",
+  "name": "@devkitvue/admin-example",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.3.1",
   "type": "module",
   "scripts": {
     "setup-deps": "pnpm i",
@@ -10,16 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.6.0-20250705114439-1a953883bd4c.1",
+    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.6.0-20250709111559-5e93b9c4eb87.1",
     "@connectrpc/connect": "^2.0.2",
     "@connectrpc/connect-web": "^2.0.2",
-    "@devkit/admin": "workspace:*",
-    "@devkit/apiclient": "workspace:*",
-    "@devkit/base-components": "workspace:*",
-    "@devkit/datalist": "workspace:*",
-    "@devkit/dataview": "workspace:*",
-    "@devkit/filemanager": "workspace:*",
-    "@devkit/form": "workspace:*",
+    "@devkitvue/admin": "workspace:*",
+    "@devkitvue/apiclient": "workspace:*",
+    "@devkitvue/base-components": "workspace:*",
+    "@devkitvue/datalist": "workspace:*",
+    "@devkitvue/dataview": "workspace:*",
+    "@devkitvue/filemanager": "workspace:*",
+    "@devkitvue/form": "workspace:*",
     "@formkit/core": "^1.6.9",
     "@formkit/vue": "^1.6.9",
     "@tailwindcss/vite": "^4.1.10",
@@ -31,6 +31,7 @@
     "@uppy/tus": "^4.2.2",
     "@uppy/vue": "^2.1.1",
     "add": "^2.0.6",
+    "chart.js": "^4.5.0",
     "dexie": "^4.0.11",
     "pinia": "^3.0.3",
     "pnpm": "^10.12.1",
@@ -43,8 +44,8 @@
     "vue-router": "4"
   },
   "devDependencies": {
-    "@bufbuild/protobuf": "^2.5.2",
-    "@devkit/config": "workspace:*",
+    "@bufbuild/protobuf": "^2.6.0",
+    "@devkitvue/config": "workspace:*",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.20",

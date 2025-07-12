@@ -84,3 +84,22 @@ const logoVariant = computed(() => {
     </div>
   </header>
 </template>
+<style>
+.desktop-menu-toggler {
+  @media (max-width: 575px) {
+    display: none;
+  }
+}
+.p-iconfield input {
+  padding-inline-start: 3rem;
+}
+
+.p-inputicon {
+  margin-top: 0;
+  transform: translateY(-40%);
+}
+input::placeholder {
+  color: var(--text-color);
+  opacity: 1;
+}
+</style>

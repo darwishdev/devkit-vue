@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { type AppFormProps } from "@devkit/config";
-import { AppForm } from "@devkit/form";
+import { type AppFormProps } from "@devkitvue/config";
+import { AppForm } from "@devkitvue/form";
 import type {
   UserCreateUpdateRequest,
   UserCreateUpdateResponse,

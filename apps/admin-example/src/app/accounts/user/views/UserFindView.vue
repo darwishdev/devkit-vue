@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { apiClient } from "@/pkg/api/apiClient";
 import { ROUTES, USER_ROW_IDENTIFIER } from "../../constants/UserConstants";
-import { DataView, type DataViewProps } from "@devkit/dataview";
+import { DataView, type DataViewProps } from "@devkitvue/dataview";
 import type {
   AccountsSchemaUserView,
   UserFindRequest,

@@ -7,9 +7,9 @@
   "
 >
 import Menu from "primevue/menu";
-import { AppBtn } from "@devkit/base-components";
+import { AppBtn } from "@devkitvue/base-components";
 import { computed, h, ref, VNode } from "vue";
-import { StringUnknownRecord } from "@devkit/apiclient";
+import { StringUnknownRecord } from "@devkitvue/apiclient";
 import {
   DatalistRowActionsEmits,
   DatalistRowActionsProps,

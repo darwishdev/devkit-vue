@@ -4,7 +4,7 @@
     TDisabledDatesResp extends StringUnknownRecord
   ">
   // SECTION: Imports
-  import { resolveApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
+  import { resolveApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
   import { computed, h, inject, ref } from "vue";
   import { DatePickerProps, Skeleton } from "primevue";
   import DatePicker from "primevue/datepicker";

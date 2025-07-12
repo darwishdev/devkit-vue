@@ -2,11 +2,14 @@ import { ref, computed, h, inject, type Ref, type ComputedRef } from "vue";
 import { useRouter, type RouteParamsRaw } from "vue-router";
 import { useToast } from "primevue";
 import { useDialog } from "primevue";
-import { useMutation } from "@tanstack/vue-query";
-import { resolveApiEndpoint, StringUnknownRecord } from "@devkit/apiclient";
-import { objectEntries } from "@vueuse/core";
-import { AppDialog } from "@devkit/base-components";
-import { AppForm } from "@devkit/form";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import {
+  ObjectEntries,
+  resolveApiEndpoint,
+  StringUnknownRecord,
+} from "@devkitvue/apiclient";
+import { AppDialog } from "@devkitvue/base-components";
+import { AppForm } from "@devkitvue/form";
 import {
   ActionButtonProps,
   ApiOptions,
@@ -15,7 +18,7 @@ import {
   DataRouter,
   DeleteRestoreVariant,
   FindHandler,
-} from "@devkit/config";
+} from "@devkitvue/config";
 
 /* ------------------------------------------------------------------ */
 /* Composable                                                          */
@@ -54,7 +57,7 @@ export function useActions<
   const router = useRouter();
   const toast = useToast();
   const dialog = useDialog();
-  //const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const deleteRestoreVariants = computed(() => {
     const initialVariant: DeleteRestoreVariant = {
       hasSelectedData: modelSelectionRef.value.length > 0,
@@ -113,7 +116,7 @@ export function useActions<
         {
           onConfirmed: ({ close }) => {
             deleteMutation
-              .mutateAsync(params || {})
+              .mutateAsync({ ...params })
               .then(() => {
                 toast.add({
                   summary: "deleted_succesfully",
@@ -132,6 +135,7 @@ export function useActions<
               })
               .finally(() => {
                 close();
+                queryClient.invalidateQueries({ queryKey: dataKeys });
                 if (params?.callback) {
                   params.callback();
                 }
@@ -270,7 +274,7 @@ export function useActions<
       },
     } as const;
 
-    for (const [k, v] of objectEntries(actionsMap)) {
+    for (const [k, v] of ObjectEntries(actionsMap)) {
       if (!v.hidden) {
         availableActions.push({
           actionKey: k,

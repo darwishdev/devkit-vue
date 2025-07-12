@@ -1,6 +1,6 @@
 {
-  "name": "@devkit/base-components",
-  "version": "0.0.20",
+  "name": "@devkitvue/base-components",
+  "version": "1.2.1",
   "description": "Devkit Base Components is a Vue plugin offering a collection of reusable, headless components designed to streamline your Vue.js development workflow. Built for flexibility and maintainability, this library gives you complete control over styling and behavior, integrating seamlessly with PrimeVue, Vue Router, Vue I18n, and Tailwind CSS.",
   "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
@@ -13,10 +13,10 @@
         "default": "./dist/index.es.js"
       }
     },
-    "./style": {
+    "./style.css": {
       "import": {
         "types": "./dist/style.d.ts",
-        "default": "./dist/style.css"
+        "default": "./dist/index.css"
       }
     }
   },
@@ -59,15 +59,19 @@
   },
   "homepage": "https://github.com/darwishdev/devkit_base_components#readme",
   "peerDependencies": {
-    "dexie": "^4.0.11",
-    "primevue": "^4.2.2",
-    "vue": "^3.0.0",
-    "vue-i18n": "^10.0.5",
-    "vue-router": "^4.4.5"
+    "dexie": ">=4.0.0",
+    "primevue": ">=4.0.0",
+    "vue": "^3.2.0",
+    "vue-i18n": ">=10.0.0",
+    "vue-router": ">=4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
   },
   "dependencies": {
-    "@devkit/apiclient": "workspace:*",
-    "@devkit/config": "workspace:*"
+    "@devkitvue/apiclient": "workspace:*",
+    "@devkitvue/config": "workspace:*"
   },
   "devDependencies": {
     "@types/google-protobuf": "^3.15.12",

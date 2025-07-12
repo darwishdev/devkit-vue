@@ -1,22 +1,22 @@
 ---
 title: Admin Panel
 ---
-# Installing `@devkit/admin`
+# Installing `@devkitvue/admin`
 
-The `@devkit/admin` plugin bundles all DevKit Vue packages into a single plugin, wiring up Base Components, Forms, Datalist, and File Manager with one configuration.
+The `@devkitvue/admin` plugin bundles all DevKit Vue packages into a single plugin, wiring up Base Components, Forms, Datalist, and File Manager with one configuration.
 
 ---
 
 ## 1. Install Peer Dependencies
 
 ```bash
-pnpm add @devkit/admin \
-  @devkit/apiclient \
-  @devkit/base-components \
-  @devkit/form \
-  @devkit/datalist \
-  @devkit/filemanager \
-  @devkit/config \
+pnpm add @devkitvue/admin \
+  @devkitvue/apiclient \
+  @devkitvue/base-components \
+  @devkitvue/form \
+  @devkitvue/datalist \
+  @devkitvue/filemanager \
+  @devkitvue/config \
   @formkit/core @formkit/vue \
   @tanstack/query-persist-client-core @tanstack/vue-query \
   @vueuse/core dexie pinia primevue \
@@ -33,7 +33,7 @@ In your main entry (e.g. `main.ts`), import and configure:
 
 ```ts
 import { createApp } from 'vue'
-import DevkitAdminPlugin, { DevkitAdminConfig } from '@devkit/admin'
+import DevkitAdminPlugin, { DevkitAdminConfig } from '@devkitvue/admin'
 import { apiClient } from '@/pkg/apiClient'  // adjust path as needed
 
 const app = createApp(App)

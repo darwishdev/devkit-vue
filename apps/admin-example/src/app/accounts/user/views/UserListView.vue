@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { Datalist, type DatalistProps } from "@devkit/datalist";
+import {
+  Datalist,
+  type DatalistColumnsBase,
+  type DatalistProps,
+} from "@devkitvue/datalist";
 import type {
   AccountsSchemaUserView,
   UserListRequest,
@@ -12,8 +16,11 @@ import {
   ROUTE_PARAM_NAME,
   USER_TITLE,
   USER_DESCRIPTION,
-} from "@/app/accoounts/constants/UserConstants.ts";
+} from "../../constants/UserConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
+
+const columns: DatalistColumnsBase<AccountsSchemaUserView> = USER_COLUMNS_MAP;
+
 const tableProps: DatalistProps<
   typeof apiClient,
   UserListRequest,
@@ -25,7 +32,7 @@ const tableProps: DatalistProps<
   context: {
     datalistKey: KEYS.DATALIST_KEY,
     rowIdentifier: USER_ROW_IDENTIFIER,
-    columns: USER_COLUMNS_MAP,
+    columns,
     records: apiClient.userList,
     viewRouter: {
       name: ROUTES.FIND.name,
@@ -33,7 +40,7 @@ const tableProps: DatalistProps<
       paramColumnName: USER_ROW_IDENTIFIER,
     },
     isActionsDropdown: true,
-    isLazyFilters: true,
+    isLazyFilters: false,
     options: {
       title: USER_TITLE,
       description: USER_DESCRIPTION,
