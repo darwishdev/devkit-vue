@@ -1,5 +1,20 @@
 # @devkitvue/admin-example
 
+## 1.3.0
+
+### Minor Changes
+
+- a6fb5a5: fix filters form on datalist
+
+### Patch Changes
+
+- Updated dependencies [a6fb5a5]
+  - @devkitvue/datalist@2.2.0
+  - @devkitvue/dataview@2.2.0
+  - @devkitvue/form@1.2.0
+  - @devkitvue/admin@1.2.2
+  - @devkitvue/filemanager@2.1.2
+
 ## 1.2.1
 
 ### Patch Changes

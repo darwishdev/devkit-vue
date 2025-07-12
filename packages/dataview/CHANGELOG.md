@@ -1,5 +1,17 @@
 # @devkitvue/dataview
 
+## 2.2.0
+
+### Minor Changes
+
+- a6fb5a5: fix filters form on datalist
+
+### Patch Changes
+
+- Updated dependencies [a6fb5a5]
+  - @devkitvue/datalist@2.2.0
+  - @devkitvue/form@1.2.0
+
 ## 2.1.1
 
 ### Patch Changes

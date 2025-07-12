@@ -1,5 +1,15 @@
 # @devkitvue/admin
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [a6fb5a5]
+  - @devkitvue/datalist@2.2.0
+  - @devkitvue/dataview@2.2.0
+  - @devkitvue/form@1.2.0
+  - @devkitvue/filemanager@2.1.2
+
 ## 1.2.1
 
 ### Patch Changes

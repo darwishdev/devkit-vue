@@ -1,5 +1,11 @@
 # @devkitvue/form
 
+## 1.2.0
+
+### Minor Changes
+
+- a6fb5a5: fix filters form on datalist
+
 ## 1.1.1
 
 ### Patch Changes
