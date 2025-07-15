@@ -110,7 +110,24 @@ export const roleDescriptionInput: FormKitSchemaNode & {
   validation: "required",
   rows: 3,
 };
-export const BASE_INPUTS = [roleNameInput, roleDescriptionInput];
+export const permissionsInput: FormKitSchemaNode & {
+  name: "permissions";
+} = {
+  $formkit: "devkitToggleCollection",
+  outerClass: "col-span-2",
+  fluid: true,
+  multiple: true,
+  prefixIcon: "shield-keyhole-line", // 🛡️ optional: pick any icon you prefer
+  name: "permissions",
+  options: "userPermissionListInput",
+  label: "permissions",
+  validation: "",
+};
+export const BASE_INPUTS = [
+  roleNameInput,
+  permissionsInput,
+  roleDescriptionInput,
+];
 
 /* ------------------------------------------------------------------ */
 /*  DATALIST / TABLE COLUMN DEFINITIONS                               */

@@ -2,7 +2,7 @@ import type { DBDropdownOptions } from "@/pkg/database/DbTypes";
 import { resolveApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import { db, DropdownContext } from "@/index";
 import { CacheOptions } from "@devkitvue/config";
-import { useDebounceFn, useMemoize } from "@/app/appform/composables";
+import { useDebounceFn, useMemoize } from "@vueuse/core";
 
 export type OptionGetterParams<
   TApi extends Record<string, Function>,
@@ -33,6 +33,10 @@ export const fetchDropdownOptions = <
   responseOptionsKey = "options",
 }: OptionGetterParams<TApi, TOptionsReq, TOptionsResp>) =>
   new Promise<DBDropdownOptions>((resolve, reject) => {
+    if (!options) {
+      console.log("error happebs", options);
+      return resolve([]);
+    }
     if (Array.isArray(options)) return resolve(options);
     resolveApiEndpoint<TApi, TOptionsReq, TOptionsResp>(
       options,
@@ -40,6 +44,9 @@ export const fetchDropdownOptions = <
       request,
     )
       .then((response) => {
+        if (!response) {
+          return resolve([]);
+        }
         console.log("fetching from api", response);
         if (optionsMapper) {
           return resolve(optionsMapper(response));
@@ -47,7 +54,11 @@ export const fetchDropdownOptions = <
         if (Array.isArray(response)) {
           return resolve(response);
         }
-        console.log("Asdasdasd", responseOptionsKey);
+        console.log(
+          "Asdasdasd",
+          responseOptionsKey,
+          responseOptionsKey in response,
+        );
         if (responseOptionsKey in response) {
           if (Array.isArray(response[responseOptionsKey])) {
             return resolve(response[responseOptionsKey]);
@@ -72,11 +83,11 @@ export const useDebouncedOptionsFetcher = <
   TOptionsResp extends StringUnknownRecord,
 >() => {
   const debouncedFetchOptions = useDebounceFn(
-    (fetchParams: OptionGetterParams<TApi, TOptionsReq, TOptionsResp>) =>
-      fetchDropdownOptions(fetchParams),
-    300, // 300ms debounce delay
+    (fetchParams: OptionGetterParams<TApi, TOptionsReq, TOptionsResp>) => {
+      return fetchDropdownOptions(fetchParams);
+    },
+    300,
   );
-
   return debouncedFetchOptions;
 };
 

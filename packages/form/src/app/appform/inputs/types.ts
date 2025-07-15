@@ -1,5 +1,5 @@
 import { DBDropdownOptions } from "@/pkg/database/DbTypes";
-import { CacheOptions, FilesHandler } from "@/pkg/types/types";
+import { CacheOptions, FilesHandler } from "@devkitvue/config";
 import { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import type {
   DatePickerProps,
@@ -21,6 +21,7 @@ export type DropdownOption<TValue = string | number> = {
   label: string;
   value: TValue;
   note?: string;
+  group?: string;
   disabled?: boolean;
   icon?: string;
 };
@@ -110,22 +111,57 @@ export type InputUploadMeta = {
 };
 
 export type InputUploadContext<TApi extends Record<string, Function>> =
-  FormKitInputContext<string | string[]> & {
-    bucketName: string;
-    hideSelectFromGallery?: boolean;
-    isMultiple?: boolean;
-    baseUrl?: string;
-    fallbackImageUrl?: string;
-    uppyOptions?: UppyOptions<InputUploadMeta, TusBody>;
-    dashboardOptions?: Partial<
-      Omit<DashboardOptions<InputUploadMeta, Body>, "inline">
-    >;
-    filesHandler?: FilesHandler<TApi>;
-    tusOptions?: Partial<TusOptions<InputUploadMeta, Body>>;
-    galleryOptions?: Partial<GalleryPluginOptions>;
-    imageEditorOptions?: Partial<ImageEditorOptions>;
-  };
+  FormKitInputContext<string | string[]> &
+    Partial<DependantDropdown<StringUnknownRecord>> &
+    Partial<CacheOptions> & {
+      bucketName: string;
+      hideSelectFromGallery?: boolean;
+      isMultiple?: boolean;
+      baseUrl?: string;
+      fallbackImageUrl?: string;
+      uppyOptions?: UppyOptions<InputUploadMeta, TusBody>;
+      dashboardOptions?: Partial<
+        Omit<DashboardOptions<InputUploadMeta, Body>, "inline">
+      >;
+      filesHandler?: FilesHandler<TApi>;
+      tusOptions?: Partial<TusOptions<InputUploadMeta, Body>>;
+      galleryOptions?: Partial<GalleryPluginOptions>;
+      imageEditorOptions?: Partial<ImageEditorOptions>;
+    };
 
 export type InputUploadProps<TApi extends Record<string, Function>> = {
   context: InputUploadContext<TApi>;
+};
+
+export type ToggleType = "checkbox" | "switch";
+
+export type InputToggleCollectionContext<
+  TApi extends Record<string, Function>,
+  TOptionsReq extends StringUnknownRecord,
+  TOptionsResp extends StringUnknownRecord = DropdownOptions,
+> = FormKitInputContext &
+  Partial<DependantDropdown<TOptionsReq>> &
+  Partial<CacheOptions> & {
+    options:
+      | ApiEndpoint<TApi, TOptionsReq, TOptionsResp>
+      | StringUnknownRecord[];
+    label?: string;
+    toggleType?: ToggleType;
+    groupByKey?: boolean;
+    responseOptionsKey?: keyof TOptionsResp;
+    iconKey?: keyof TOptionsResp;
+    hideReload?: boolean;
+    debounceInMilliSeconds?: number;
+    createRoute?: string;
+    useLazy?: boolean;
+    dependsOn?: string;
+    optionsMapper?: (options: TOptionsResp) => DBDropdownOptions;
+    help?: string;
+  };
+export type InputToggleCollectionProps<
+  TApi extends Record<string, Function>,
+  TOptionsReq extends StringUnknownRecord,
+  TOptionsResp extends StringUnknownRecord = DropdownOptions,
+> = {
+  context: InputToggleCollectionContext<TApi, TOptionsReq, TOptionsResp>;
 };

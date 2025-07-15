@@ -31,8 +31,8 @@ importers:
   apps/admin-example:
     dependencies:
       '@buf/ahmeddarwish_devkit-api.bufbuild_es':
-        specifier: 2.6.0-20250709111559-5e93b9c4eb87.1
-        version: 2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.6.0)
+        specifier: 2.6.0-20250714122334-1372d6a96a3d.1
+        version: 2.6.0-20250714122334-1372d6a96a3d.1(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect':
         specifier: ^2.0.2
         version: 2.0.2(@bufbuild/protobuf@2.6.0)
@@ -164,8 +164,8 @@ importers:
   apps/docs:
     dependencies:
       '@buf/ahmeddarwish_devkit-api.bufbuild_es':
-        specifier: 2.6.0-20250709111559-5e93b9c4eb87.1
-        version: 2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.6.0)
+        specifier: 2.6.0-20250714122334-1372d6a96a3d.1
+        version: 2.6.0-20250714122334-1372d6a96a3d.1(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect':
         specifier: ^2.0.2
         version: 2.0.2(@bufbuild/protobuf@2.6.0)
@@ -834,6 +834,9 @@ importers:
       '@vue/test-utils':
         specifier: ^2.4.6
         version: 2.4.6
+      '@vueuse/core':
+        specifier: ^13.5.0
+        version: 13.5.0(vue@3.5.17(typescript@5.7.3))
       dexie:
         specifier: '>=4.0.0'
         version: 4.0.11
@@ -1060,8 +1063,8 @@ packages:
     resolution: {integrity: sha512-ETyHEk2VHHvl9b9jZP5IHPavHYk57EhanlRRuae9XCpb/j5bDCbPPMOBfCWhnl/7EDJz0jEMCi/RhccCE8r1+Q==}
     engines: {node: '>=6.9.0'}
 
-  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250709111559-5e93b9c4eb87.1':
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/ahmeddarwish_devkit-api.bufbuild_es/-/ahmeddarwish_devkit-api.bufbuild_es-2.6.0-20250709111559-5e93b9c4eb87.1.tgz}
+  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250714122334-1372d6a96a3d.1':
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/ahmeddarwish_devkit-api.bufbuild_es/-/ahmeddarwish_devkit-api.bufbuild_es-2.6.0-20250714122334-1372d6a96a3d.1.tgz}
     peerDependencies:
       '@bufbuild/protobuf': ^2.6.0
 
@@ -2399,6 +2402,11 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
+  '@vueuse/core@13.5.0':
+    resolution: {integrity: sha512-wV7z0eUpifKmvmN78UBZX8T7lMW53Nrk6JP5+6hbzrB9+cJ3jr//hUlhl9TZO/03bUkMK6gGkQpqOPWoabr72g==}
+    peerDependencies:
+      vue: ^3.5.0
+
   '@vueuse/integrations@13.4.0':
     resolution: {integrity: sha512-rwNoE0MNJBUuSzTZcUVrkovtHvpWIySOcC6XpcS33ZarHDNhd9CPvCD4eNl3N0Phz1he1JV0iYULRyPQ5HCbFA==}
     peerDependencies:
@@ -2444,8 +2452,16 @@ packages:
   '@vueuse/metadata@13.4.0':
     resolution: {integrity: sha512-CPDQ/IgOeWbqItg1c/pS+Ulum63MNbpJ4eecjFJqgD/JUCJ822zLfpw6M9HzSvL6wbzMieOtIAW/H8deQASKHg==}
 
+  '@vueuse/metadata@13.5.0':
+    resolution: {integrity: sha512-euhItU3b0SqXxSy8u1XHxUCdQ8M++bsRs+TYhOLDU/OykS7KvJnyIFfep0XM5WjIFry9uAPlVSjmVHiqeshmkw==}
+
   '@vueuse/shared@13.4.0':
     resolution: {integrity: sha512-+AxuKbw8R1gYy5T21V5yhadeNM7rJqb4cPaRI9DdGnnNl3uqXh+unvQ3uCaA2DjYLbNr1+l7ht/B4qEsRegX6A==}
+    peerDependencies:
+      vue: ^3.5.0
+
+  '@vueuse/shared@13.5.0':
+    resolution: {integrity: sha512-K7GrQIxJ/ANtucxIXbQlUHdB0TPA8c+q5i+zbrjxuhJCnJ9GtBg75sBSnvmLSxHKPg2Yo8w62PWksl9kwH0Q8g==}
     peerDependencies:
       vue: ^3.5.0
 
@@ -4692,7 +4708,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250709111559-5e93b9c4eb87.1(@bufbuild/protobuf@2.6.0)':
+  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250714122334-1372d6a96a3d.1(@bufbuild/protobuf@2.6.0)':
     dependencies:
       '@buf/bufbuild_protovalidate.bufbuild_es': 2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.6.0)
       '@bufbuild/protobuf': 2.6.0
@@ -6270,6 +6286,13 @@ snapshots:
       '@vueuse/shared': 13.4.0(vue@3.5.17(typescript@5.7.3))
       vue: 3.5.17(typescript@5.7.3)
 
+  '@vueuse/core@13.5.0(vue@3.5.17(typescript@5.7.3))':
+    dependencies:
+      '@types/web-bluetooth': 0.0.21
+      '@vueuse/metadata': 13.5.0
+      '@vueuse/shared': 13.5.0(vue@3.5.17(typescript@5.7.3))
+      vue: 3.5.17(typescript@5.7.3)
+
   '@vueuse/integrations@13.4.0(change-case@5.4.4)(focus-trap@7.6.5)(vue@3.5.17(typescript@5.7.3))':
     dependencies:
       '@vueuse/core': 13.4.0(vue@3.5.17(typescript@5.7.3))
@@ -6281,7 +6304,13 @@ snapshots:
 
   '@vueuse/metadata@13.4.0': {}
 
+  '@vueuse/metadata@13.5.0': {}
+
   '@vueuse/shared@13.4.0(vue@3.5.17(typescript@5.7.3))':
+    dependencies:
+      vue: 3.5.17(typescript@5.7.3)
+
+  '@vueuse/shared@13.5.0(vue@3.5.17(typescript@5.7.3))':
     dependencies:
       vue: 3.5.17(typescript@5.7.3)
 
