@@ -1,4 +1,3 @@
-export { default as Datalist } from "./DataList.vue";
 export { default as DataList } from "./DataList.vue";
 export * from "./store/DatalistStore";
 export * from "./composabales/ActionsComposable";

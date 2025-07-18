@@ -14,27 +14,49 @@ import AuthLayout from "../components/AuthLayout.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import ForbiddenView from "../views/ForbiddenView.vue";
 import ErrorLayout from "../components/ErrorLayout.vue";
+import { apiClient } from "../api/apiClient";
 const appRoutes = [...accountsRoutes, ...publicRoutes];
 const authMiddleWare = async (
-  _: RouteLocationNormalized,
-  from: RouteLocationNormalized,
+  to: RouteLocationNormalized,
+  __: RouteLocationNormalized,
   next: NavigationGuardNext,
 ) => {
-  if (from.name != "login" && from.name != "login_owner") {
+  if (to.path.startsWith("/auth")) return next();
+  console.log("issue is hjeader");
+  const token = localStorage.getItem("token");
+  const expiresAt = localStorage.getItem("access_token_expires_at");
+  if (!token || !expiresAt) {
+    localStorage.clear();
+    console.log("issue is hjeader");
+    return next("/auth/login");
+  }
+
+  const now = new Date();
+  const expiry = new Date(expiresAt as string);
+  console.log(now.toDateString(), expiry.toDateString());
+  console.log(now >= expiry);
+  if (now >= expiry) {
     try {
-      next();
-      return true;
-    } catch (e: any) {
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-      localStorage.removeItem("sidebar");
-      localStorage.removeItem("roles");
-      next("/login");
-      return false;
+      const response = await apiClient.authRefreshToken({});
+      const loginInfo = response.loginInfo;
+      if (!loginInfo?.accessToken) throw new Error("Invalid refresh response");
+
+      // Store new tokens and expiry
+      localStorage.setItem("token", loginInfo.accessToken);
+      localStorage.setItem(
+        "access_token_expires_at",
+        loginInfo.accessTokenExpiresAt,
+      );
+    } catch (err) {
+      console.error("Token refresh failed:", err);
+      localStorage.clear();
+      return next("/auth/login");
     }
   }
+
   next();
 };
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -42,7 +64,6 @@ const router = createRouter({
       path: "/",
       component: AppLayout,
       redirect: "/dashboard",
-      beforeEnter: authMiddleWare,
       children: [
         {
           path: "/dashboard",
@@ -101,5 +122,5 @@ const router = createRouter({
     },
   ],
 });
-
+router.beforeEach(authMiddleWare);
 export default router;

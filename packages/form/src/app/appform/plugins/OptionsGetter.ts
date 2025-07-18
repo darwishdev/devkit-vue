@@ -96,6 +96,10 @@ export const OptionsGetterPlugin: FormKitPlugin = (node) => {
       return cacheKey;
     };
     const optionsFetcherFn = async () => {
+      if (Array.isArray(options)) {
+        return options;
+      }
+
       const request = node.props.constructRequest
         ? node.props.constructRequest()
         : {};

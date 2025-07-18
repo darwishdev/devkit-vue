@@ -16,8 +16,6 @@ import { VueQueryPlugin, QueryClient } from "@tanstack/vue-query";
 import { apiClient } from "./pkg/api/apiClient";
 import { AppBtn, AppIcon, AppImage } from "@devkitvue/base-components";
 import translateI18nPlugin from "./pkg/plugins/translateI18nPlugin";
-import DevkitToggleCollection from "./pkg/components/DevkitToggleCollection.vue";
-import type DevkitToggleCollection from "./pkg/components/DevkitToggleCollection.vue";
 const app = createApp(App);
 
 app.use(router);
@@ -31,101 +29,11 @@ const queryClient = new QueryClient({
     },
   },
 });
-const toggleCollectionInput = createInput(DevkitToggleCollection, {
-  props: [
-    "options",
-    "cacheKey",
-    "cacheTimeout",
-    "createRoute",
-    "useLazy",
-    "convertToFlat",
-    "dependsOn",
-    "requestPropertyName",
-    "responseOptionsKey",
-    "requestMapper",
-    "bypassCache",
-    "optionsMapper",
-    "debounceInMilliSeconds",
-
-    // Keys from FormKitInputContext
-    "node",
-
-    // Common props shared between single and multi select
-    "modelValue",
-    "defaultValue",
-    "name",
-    "options",
-    "optionLabel",
-    "optionValue",
-    "optionDisabled",
-    "editable",
-    "inputStyle",
-    "iconKey",
-    "pt",
-    "inputClass",
-    "labelId",
-    "labelStyle",
-    "labelClass",
-    "useButtons",
-    "multiple",
-    "selectOnFocus",
-    "checkmark",
-
-    "optionGroupLabel",
-    "optionGroupChildren",
-    "scrollHeight",
-    "filter",
-    "filterPlaceholder",
-    "filterLocale",
-    "filterMatchMode",
-    "filterFields",
-    "placeholder",
-    "size",
-    "invalid",
-    "disabled",
-    "variant",
-    "dataKey",
-    "showClear",
-    "fluid",
-    "inputId",
-    "panelStyle",
-    "panelClass",
-    "overlayStyle",
-    "overlayClass",
-    "appendTo",
-    "loading",
-    "clearIcon",
-    "dropdownIcon",
-    "filterIcon",
-    "loadingIcon",
-    "resetFilterOnHide",
-    "resetFilterOnClear",
-    "virtualScrollerOptions",
-    "autoOptionFocus",
-    "autoFilterFocus",
-    "focusOnHover",
-    "highlightOnSelect",
-    "filterMessage",
-    "selectionMessage",
-    "emptySelectionMessage",
-    "emptyFilterMessage",
-    "emptyMessage",
-    "tabindex",
-    "ariaLabel",
-    "ariaLabelledby",
-    "formControl",
-    "dt",
-    "pt",
-    "ptOptions",
-    "unstyled",
-  ],
-});
 
 app.use(
   FormkitPlugin,
   formKitConfig({
     config: { rootClasses },
-    inputs: { devkitToggleCollection: toggleCollectionInput },
     plugins: [translateI18nPlugin],
   }),
 );

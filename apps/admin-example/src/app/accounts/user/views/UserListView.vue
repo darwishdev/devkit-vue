@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  Datalist,
-  type DatalistColumnsBase,
-  type DatalistProps,
-} from "@devkitvue/datalist";
+import { DataList, type DatalistProps } from "@devkitvue/datalist";
 import type {
   AccountsSchemaUserView,
   UserListRequest,
@@ -18,14 +14,12 @@ import {
   DESCRIPTION,
 } from "../../constants/UserConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
+import { h } from "vue";
 
 const tableProps: DatalistProps<
   typeof apiClient,
   UserListRequest,
-  AccountsSchemaUserView,
-  undefined,
-  undefined,
-  undefined
+  AccountsSchemaUserView
 > = {
   context: {
     datalistKey: KEYS.DATALIST_KEY,
@@ -38,6 +32,7 @@ const tableProps: DatalistProps<
       paramColumnName: USER_ROW_IDENTIFIER,
     },
     isActionsDropdown: true,
+    displayType: "card",
     isLazyFilters: false,
     options: {
       title: TITLE,
@@ -45,10 +40,26 @@ const tableProps: DatalistProps<
     },
   },
 };
+const RenderedDataList = () =>
+  h(
+    DataList<typeof apiClient, UserListRequest, AccountsSchemaUserView>,
+    tableProps,
+    {
+      card: () => null,
+      asdasd: () => null,
+    },
+  );
 </script>
 
 <template>
   <div class="glass rounded-lg">
-    <Datalist :context="tableProps.context"> </Datalist>
+    <component :is="RenderedDataList" />
+    <!-- <DataList v-bind="tableProps"> -->
+    <!--   <template v-slot:card="{ data }"> -->
+    <!--     <div class="rounded glass p-4"> -->
+    <!--       <AppImage :src="data.userImage" /> -->
+    <!--     </div> -->
+    <!--   </template> -->
+    <!-- </DataList> -->
   </div>
 </template>

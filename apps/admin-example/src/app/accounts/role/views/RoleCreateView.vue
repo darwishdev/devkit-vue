@@ -8,6 +8,8 @@ import {
   ROUTES,
   BASE_INPUTS,
   TITLE,
+  permissionsInput,
+  roleSecurityLevelInput,
 } from "../../constants/RoleConstants";
 import type {
   RoleCreateUpdateRequest,
@@ -29,7 +31,15 @@ const formProps: AppFormProps<
     sections: {
       user_info: {
         gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "grid" },
+        title: "basic info",
+        className: "glass p-8 rounded-lg my-4",
         inputs: [...BASE_INPUTS], // ⬅️ fields from the factory
+      },
+      permissions: {
+        gridConfig: { columns: 1 },
+        title: "Security",
+        className: "glass p-8 rounded-lg my-4 permissions-section",
+        inputs: [roleSecurityLevelInput, permissionsInput],
       },
     },
   },
@@ -41,3 +51,10 @@ const formProps: AppFormProps<
     <AppForm :context="formProps.context" />
   </div>
 </template>
+<style>
+.permissions-section {
+  .formkit-label {
+    display: none;
+  }
+}
+</style>

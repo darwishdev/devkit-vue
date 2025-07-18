@@ -92,7 +92,6 @@ export const userNameInput: FormKitSchemaNode & { name: "userName" } = {
   $formkit: "text",
   prefixIcon: "user-line", // 👤
   name: "userName",
-  value: "admin",
   label: "userName",
   placeholder: "userName",
   validation: "required",
@@ -109,10 +108,8 @@ export const userRolesInput: FormKitSchemaNode & {
   name: "roles";
 } = {
   $formkit: "devkitDropdown",
-
   fluid: true,
   multiple: true,
-  prefixIcon: "shield-keyhole-line", // 🛡️ optional: pick any icon you prefer
   name: "roles",
   options: "roleListInput",
   label: "roles",
@@ -165,8 +162,9 @@ export const userPasswordInput: FormKitSchemaNode & { name: "userPassword" } = {
 export const userImageInput: FormKitSchemaNode & { name: "userImage" } = {
   $formkit: "devkitUpload",
   bucketName: "abchotels",
-  dashboardOptions: { height: "300px" },
+  dashboardOptions: { width: "100%" },
   prefixIcon: "image-line", // 🖼️
+  outerClass: "col-span-2",
   name: "userImage",
   label: "userImage",
   placeholder: "userImage",
@@ -182,21 +180,11 @@ export const baseDateRangeInput: FormKitSchemaNode = {
 } as const;
 /** Convenient bundles – feel free to make more */
 
-export const icon: FormKitSchemaNode & { name: "userEmail" } = {
-  $formkit: "devkitIcon",
-  fluid: true,
-  label: "icon",
-  placeholder: "icon",
-
-  name: "userEmail",
-};
-
 export const USER_BASE_INPUTS = [
   userNameInput,
   userEmailInput,
   userRolesInput,
   userTypeInput,
-  icon,
   tenantInput,
   userPhoneInput,
   userPasswordInput,

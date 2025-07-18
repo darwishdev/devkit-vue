@@ -94,7 +94,6 @@ export const roleNameInput: FormKitSchemaNode & { name: "roleName" } = {
   $formkit: "text",
   prefixIcon: "award-line", // 🏅
   name: "roleName",
-  value: "admin",
   label: "roleName",
   placeholder: "roleName",
   validation: "required",
@@ -103,6 +102,7 @@ export const roleDescriptionInput: FormKitSchemaNode & {
   name: "roleDescription";
 } = {
   $formkit: "textarea",
+  innerClass: "p-3",
   prefixIcon: "align-left", // 📝
   name: "roleDescription",
   label: "roleDescription",
@@ -110,24 +110,37 @@ export const roleDescriptionInput: FormKitSchemaNode & {
   validation: "required",
   rows: 3,
 };
+export const roleSecurityLevelInput: FormKitSchemaNode & {
+  name: "roleSecurityLevel";
+} = {
+  $formkit: "number",
+  number: "integer",
+  prefixIcon: "award-line", // 🏅
+  name: "roleSecurityLevel",
+  label: "roleSecurityLevel",
+  placeholder: "roleSecurityLevel",
+  validation: "required",
+};
 export const permissionsInput: FormKitSchemaNode & {
   name: "permissions";
 } = {
   $formkit: "devkitToggleCollection",
   outerClass: "col-span-2",
   fluid: true,
+  dataTableProps: { rows: 4 },
   multiple: true,
   prefixIcon: "shield-keyhole-line", // 🛡️ optional: pick any icon you prefer
+  bypassCache: true,
+
+  value: [85, 86],
   name: "permissions",
+  useGroup: true,
   options: "userPermissionListInput",
+
   label: "permissions",
   validation: "",
 };
-export const BASE_INPUTS = [
-  roleNameInput,
-  permissionsInput,
-  roleDescriptionInput,
-];
+export const BASE_INPUTS = [roleNameInput, roleDescriptionInput];
 
 /* ------------------------------------------------------------------ */
 /*  DATALIST / TABLE COLUMN DEFINITIONS                               */

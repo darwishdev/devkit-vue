@@ -179,3 +179,10 @@ body {
 .color-text {
   color: var(--text-color);
 }
+.p-0 {
+  padding: 0 !important;
+}
+.hover-none:hover {
+  color: currentColor !important;
+  background-color: transparent !important;
+}

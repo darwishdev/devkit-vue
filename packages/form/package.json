@@ -63,6 +63,7 @@
   "peerDependencies": {
     "@formkit/core": ">=1.6.9",
     "@formkit/vue": ">=1.6.9",
+    "@vueuse/core": ">=13.0.0",
     "@tanstack/query-persist-client-core": ">=5.0.0",
     "@tanstack/vue-query": ">=5.0.0",
     "@uppy/compressor": ">=2.0.0",
@@ -105,7 +106,6 @@
     "@devkitvue/config": "workspace:*",
     "@formkit/inputs": "^1.6.9",
     "@vue/test-utils": "^2.4.6",
-    "@vueuse/core": "^13.5.0",
     "vitest": "^3.0.7"
   }
 }

@@ -194,11 +194,6 @@ const runAllUploadsBeforeSubmit = async (formNode: FormKitNode) => {
 const submitMutation = useMutation({
   mutationFn: mutationFn,
   onSuccess: () => {
-    if (!isBulkCreateRef.value) {
-      if (submitHandler.redirectRoute) {
-        push(submitHandler.redirectRoute);
-      }
-    }
     if (invalidateCaches) {
       db.dropdownHelper.bulkDelete(invalidateCaches);
       queryClient.invalidateQueries({
@@ -224,41 +219,13 @@ const generateFormSchema = () => {
   const { sections } = props.context;
   for (let sectionKey in sections) {
     const currentSection = sections[sectionKey];
+    if (!currentSection) continue;
     const isCurrentSectionObject = isAppFormSection(currentSection);
-    // const defaultConfig: GridConfig = {
-    //   columns: 1,
-    //   gap: 2,
-    //   smColumns: 2,
-    //   mdColumns: 4,
-    //   lgColumns: 6,
-    // };
-    // const gridConfig = !isCurrentSectionObject
-    //   ? defaultConfig
-    //   : (currentSection?.gridConfig ?? defaultConfig);
-    //
-    // const classList = [
-    //   "form-section",
-    //   "grid",
-    //   `grid-cols-${gridConfig.columns}`,
-    // ];
-    // if (gridConfig.smColumns)
-    //   classList.push(`sm:grid-cols-${gridConfig.smColumns}`);
-    // if (gridConfig.mdColumns)
-    //   classList.push(`md:grid-cols-${gridConfig.mdColumns}`);
-    // if (gridConfig.lgColumns)
-    //   classList.push(`lg:grid-cols-${gridConfig.lgColumns}`);
-    // if (gridConfig.xlColumns)
-    //   classList.push(`xl:grid-cols-${gridConfig.xlColumns}`);
-    // if (isCurrentSectionObject)
-    //   classList.push(currentSection.wrapperClassName ?? "");
-    // classList.push(`gap-${gridConfig.gap || 2}`);
-    // const className = classList.join(" ");
-    const className = makeGridWrapperClassName(currentSection?.gridConfig);
     if (!isCurrentSectionObject) {
       const sectionToBePushed: FormKitSchemaNode = {
         $el: "div",
         attrs: {
-          class: `form-section ${className}`,
+          class: `form-section`,
         },
         children: currentSection,
       };
@@ -266,25 +233,29 @@ const generateFormSchema = () => {
       continue;
     }
 
+    const className = makeGridWrapperClassName(currentSection.gridConfig);
     const sectionNodes: FormKitSchemaNode[] = [
       {
         $el: "div",
         attrs: {
-          class: className,
+          class: `${className} `,
         },
         children: currentSection.inputs,
       },
     ];
-    if (currentSection.title)
+    if (!currentSection.isTitleHidden && currentSection.title)
       sectionNodes.unshift({
-        $el: "div",
+        $el: "h2",
         attrs: {
-          class: "section-title mb-4 font-bold",
+          class: "section-title mb-4 text-2xl font-bold",
         },
         children: currentSection.title,
       });
     const sectionToBePushed: FormKitSchemaNode = {
       $el: "div",
+      attrs: {
+        class: currentSection.className,
+      },
       children: sectionNodes,
     };
     schema.push(sectionToBePushed);
@@ -372,6 +343,12 @@ const formSubmitHandler = async (req: TFormRequest, formNode: FormKitNode) => {
         }
         if (dialogRef) {
           dialogRef.value.close();
+        }
+
+        if (!isBulkCreateRef.value) {
+          if (submitHandler.redirectRoute) {
+            push(submitHandler.redirectRoute);
+          }
         }
         resolve(null);
       })

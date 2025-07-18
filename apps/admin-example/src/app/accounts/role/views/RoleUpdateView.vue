@@ -13,6 +13,8 @@ import {
   ENDPOINTS,
   ROUTES,
   BASE_INPUTS,
+  roleSecurityLevelInput,
+  permissionsInput,
 } from "../../constants/RoleConstants";
 
 import type {
@@ -40,8 +42,15 @@ const formProps: AppFormProps<
     invalidateCaches: [KEYS.DATALIST_KEY],
     sections: {
       user_info: {
+        title: "Basic Info",
         gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "columns" },
         inputs: [...BASE_INPUTS], // ⬅️ fields from the factory
+      },
+      permissions: {
+        gridConfig: { columns: 1 },
+        title: "Security",
+        className: "glass p-8 rounded-lg my-4 permissions-section",
+        inputs: [roleSecurityLevelInput, permissionsInput],
       },
     },
   },

@@ -263,6 +263,8 @@ export type GridConfig = {
 };
 export type AppFormSection<TFormRequest = StringUnknownRecord> = {
   inputs: (FormKitSchemaNode & { name: keyof TFormRequest })[];
+  title?: string;
+  className?: string;
   gridConfig?: GridConfig;
   isTitleHidden?: boolean;
   isTransparent?: boolean;

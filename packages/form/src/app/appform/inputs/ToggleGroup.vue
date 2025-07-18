@@ -7,33 +7,18 @@
   "
 >
 import type { StringUnknownRecord } from "@devkitvue/apiclient";
-import { computed, h, type VNode } from "vue";
-import type { DropdownOption } from "@devkitvue/form";
+import { computed, h } from "vue";
+import type {
+  DropdownOption,
+  ToggleGroupProps,
+  ToggleGroupSlots,
+} from "./types";
 import { ToggleSwitch } from "primevue";
 import Checkbox from "primevue/checkbox";
-import { useDropdownKeysFetcher } from "./useDropwdownKeysFetcher";
+import { useDropdownKeysFetcher } from "@/app/appform/composables/useDropdownKeysFetcher";
 import { AppIcon } from "@devkitvue/base-components";
-type ToggleGroupSlots = {
-  header?: (props: {
-    groupNote: string;
-    groupName: string;
-    modelValue: boolean;
-    "onUpdate:modelValue": (val: boolean) => void;
-  }) => VNode[];
-  note?: (props: { groupNote: string }) => VNode[] | VNode;
 
-  "select-all"?: (props: {
-    groupName: string;
-    modelValue: boolean;
-    "onUpdate:modelValue": (val: boolean) => void;
-  }) => VNode[];
-  option?: (props: {
-    option: TOption;
-    modelValue: boolean;
-    "onUpdate:modelValue": (val: boolean) => void;
-  }) => VNode[];
-};
-const slots = defineSlots<ToggleGroupSlots>();
+const slots = defineSlots<ToggleGroupSlots<TValue, TOption>>();
 const {
   groupName,
   modelValue,
@@ -44,17 +29,7 @@ const {
   iconKey = "icon" as keyof TOption,
   items,
   groupNote = "",
-} = defineProps<{
-  groupName: string;
-  groupNote?: string;
-  labelKey?: keyof TOption;
-  valueKey?: keyof TOption;
-  noteKey?: keyof TOption;
-  iconKey?: keyof TOption;
-  useCheckBox?: boolean;
-  modelValue: Set<TValue>;
-  items: TOption[];
-}>();
+} = defineProps<ToggleGroupProps<TValue, TOption>>();
 const { getLabel, getValue, getIcon, getNote } = useDropdownKeysFetcher<
   TOption,
   { groupName: string; groupNote: string; items: TOption[] },
@@ -144,7 +119,7 @@ const isSelectAllComputed = computed({
     :groupNote="groupNote"
     :groupName="groupName"
     :modelValue="isSelectAllComputed"
-    :onModelValueChange="(checked: boolean) => (isSelectAllComputed = checked)"
+    :onUpdate:modelValue="(checked: boolean) => (isSelectAllComputed = checked)"
   >
     <div class="flex justify-between mb-8">
       <div class="flex gap-2 items-center">
@@ -157,7 +132,7 @@ const isSelectAllComputed = computed({
         name="select-all"
         :groupName="groupName"
         :modelValue="isSelectAllComputed"
-        :onModelValueChange="
+        :onUpdate:modelValue="
           (checked: boolean) => (isSelectAllComputed = checked)
         "
       >
@@ -165,7 +140,6 @@ const isSelectAllComputed = computed({
           <Checkbox
             v-model="isSelectAllComputed"
             class="me-2"
-            :id="`select-all-${groupName}`"
             :inputId="groupName"
             binary
           />

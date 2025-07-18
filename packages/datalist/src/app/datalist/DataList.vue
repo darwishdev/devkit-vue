@@ -3,11 +3,8 @@
   setup
   generic="
     TApi extends Record<string, Function>,
-    TReq extends Record<string, unknown> = StringUnknownRecord,
-    TRecord extends Record<string, unknown> = StringUnknownRecord,
-    TFiltersReq extends Record<string, unknown> | undefined = undefined,
-    TApiResponse extends Record<string, unknown> | undefined = undefined,
-    TFormSectionsRequest extends Record<string, unknown> | undefined = undefined
+    TReq extends Record<string, unknown>,
+    TRecord extends Record<string, unknown>
   "
 >
 import DataTable, {
@@ -154,64 +151,6 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
       foorer: "transparet",
     };
   }
-  // const config = gridConfig || {
-  //   columns: 1,
-  //   gridType: "grid",
-  //   gap: 2,
-  //   smColumns: 2,
-  //   mdColumns: 4,
-  //   lgColumns: 6,
-  // };
-  // const bodyClassNamesMap: Record<
-  //   "grid" | "flex" | "columns",
-  //   { display: string[]; columns: string }
-  // > = {
-  //   grid: {
-  //     display: ["grid"],
-  //     columns: "grid-cols-",
-  //   },
-  //
-  //   columns: {
-  //     display: ["block"],
-  //     columns: "columns-",
-  //   },
-  //   flex: {
-  //     display: ["flex ,flex-wrap"],
-  //     columns: "[&>*]:basis-1/",
-  //   },
-  // };
-  //
-  // console.log(
-  //   "display is",
-  //   config.gridType,
-  //   config.gridType || "grid",
-  //   bodyClassNamesMap[config.gridType || "flex"],
-  // );
-  // const { display, columns: colPrefix } =
-  //   bodyClassNamesMap[config.gridType || "grid"];
-  // // 2) build your responsive prefixes
-  // const bodyClassName = [
-  //   "form-section",
-  //   ...display,
-  //   // base cols
-  //   `${colPrefix}${config.columns}`,
-  //   // sm breakpoint
-  //   config.smColumns ? `sm:${colPrefix}${config.smColumns}` : undefined,
-  //   // md
-  //   config.mdColumns ? `md:${colPrefix}${config.mdColumns}` : undefined,
-  //   // lg
-  //   config.lgColumns ? `lg:${colPrefix}${config.lgColumns}` : undefined,
-  //   // xl (if you have it on config)
-  //   (config as any).xlColumns
-  //     ? `xl:${colPrefix}${(config as any).xlColumns}`
-  //     : undefined,
-  //   // always add gap
-  //   `gap-${config.gap || 2}`,
-  // ]
-  //   .filter((c): c is string => !!c)
-  //   .join(" ");
-  //
-  //
   const bodyClassName = makeGridWrapperClassName(gridConfig);
   return {
     header: "transparent",
@@ -354,8 +293,8 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     </Column>
 
     <Column v-if="context.displayType == 'card'" key="card">
-      <template #body="{ data }">
-        <slot name="card" :data="data as TRecord">
+      <template #body="{ data }: { data: TRecord }">
+        <slot name="card" :data="data">
           <div class="card-item">
             <slot name="cardStart" :data="data as TRecord" />
             <slot name="cardEnd" :data="data as TRecord" />

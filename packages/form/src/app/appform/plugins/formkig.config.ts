@@ -105,6 +105,7 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     "imageEditorOptions",
   ];
   const commonDropdownProps = [
+    "useGroup",
     "options",
     "cacheKey",
     "cacheTimeout",
@@ -278,7 +279,13 @@ const formKitConfig = (options: DefaultConfigOptions) => {
   });
 
   const toggleCollectionInput = createInput(ToggleCollection, {
-    props: singleDropdownProps,
+    props: [
+      ...singleDropdownProps,
+      "dataTableProps",
+      "useCheckBox",
+      "useGroup",
+      "groupByKey",
+    ],
   });
 
   const datePickerInput = createInput(DatePicker, {
@@ -294,9 +301,8 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     devkitDatepicker: datePickerInput,
     devkitUpload: uploadInput,
     devkitIcon: iconInput,
-    // devkitToggleCollection: toggleCollectionInput,
+    devkitToggleCollection: toggleCollectionInput,
   };
-  console.log("devkitToggleCollection", toggleCollectionInput);
   return defaultConfig({
     ...options,
     inputs: { ...inputs, ...options.inputs },

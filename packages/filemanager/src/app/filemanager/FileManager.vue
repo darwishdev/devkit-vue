@@ -2,7 +2,7 @@
 import { ref, inject, VNode } from "vue";
 import {
   DatalistStore,
-  Datalist,
+  DataList,
   useDatalistStoreWithProps,
   type DatalistProps,
 } from "@devkitvue/datalist";
@@ -105,7 +105,7 @@ const createSubmitted = (value: StringUnknownRecord) => {
       label="upload"
     />
     <input type="file" ref="fileInput" style="display: none" />
-    <Datalist
+    <DataList
       :context="datalistProps.context"
       @create:submited="createSubmitted"
     >
@@ -117,6 +117,6 @@ const createSubmitted = (value: StringUnknownRecord) => {
       <template #globalActionsStartAppend>
         <AppBtn :action="openUploadDialog" label="upload" />
       </template>
-    </Datalist>
+    </DataList>
   </div>
 </template>
