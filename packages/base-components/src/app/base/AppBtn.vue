@@ -68,8 +68,10 @@ const renderAppBtn = computed(() => {
       children,
     );
   }
-  if (action.startsWith("http")) {
-    return h("a", { href: action }, children);
+  if (typeof action == "string") {
+    if (action.startsWith("http")) {
+      return h("a", { href: action }, children);
+    }
   }
   const routeLink = route || to || action;
   return h(

@@ -14,6 +14,11 @@ import { ColumnImage } from "@devkitvue/datalist";
  * Strips any field starting with "$"
  * Recurses into nested objects/arrays.
  */
+const re = () => {
+  apiClient.authRefreshToken({}).then((res) => {
+    console.log("resp is", res);
+  });
+};
 function cleanMessage<T>(msg: T): any {
   if (msg == null || typeof msg !== "object") return msg;
   if (Array.isArray(msg)) return msg.map(cleanMessage);
@@ -176,7 +181,7 @@ const iconsMap = {
         </template>
       </AppBtn>
     </div>
-    <div class="flex flex-wrap lg:flex-nowrap">
+    <div class="flex flex-wrap lg:flex-nowrap" @click="re">
       <div
         class="glass p-4 flex-grow lg:flex-grow-0 mb-2 lg:mb-0 lg:w-1/3 mr-4 flex items-center rounded"
       >

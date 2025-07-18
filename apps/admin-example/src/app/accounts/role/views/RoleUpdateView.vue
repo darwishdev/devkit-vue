@@ -12,13 +12,20 @@ import {
   KEYS,
   ENDPOINTS,
   ROUTES,
-  USER_BASE_INPUTS,
-} from "../../constants/UserConstants";
+  BASE_INPUTS,
+  roleSecurityLevelInput,
+  permissionsInput,
+} from "../../constants/RoleConstants";
+
+import type {
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse,
+} from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_role_pb";
 import { apiClient } from "@/pkg/api/apiClient";
 const formProps: AppFormProps<
   typeof apiClient,
-  UserCreateUpdateRequest,
-  UserCreateUpdateResponse
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse
 > = {
   context: {
     title: TITLE,
@@ -35,9 +42,15 @@ const formProps: AppFormProps<
     invalidateCaches: [KEYS.DATALIST_KEY],
     sections: {
       user_info: {
-        title: "Update User Info",
-        gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "grid" },
-        inputs: [...USER_BASE_INPUTS], // ⬅️ fields from the factory
+        title: "Basic Info",
+        gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "columns" },
+        inputs: [...BASE_INPUTS], // ⬅️ fields from the factory
+      },
+      permissions: {
+        gridConfig: { columns: 1 },
+        title: "Security",
+        className: "glass p-8 rounded-lg my-4 permissions-section",
+        inputs: [roleSecurityLevelInput, permissionsInput],
       },
     },
   },

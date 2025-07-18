@@ -157,7 +157,7 @@ if (!hideSelectFromGallery)
       ? []
       : Array.isArray(node._value)
         ? node._value.map((v: string) => `${baseImageUrl}${v}`)
-        : [`${baseImageUrl}${node._value}`],
+        : [`${node._value}`],
     // baseUrl,
     bucketName,
     baseUrl: baseImageUrl,

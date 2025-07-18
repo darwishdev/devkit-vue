@@ -10,14 +10,10 @@ const apiClient = inject("apiClient");
 const iconFindApi =
   inject<ApiEndpoint<any, IconFindRequest, IconFindResponse>>("iconFindApi");
 const { top: topSlot, bottom: bottomSlot } = defineSlots<AppIconSlots>();
-const sizes = {
-  small: "1rem",
-  medium: "1.5rem",
-  large: "3rem",
-};
+
 const svgIconContent = ref("🆖");
 const getIconFromApi = () => {
-  if (!iconFindApi) {
+  if (!iconFindApi || !icon) {
     return;
   }
   resolveApiEndpoint<any, IconFindRequest, IconFindResponse>(

@@ -60,6 +60,7 @@
   "peerDependencies": {
     "@formkit/core": ">=1.6.9",
     "@formkit/vue": ">=1.6.9",
+    "@vueuse/core": ">=13.0.0",
     "@tanstack/query-persist-client-core": ">=5.0.0",
     "dexie": ">=4.0.0",
     "primevue": ">=4.0.0",

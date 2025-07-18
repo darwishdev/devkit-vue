@@ -5,9 +5,15 @@ import type {
   FormKitSectionsSchema,
 } from "@formkit/core";
 import { DependencyManagerPlugin, OptionsGetterPlugin } from "./OptionsGetter";
-import { DatePicker, Upload, DropDown, InputIcon } from "../inputs";
+import {
+  DatePicker,
+  Upload,
+  DropDown,
+  InputIcon,
+  ToggleCollection,
+} from "../inputs";
 import { genesisIcons } from "@formkit/icons";
-import InputIcon from "../inputs/InputIcon.vue";
+// import InputIcon from "../inputs/InputIcon.vue";
 const isCheckboxAndRadioMultiple: FormKitPlugin = (node: FormKitNode) =>
   (node.props.type === "checkbox" || node.props.type === "radio") &&
   node.props.options;
@@ -99,6 +105,7 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     "imageEditorOptions",
   ];
   const commonDropdownProps = [
+    "useGroup",
     "options",
     "cacheKey",
     "cacheTimeout",
@@ -271,6 +278,16 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     props: singleDropdownProps,
   });
 
+  const toggleCollectionInput = createInput(ToggleCollection, {
+    props: [
+      ...singleDropdownProps,
+      "dataTableProps",
+      "useCheckBox",
+      "useGroup",
+      "groupByKey",
+    ],
+  });
+
   const datePickerInput = createInput(DatePicker, {
     props: datepickerContextKeys,
   });
@@ -284,6 +301,7 @@ const formKitConfig = (options: DefaultConfigOptions) => {
     devkitDatepicker: datePickerInput,
     devkitUpload: uploadInput,
     devkitIcon: iconInput,
+    devkitToggleCollection: toggleCollectionInput,
   };
   return defaultConfig({
     ...options,

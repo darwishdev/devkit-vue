@@ -51,6 +51,10 @@ export const loginCallback = (response: AuthLoginResponse) => {
   // 2. Cache the access token
   if (response.loginInfo) {
     localStorage.setItem("token", response.loginInfo.accessToken);
+    localStorage.setItem(
+      "access_token_expires_at",
+      response.loginInfo.accessTokenExpiresAt,
+    );
   }
   // 3. Cache the user info
   if (response.user) {

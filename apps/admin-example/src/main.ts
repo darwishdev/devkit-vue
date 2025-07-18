@@ -9,7 +9,7 @@ import router from "@/pkg/router";
 import DevkitAdminPlugin, { type DevkitAdminConfig } from "@devkitvue/admin";
 import PrimeVue from "primevue/config";
 import { ToastService, DialogService } from "primevue";
-import { plugin as FormkitPlugin } from "@formkit/vue";
+import { createInput, plugin as FormkitPlugin } from "@formkit/vue";
 import { formKitConfig } from "@devkitvue/form";
 import { VueQueryPlugin, QueryClient } from "@tanstack/vue-query";
 
@@ -32,7 +32,10 @@ const queryClient = new QueryClient({
 
 app.use(
   FormkitPlugin,
-  formKitConfig({ config: { rootClasses }, plugins: [translateI18nPlugin] }),
+  formKitConfig({
+    config: { rootClasses },
+    plugins: [translateI18nPlugin],
+  }),
 );
 app.use(PrimeVue, {
   theme: "none", // or your chosen PrimeVue theme

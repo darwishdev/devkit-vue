@@ -62,6 +62,7 @@ export const OptionsGetterPlugin: FormKitPlugin = (node) => {
   if (
     inputyType == "devkitDropdown" ||
     inputyType == "devkitMultiDropdown" ||
+    inputyType == "devkitToggleCollection" ||
     inputyType == "devkitIcon"
   ) {
     node.props.isLoading = ref(false);
@@ -94,7 +95,11 @@ export const OptionsGetterPlugin: FormKitPlugin = (node) => {
       }
       return cacheKey;
     };
-    const optionsFetcherFn = () => {
+    const optionsFetcherFn = async () => {
+      if (Array.isArray(options)) {
+        return options;
+      }
+
       const request = node.props.constructRequest
         ? node.props.constructRequest()
         : {};
@@ -124,7 +129,7 @@ export const OptionsGetterPlugin: FormKitPlugin = (node) => {
           console.log("e", e);
           if ("message" in e) {
             if (e.message.includes("is not a function")) {
-              node.props.errorMessageRef.value =
+              node.props.errorMessageRef.avalue =
                 "the function name passed on options not found on injected api client";
               return;
             }

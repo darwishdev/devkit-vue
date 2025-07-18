@@ -1,4 +1,5 @@
 import { ROUTES as USER_ROUTES } from "./constants/UserConstants";
+import { ROUTES as ROLE_ROUTES } from "./constants/RoleConstants";
 
 export default [
   {
@@ -32,5 +33,31 @@ export default [
     name: USER_ROUTES.FIND.name,
     component: () => import("./user/views/UserFindView.vue"),
     meta: { breadcrumbs: USER_ROUTES.FIND.breadcrumbs },
+  },
+  {
+    path: ROLE_ROUTES.LIST.path,
+    name: ROLE_ROUTES.LIST.name,
+    component: () => import("./role/views/RoleListView.vue"),
+    meta: {
+      breadcrumbs: ROLE_ROUTES.LIST.breadcrumbs,
+    },
+  },
+  {
+    path: ROLE_ROUTES.CREATE.path,
+    name: ROLE_ROUTES.CREATE.name,
+    component: () => import("./role/views/RoleCreateView.vue"),
+    meta: { breadcrumbs: ROLE_ROUTES.CREATE.breadcrumbs },
+  },
+  {
+    path: ROLE_ROUTES.UPDATE.path,
+    name: ROLE_ROUTES.UPDATE.name,
+    component: () => import("./role/views/RoleUpdateView.vue"),
+    meta: { breadcrumbs: ROLE_ROUTES.UPDATE.breadcrumbs },
+  },
+  {
+    path: ROLE_ROUTES.FIND.path,
+    name: ROLE_ROUTES.FIND.name,
+    component: () => import("./role/views/RoleFindView.vue"),
+    meta: { breadcrumbs: ROLE_ROUTES.FIND.breadcrumbs },
   },
 ];

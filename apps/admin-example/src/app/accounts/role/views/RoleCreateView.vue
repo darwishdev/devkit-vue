@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { AppForm } from "@devkitvue/form";
-import type {
-  UserCreateUpdateRequest,
-  UserCreateUpdateResponse,
-} from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 import type { AppFormProps } from "@devkitvue/config";
 import { apiClient } from "@/pkg/api/apiClient";
 import {
   ENDPOINTS,
   KEYS,
   ROUTES,
-  USER_BASE_INPUTS,
+  BASE_INPUTS,
   TITLE,
-} from "../../constants/UserConstants";
+  permissionsInput,
+  roleSecurityLevelInput,
+} from "../../constants/RoleConstants";
+import type {
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse,
+} from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_role_pb";
 const formProps: AppFormProps<
   typeof apiClient,
-  UserCreateUpdateRequest,
-  UserCreateUpdateResponse
+  RoleCreateUpdateRequest,
+  RoleCreateUpdateResponse
 > = {
   context: {
     title: TITLE,
@@ -29,7 +31,15 @@ const formProps: AppFormProps<
     sections: {
       user_info: {
         gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "grid" },
-        inputs: [...USER_BASE_INPUTS], // ⬅️ fields from the factory
+        title: "basic info",
+        className: "glass p-8 rounded-lg my-4",
+        inputs: [...BASE_INPUTS], // ⬅️ fields from the factory
+      },
+      permissions: {
+        gridConfig: { columns: 1 },
+        title: "Security",
+        className: "glass p-8 rounded-lg my-4 permissions-section",
+        inputs: [roleSecurityLevelInput, permissionsInput],
       },
     },
   },
@@ -41,3 +51,10 @@ const formProps: AppFormProps<
     <AppForm :context="formProps.context" />
   </div>
 </template>
+<style>
+.permissions-section {
+  .formkit-label {
+    display: none;
+  }
+}
+</style>

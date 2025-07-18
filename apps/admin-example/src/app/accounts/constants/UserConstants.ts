@@ -17,15 +17,9 @@ import type { FormKitSchemaNode } from "@formkit/core";
 export const ROUTE_PARAM_NAME = "id";
 export const FIND_REQUEST_PROP_NAME = "recordId";
 export const FIND_RESPONSE_PROP_NAME = "request";
-export const USER_TITLE = "user";
-export const USER_DESCRIPTION = "user_description";
-// export const USER_ROUTES = {
-//   LIST: "/accounts/user",
-//   CREATE: "/accounts/user/create",
-//   VIEW: /accounts/user/:${ROUTE_PARAM_NAME},
-//   EDIT: /accounts/user/update/:${ROUTE_PARAM_NAME},
-// } as const;
-//
+export const TITLE = "user";
+export const DESCRIPTION = "user_description";
+
 export const BREADCRUMBS = {
   ACCOUNTS: { label: "accounts", icon: "user-community-line" } as const,
   USERS: { label: "users", icon: "user-3-line" } as const,
@@ -98,7 +92,6 @@ export const userNameInput: FormKitSchemaNode & { name: "userName" } = {
   $formkit: "text",
   prefixIcon: "user-line", // 👤
   name: "userName",
-  value: "admin",
   label: "userName",
   placeholder: "userName",
   validation: "required",
@@ -115,10 +108,8 @@ export const userRolesInput: FormKitSchemaNode & {
   name: "roles";
 } = {
   $formkit: "devkitDropdown",
-
   fluid: true,
   multiple: true,
-  prefixIcon: "shield-keyhole-line", // 🛡️ optional: pick any icon you prefer
   name: "roles",
   options: "roleListInput",
   label: "roles",
@@ -171,8 +162,9 @@ export const userPasswordInput: FormKitSchemaNode & { name: "userPassword" } = {
 export const userImageInput: FormKitSchemaNode & { name: "userImage" } = {
   $formkit: "devkitUpload",
   bucketName: "abchotels",
-  dashboardOptions: { height: "300px" },
+  dashboardOptions: { width: "100%" },
   prefixIcon: "image-line", // 🖼️
+  outerClass: "col-span-2",
   name: "userImage",
   label: "userImage",
   placeholder: "userImage",
@@ -188,21 +180,11 @@ export const baseDateRangeInput: FormKitSchemaNode = {
 } as const;
 /** Convenient bundles – feel free to make more */
 
-export const icon: FormKitSchemaNode & { name: "userEmail" } = {
-  $formkit: "devkitIcon",
-  fluid: true,
-  label: "icon",
-  placeholder: "icon",
-
-  name: "userEmail",
-};
-
 export const USER_BASE_INPUTS = [
   userNameInput,
   userEmailInput,
   userRolesInput,
   userTypeInput,
-  icon,
   tenantInput,
   userPhoneInput,
   userPasswordInput,
@@ -330,7 +312,7 @@ export const colDeletedAt = new ColumnDate("deletedAt", {
 /* ------------------------------------------------------------------ */
 /*  OPTIONAL: aggregated helper you can still pass to <Datalist>      */
 /* ------------------------------------------------------------------ */
-export const USER_COLUMNS_MAP = {
+export const COLUMNS_MAP = {
   userId: colUserId,
   userName: colUserName,
   userEmail: colUserEmail,

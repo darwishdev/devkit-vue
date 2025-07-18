@@ -238,6 +238,7 @@ export type AuthLoginRequest = {
 export type LoginInfo = {
   accessToken: string;
   accessTokenExpiresAt: string;
+  refreshTokenExpiresAt: string;
 };
 
 export type AuthLoginResponse = {
