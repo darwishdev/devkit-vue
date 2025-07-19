@@ -4,7 +4,10 @@
   generic="
     TApi extends Record<string, Function>,
     TReq extends Record<string, unknown>,
-    TRecord extends Record<string, unknown>
+    TRecord extends Record<string, unknown>,
+    TFiltersReq extends StringUnknownRecord | undefined = undefined,
+    TApiResponse extends StringUnknownRecord | undefined = undefined,
+    TFormSectionsRequest extends StringUnknownRecord | undefined = undefined
   "
 >
 import DataTable, {

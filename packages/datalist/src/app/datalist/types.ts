@@ -303,7 +303,7 @@ export type DatalistColumnSlots<
   TApiResponse extends StringUnknownRecord | undefined = undefined,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
 > = Partial<{
-  [key: `column.${string}`]: (props: {
+  [K in keyof TRecord as `column.${Extract<K, string>}`]: (props: {
     store: DatalistStore<
       TApi,
       TReq,

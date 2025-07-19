@@ -121,8 +121,11 @@ importers:
         specifier: ^0.6.1
         version: 0.6.1(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@24.0.3)(typescript@5.8.3)))
       vue:
-        specifier: ^3.5.13
+        specifier: ^3.4.13
         version: 3.5.17(typescript@5.8.3)
+      vue-component-type-helpers:
+        specifier: ^3.0.3
+        version: 3.0.3
       vue-i18n:
         specifier: ^11.1.5
         version: 11.1.7(vue@3.5.17(typescript@5.8.3))
@@ -841,7 +844,7 @@ importers:
         specifier: ^2.4.6
         version: 2.4.6
       '@vueuse/core':
-        specifier: ^13.5.0
+        specifier: '>=13.0.0'
         version: 13.5.0(vue@3.5.17(typescript@5.7.3))
       dexie:
         specifier: '>=4.0.0'
@@ -4397,6 +4400,9 @@ packages:
 
   vue-component-type-helpers@2.2.10:
     resolution: {integrity: sha512-iDUO7uQK+Sab2tYuiP9D1oLujCWlhHELHMgV/cB13cuGbG4qwkLHvtfWb6FzvxrIOPDnU0oHsz2MlQjhYDeaHA==}
+
+  vue-component-type-helpers@3.0.3:
+    resolution: {integrity: sha512-koiBu7lO8e6w/UlbZAAIW11qcFQocYIl7Nh/SVwGZ804ej5KrncU32bRxi2zfU2Kyf6HWuk1CeeVP2rhIL+vyQ==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -8463,6 +8469,8 @@ snapshots:
   vscode-uri@3.1.0: {}
 
   vue-component-type-helpers@2.2.10: {}
+
+  vue-component-type-helpers@3.0.3: {}
 
   vue-demi@0.14.10(vue@3.5.17(typescript@5.7.3)):
     dependencies:

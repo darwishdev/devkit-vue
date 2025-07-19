@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { DataList, type DatalistProps } from "@devkitvue/datalist";
+import { type DatalistProps } from "@devkitvue/datalist";
+import { DateStringDigitToDate } from "@devkitvue/form";
 import type {
   AccountsSchemaUserView,
   UserListRequest,
@@ -14,12 +15,15 @@ import {
   DESCRIPTION,
 } from "../../constants/UserConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
-import { h } from "vue";
+import DataList from "@/pkg/components/DataList.vue";
 
 const tableProps: DatalistProps<
   typeof apiClient,
   UserListRequest,
-  AccountsSchemaUserView
+  AccountsSchemaUserView,
+  undefined,
+  undefined,
+  undefined
 > = {
   context: {
     datalistKey: KEYS.DATALIST_KEY,
@@ -40,26 +44,26 @@ const tableProps: DatalistProps<
     },
   },
 };
-const RenderedDataList = () =>
-  h(
-    DataList<typeof apiClient, UserListRequest, AccountsSchemaUserView>,
-    tableProps,
-    {
-      card: () => null,
-      asdasd: () => null,
-    },
-  );
 </script>
 
 <template>
   <div class="glass rounded-lg">
-    <component :is="RenderedDataList" />
-    <!-- <DataList v-bind="tableProps"> -->
-    <!--   <template v-slot:card="{ data }"> -->
-    <!--     <div class="rounded glass p-4"> -->
-    <!--       <AppImage :src="data.userImage" /> -->
-    <!--     </div> -->
-    <!--   </template> -->
-    <!-- </DataList> -->
+    <DataList v-bind="tableProps" :context="tableProps.context">
+      <template #card="{ data }">
+        <div class="rounded glass p-4">
+          <AppImage :src="data.userImage" />
+          <div>{{ data.userName }}</div>
+          <div>{{ data.userEmail }}</div>
+          <div>{{ data.userPhone }}</div>
+          <div>{{ data.createdAt }}</div>
+          <div v-if="data.deletedAt">
+            {{ DateStringDigitToDate(data.deletedAt).toDateString() }}
+          </div>
+          <div v-for="r in data.roles" @click="`/accounts/roles/${r.roleId}`">
+            {{ r.roleName }}
+          </div>
+        </div>
+      </template>
+    </DataList>
   </div>
 </template>
