@@ -8,7 +8,7 @@ import Drawer from "primevue/drawer";
 import AppImage from "./AppImage.vue";
 import AppBtn from "./AppBtn.vue";
 import AppIcon from "./AppIcon.vue";
-const breakpointNumber = 570;
+const breakpointNumber = 1024;
 const {
   items,
   isVertical,

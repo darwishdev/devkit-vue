@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {
-  Datalist,
   type DatalistColumnsBase,
   type DatalistProps,
 } from "@devkitvue/datalist";
+import { DateStringDigitToDate } from "@devkitvue/form";
+import DataList from "@/pkg/components/DataList.vue";
 import type {
   AccountsSchemaRole,
   RoleListRequest,
@@ -38,6 +39,7 @@ const tableProps: DatalistProps<
     },
     isActionsDropdown: true,
     isLazyFilters: false,
+    displayType: "card",
     options: {
       title: TITLE,
       description: DESCRIPTION,
@@ -48,6 +50,27 @@ const tableProps: DatalistProps<
 
 <template>
   <div class="glass rounded-lg">
-    <Datalist :context="tableProps.context"> </Datalist>
+    <DataList :context="tableProps.context">
+      <template #card="{ data }">
+        <div
+          class="grid card-content grid-cols-2 glass shadow-sm rounded-lg h-full w-full cursor-pointer gap-4 min-h-[10rem]"
+        >
+          <div
+            class="bg-primary/40 rounded-l-lg flex-col flex justify-center item-center"
+          >
+            <h3 class="font-bold text-center text-md">PERMISSIONS</h3>
+            <h2 class="font-bold text-center text-4xl">86</h2>
+            <h3 class="font-bold text-center text-md">USERS</h3>
+            <h2 class="font-bold text-center text-4xl">16</h2>
+          </div>
+          <div class="card-info flex flex-col justify-center pe-12 py-4">
+            <h2 class="font-bold mb-4 text-2xl">{{ data.roleName }}</h2>
+            <div class="flex justify-between-items-center">
+              <span>Created At : {{ data.createdAt }}</span>
+            </div>
+          </div>
+        </div>
+      </template>
+    </DataList>
   </div>
 </template>

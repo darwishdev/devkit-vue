@@ -56,7 +56,7 @@ const { t } = useI18n();
 </template>
 <style>
 .page-content {
-  @media (min-width: 570px) {
+  @media (min-width: 1024px) {
     margin-inline-start: var(--menu-width);
   }
   transition: var(--transition) margin;

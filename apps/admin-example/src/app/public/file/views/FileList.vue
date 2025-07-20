@@ -2,7 +2,7 @@
 import { ref, inject, type VNode, h } from "vue";
 import {
   type DatalistStore,
-  Datalist,
+  DataList,
   useDatalistStoreWithProps,
   type DatalistProps,
 } from "@devkitvue/datalist";
@@ -10,7 +10,6 @@ import { bucketInput, bucketsForm } from "./schemas";
 import type { FilesHandler, StringUnknownRecord } from "@devkitvue/config";
 import { useDialog } from "primevue";
 import type {
-  BucketCreateUpdateRequest,
   GalleryListRequest,
   FileObject,
   GalleryListResponse,
@@ -150,7 +149,7 @@ const refetchDropdownInput = async () => {
     files handler is not passed on config
   </div>
   <div v-else class="buckets file-manager">
-    <Datalist
+    <DataList
       :context="datalistProps.context"
       @create:submited="createSubmitted"
     >
@@ -165,7 +164,7 @@ const refetchDropdownInput = async () => {
       <template #globalActionsStartAppend>
         <AppBtn :action="buckerCreateDialogOpen" label="create new bucket" />
       </template>
-    </Datalist>
+    </DataList>
   </div>
 </template>
 <style>

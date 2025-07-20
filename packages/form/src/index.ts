@@ -2,6 +2,7 @@ import { type App, type Plugin } from "vue";
 import type { DevkitFormConfig } from "@devkitvue/config";
 // import * as adminTypes from "./pkg/types/types";
 export * from "./app/appform";
+export * from "@/pkg/utils/DateUtils";
 export type { DevkitFormConfig };
 import DevkitFormDB from "./pkg/database/DB";
 

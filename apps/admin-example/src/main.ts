@@ -9,7 +9,8 @@ import router from "@/pkg/router";
 import DevkitAdminPlugin, { type DevkitAdminConfig } from "@devkitvue/admin";
 import PrimeVue from "primevue/config";
 import { ToastService, DialogService } from "primevue";
-import { createInput, plugin as FormkitPlugin } from "@formkit/vue";
+import { plugin as FormkitPlugin } from "@formkit/vue";
+import Tooltip from "primevue/tooltip";
 import { formKitConfig } from "@devkitvue/form";
 import { VueQueryPlugin, QueryClient } from "@tanstack/vue-query";
 
@@ -18,6 +19,7 @@ import { AppBtn, AppIcon, AppImage } from "@devkitvue/base-components";
 import translateI18nPlugin from "./pkg/plugins/translateI18nPlugin";
 const app = createApp(App);
 
+app.directive("tooltip", Tooltip);
 app.use(router);
 const pinia = createPinia();
 app.use(pinia);

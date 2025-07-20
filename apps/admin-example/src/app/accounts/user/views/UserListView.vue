@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { DataList, type DatalistProps } from "@devkitvue/datalist";
+import { type DatalistProps } from "@devkitvue/datalist";
+import { DateStringDigitToDate } from "@devkitvue/form";
 import type {
   AccountsSchemaUserView,
   UserListRequest,
@@ -10,20 +11,30 @@ import {
   KEYS,
   USER_ROW_IDENTIFIER,
   ROUTE_PARAM_NAME,
+  userRolesInput,
   TITLE,
   DESCRIPTION,
 } from "../../constants/UserConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
-import { h } from "vue";
+import DataList from "@/pkg/components/DataList.vue";
 
 const tableProps: DatalistProps<
   typeof apiClient,
   UserListRequest,
-  AccountsSchemaUserView
+  AccountsSchemaUserView,
+  undefined,
+  undefined,
+  undefined
 > = {
   context: {
     datalistKey: KEYS.DATALIST_KEY,
     rowIdentifier: USER_ROW_IDENTIFIER,
+    filters: [
+      {
+        matchMode: "in",
+        input: userRolesInput,
+      },
+    ],
     columns: COLUMNS_MAP,
     records: apiClient.userList,
     viewRouter: {
@@ -40,26 +51,68 @@ const tableProps: DatalistProps<
     },
   },
 };
-const RenderedDataList = () =>
-  h(
-    DataList<typeof apiClient, UserListRequest, AccountsSchemaUserView>,
-    tableProps,
-    {
-      card: () => null,
-      asdasd: () => null,
-    },
-  );
 </script>
 
 <template>
   <div class="glass rounded-lg">
-    <component :is="RenderedDataList" />
-    <!-- <DataList v-bind="tableProps"> -->
-    <!--   <template v-slot:card="{ data }"> -->
-    <!--     <div class="rounded glass p-4"> -->
-    <!--       <AppImage :src="data.userImage" /> -->
-    <!--     </div> -->
-    <!--   </template> -->
-    <!-- </DataList> -->
+    <DataList v-bind="tableProps" :context="tableProps.context">
+      <template #card="{ data }">
+        <div
+          class="grid card-content grid-cols-3 glass shadow-sm rounded-lg h-full w-full cursor-pointer gap-4"
+        >
+          <AppImage
+            class="card-image bg-primary/40 rounded-l-lg"
+            :useBackgroundImage="true"
+            :src="data.userImage"
+          />
+          <div
+            class="card-info flex flex-col justify-center col-span-2 pe-12 py-4"
+          >
+            <h2 class="font-bold text-2xl">{{ data.userName }}</h2>
+            <h3 class="font-bold">{{ data.userEmail }}</h3>
+            <div class="flex justify-between-items-center">
+              <span>{{
+                DateStringDigitToDate(data.createdAt).toDateString()
+              }}</span>
+              <span v-if="data.deletedAt">
+                {{ DateStringDigitToDate(data.deletedAt).toDateString() }}
+              </span>
+            </div>
+            <ul class="flex gap-2 flex-wrap">
+              <li
+                v-for="r in data.roles"
+                @click="`/accounts/roles/${r.roleId}`"
+              >
+                {{ r.roleName }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </template>
+    </DataList>
   </div>
 </template>
+<style>
+tr[data-p-selected="true"] .card-content {
+  /* Your styles here */
+  transition: all 0.3s;
+
+  background-color: color-mix(
+    in srgb,
+    var(--primary-color) 20%,
+    transparent
+  ) !important;
+  transform: scale(1.02);
+  font-weight: bold;
+  border: 1px solid var(--primary-color);
+}
+.formkit-form {
+  .p-multiselect,
+  .p-inputtext,
+  .p-select,
+  input {
+    --tw-bg-opacity: 0.3;
+    --tw-border-opacity: 0.3;
+  }
+}
+</style>
