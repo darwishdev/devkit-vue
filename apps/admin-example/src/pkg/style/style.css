@@ -50,10 +50,10 @@ a {
   --p-zinc-950: #09090b;
   --p-slate-50: #f8fafc;
   --p-slate-100: #f1f5f9;
-  --glass: hsla(0, 0%, 100%, 0.7);
+  --glass: hsla(0, 0%, 100%, 0.4);
   --root-menu-item-hover-bg: rgba(68, 72, 109, 0.09);
   --root-menu-content-hover-bg: rgba(68, 72, 109, 0.07);
-  --p-highlight-color: red;
+  --p-highlight-color: rgba(0, 0, 0, 0.87);
   --p-slate-200: #e2e8f0;
   --p-slate-300: #cbd5e1;
   --p-slate-400: #94a3b8;
@@ -96,7 +96,7 @@ a {
   --menu-width: 18rem;
   --p-content-border-radius: 6px;
   --gap: var(--content-padding);
-  --body-bg: var(--p-surface-50);
+  --body-bg: var(--p-surface-100);
 
   --surface-card: var(--p-content-background);
 }
@@ -185,4 +185,40 @@ body {
 .hover-none:hover {
   color: currentColor !important;
   background-color: transparent !important;
+  backdrop-filter: blur(10px);
+}
+.devkit-datalist.card {
+  tr {
+    position: relative;
+    display: flex;
+    padding: 0;
+  }
+  td {
+    border: none !important;
+    padding: 0;
+  }
+  td:last-child,
+  td:first-child {
+    position: absolute;
+    top: 1rem;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  td:first-child {
+    left: 1rem;
+  }
+  td:last-child {
+    right: 1rem !important;
+  }
+}
+.card-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-image svg {
+  --icon-width: 3rem !important;
 }

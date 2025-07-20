@@ -157,6 +157,8 @@ const isSelectAllComputed = computed({
   position: absolute;
   width: 100%;
   left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1;
   padding: 0;
   text-align: right;

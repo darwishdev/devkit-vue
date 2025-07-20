@@ -158,7 +158,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
   return {
     header: "transparent",
     thead: "hidden",
-    tbody: bodyClassName,
+    tbody: `${bodyClassName} p-4`,
     foorer: "transparet",
     headerRow: "hidden",
   };
@@ -172,9 +172,11 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     :value="datalistStore.currenData"
     stateStorage="session"
     :stateKey="`${datalistKey}`"
+    selectionMode="multiple"
     :max-height="200"
     :pt="dataTablePassThrough"
     :globalFilterFields="datalistStore.globalFilters"
+    :class="`devkit-datalist ${displayType || ''}`"
     :filters="datalistStore.filtersFormValueRef"
     v-model:selection="datalistStore.modelSelectionRef"
     paginator
@@ -295,7 +297,14 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     >
     </Column>
 
-    <Column v-if="context.displayType == 'card'" key="card">
+    <Column
+      v-if="context.displayType == 'card'"
+      key="card"
+      :pt="{
+        headerCell: 'transparent border-none',
+        bodyCell: 'transparent w-full border-none',
+      }"
+    >
       <template #body="{ data }: { data: TRecord }">
         <slot name="card" :data="data">
           <div class="card-item">

@@ -227,12 +227,12 @@ export type DatalistContext<
     | {
         isServerSide?: true;
         columns?: DatalistColumnsServerSide<TRecord>;
-        filters?: FormKitSchemaNode[];
+        filters?: (DatalistFilter | FormKitSchemaNode)[];
       }
     | {
         isServerSide?: false;
         columns?: DatalistColumnsClientSide<TRecord>;
-        filters?: FormKitSchemaNode[];
+        filters?: (DatalistFilter | FormKitSchemaNode)[];
       }
   );
 

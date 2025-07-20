@@ -14,7 +14,10 @@ const fallbackImage =
 const fallbackSvg =
   inject<string>("fallbackImageSvg") || VITE_FALLBACK_IMAGE_SVG;
 
-const props = defineProps<ImageProps & { src: string }>();
+const props = defineProps<
+  ImageProps & { src: string; useBackgroundImage?: boolean }
+>();
+const { useBackgroundImage } = props;
 const slots = defineSlots<ImageSlots>();
 const src =
   props.src == ""
@@ -32,6 +35,34 @@ const targetUrl = computed(() => {
   }
   return `${baseImageUrl}${props.src}`;
 });
+const renderBackgrounImage = () =>
+  h(
+    "div",
+    {
+      class: `bg-no-repeat bg-cover bg-center ${attrs["class"] || ""}`,
+      style: `background-image : url('${baseImageUrl}${props.src}')`,
+    },
+    [],
+  );
+
+const renderBackgrounImageFallback = () =>
+  h(
+    "div",
+    {
+      class: `bg-no-repeat bg-cover ${attrs["class"] || ""}`,
+      style: fallbackImage
+        ? `background-image : ur('${baseImageUrl}${fallbackImage}')`
+        : ``,
+    },
+    [
+      fallbackSvg
+        ? h(AppIcon, {
+            icon: fallbackSvg,
+          })
+        : undefined,
+    ],
+  );
+
 const renderFallback = () => {
   if (fallbackSvg) {
     return h(AppIcon, {
@@ -76,7 +107,18 @@ onMounted(() => {
 </script>
 <template>
   <Skeleton v-if="loading" width="100%" height="200px" />
-  <component v-else :is="hasError ? renderFallback : renderImage" />
+  <component
+    v-else
+    :is="
+      hasError
+        ? useBackgroundImage
+          ? renderBackgrounImageFallback
+          : renderFallback
+        : useBackgroundImage
+          ? renderBackgrounImage
+          : renderImage
+    "
+  />
 </template>
 <style>
 .fallback-icon svg {

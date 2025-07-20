@@ -70,7 +70,7 @@ defineExpose({
   background-color: var(--glass);
   backdrop-filter: blur(10px);
 
-  @media (min-width: 570px) {
+  @media (min-width: 1024px) {
     z-index: 3;
     transition: width 0.2s;
     top: 0;

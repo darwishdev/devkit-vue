@@ -2,9 +2,10 @@ import type { GridConfig } from "@devkitvue/config";
 const DEFAULT_GRID_CONFIG: GridConfig = {
   columns: 1,
   gridType: "grid",
-  gap: 2,
+  gap: 4,
   smColumns: 2,
-  mdColumns: 4,
+  mdColumns: 3,
+  lgColumns: 4,
 };
 
 /* ------------------------------------------------------------------ */
