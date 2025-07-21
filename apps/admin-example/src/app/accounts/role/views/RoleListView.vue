@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import {
-  type DatalistColumnsBase,
-  type DatalistProps,
-} from "@devkitvue/datalist";
-import { DateStringDigitToDate } from "@devkitvue/form";
+import { type DatalistProps } from "@devkitvue/datalist";
+
+import Badge from "primevue/badge";
 import DataList from "@/pkg/components/DataList.vue";
 import type {
-  AccountsSchemaRole,
+  RoleListRow,
   RoleListRequest,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_role_pb";
 import {
-  COLUMNS_MAP,
   ROUTES,
   KEYS,
   ROW_IDENTIFIER,
@@ -19,18 +16,16 @@ import {
   DESCRIPTION,
 } from "../../constants/RoleConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
-
-const columns: DatalistColumnsBase<AccountsSchemaRole> = COLUMNS_MAP;
+import { DateStringDigitToDate } from "@devkitvue/form";
 
 const tableProps: DatalistProps<
   typeof apiClient,
   RoleListRequest,
-  AccountsSchemaRole
+  RoleListRow
 > = {
   context: {
     datalistKey: KEYS.DATALIST_KEY,
     rowIdentifier: ROW_IDENTIFIER,
-    columns,
     records: apiClient.roleList,
     viewRouter: {
       name: ROUTES.FIND.name,
@@ -53,20 +48,43 @@ const tableProps: DatalistProps<
     <DataList :context="tableProps.context">
       <template #card="{ data }">
         <div
-          class="grid card-content grid-cols-2 glass shadow-sm rounded-lg h-full w-full cursor-pointer gap-4 min-h-[10rem]"
+          class="grid card-content grid-cols-5 glass shadow-sm rounded-lg h-full w-full cursor-pointer gap-4 min-h-[10rem]"
         >
           <div
-            class="bg-primary/40 rounded-l-lg flex-col flex justify-center item-center"
+            class="bg-primary/40 rounded-l-lg col-span-2 min-h-[12rem] flex-col flex justify-center item-center"
           >
-            <h3 class="font-bold text-center text-md">PERMISSIONS</h3>
-            <h2 class="font-bold text-center text-4xl">86</h2>
-            <h3 class="font-bold text-center text-md">USERS</h3>
-            <h2 class="font-bold text-center text-4xl">16</h2>
+            <h3 class="font-bold text-center text-md">
+              {{ $t("permissions") }}
+            </h3>
+            <h2 class="font-bold text-center text-4xl">
+              {{ data.permissionCount }}
+            </h2>
+            <h3 class="font-bold text-center text-md">{{ $t("USERS") }}</h3>
+            <h2 class="font-bold text-center text-4xl">{{ data.userCount }}</h2>
           </div>
-          <div class="card-info flex flex-col justify-center pe-12 py-4">
-            <h2 class="font-bold mb-4 text-2xl">{{ data.roleName }}</h2>
-            <div class="flex justify-between-items-center">
-              <span>Created At : {{ data.createdAt }}</span>
+          <div
+            class="card-info flex flex-col col-span-3 justify-between pt-12 pb-2"
+          >
+            <div class="top">
+              <h2 class="font-bold mb-4 text-2xl max-w-[100px]">
+                {{ data.roleName }}
+              </h2>
+
+              <h3 class="font-bold mb-4 text-xl max-w-[100px]">
+                {{ data.tenantName }}
+              </h3>
+            </div>
+
+            <div class="flex justify-between">
+              <span class="">
+                {{ DateStringDigitToDate(data.createdAt).toDateString() }}
+              </span>
+              <span>
+                {{ $t("Sec Level") }} :
+                <Badge>
+                  {{ data.permissionCount }}
+                </Badge>
+              </span>
             </div>
           </div>
         </div>

@@ -31,8 +31,8 @@ importers:
   apps/admin-example:
     dependencies:
       '@buf/ahmeddarwish_devkit-api.bufbuild_es':
-        specifier: 2.6.0-20250714122334-1372d6a96a3d.1
-        version: 2.6.0-20250714122334-1372d6a96a3d.1(@bufbuild/protobuf@2.6.0)
+        specifier: 2.6.0-20250721112934-fc917869d65a.1
+        version: 2.6.0-20250721112934-fc917869d65a.1(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect':
         specifier: ^2.0.2
         version: 2.0.2(@bufbuild/protobuf@2.6.0)
@@ -170,8 +170,8 @@ importers:
   apps/docs:
     dependencies:
       '@buf/ahmeddarwish_devkit-api.bufbuild_es':
-        specifier: 2.6.0-20250714122334-1372d6a96a3d.1
-        version: 2.6.0-20250714122334-1372d6a96a3d.1(@bufbuild/protobuf@2.6.0)
+        specifier: 2.6.0-20250721104230-d2d18b842afc.1
+        version: 2.6.0-20250721104230-d2d18b842afc.1(@bufbuild/protobuf@2.6.0)
       '@connectrpc/connect':
         specifier: ^2.0.2
         version: 2.0.2(@bufbuild/protobuf@2.6.0)
@@ -471,12 +471,21 @@ importers:
         specifier: ^2.5.4
         version: 2.5.4(eslint@9.29.0(jiti@2.4.2))(turbo@2.5.4)
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.22.0
+        version: 9.29.0
       '@types/google-protobuf':
         specifier: ^3.15.12
         version: 3.15.12
       '@types/node':
         specifier: ^24.0.0
         version: 24.0.3
+      eslint:
+        specifier: ^9.22.0
+        version: 9.29.0(jiti@2.4.2)
+      eslint-plugin-vue:
+        specifier: ^10.0.0
+        version: 10.2.0(eslint@9.29.0(jiti@2.4.2))(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
       postcss:
         specifier: ^8.5.3
         version: 8.5.6
@@ -486,6 +495,9 @@ importers:
       typescript:
         specifier: ~5.7.2
         version: 5.7.3
+      typescript-eslint:
+        specifier: ^8.26.1
+        version: 8.34.1(eslint@9.29.0(jiti@2.4.2))(typescript@5.7.3)
       vite:
         specifier: ^6.0.7
         version: 6.3.5(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(yaml@2.8.0)
@@ -1072,8 +1084,13 @@ packages:
     resolution: {integrity: sha512-ETyHEk2VHHvl9b9jZP5IHPavHYk57EhanlRRuae9XCpb/j5bDCbPPMOBfCWhnl/7EDJz0jEMCi/RhccCE8r1+Q==}
     engines: {node: '>=6.9.0'}
 
-  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250714122334-1372d6a96a3d.1':
-    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/ahmeddarwish_devkit-api.bufbuild_es/-/ahmeddarwish_devkit-api.bufbuild_es-2.6.0-20250714122334-1372d6a96a3d.1.tgz}
+  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250721104230-d2d18b842afc.1':
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/ahmeddarwish_devkit-api.bufbuild_es/-/ahmeddarwish_devkit-api.bufbuild_es-2.6.0-20250721104230-d2d18b842afc.1.tgz}
+    peerDependencies:
+      '@bufbuild/protobuf': ^2.6.0
+
+  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250721112934-fc917869d65a.1':
+    resolution: {tarball: https://buf.build/gen/npm/v1/@buf/ahmeddarwish_devkit-api.bufbuild_es/-/ahmeddarwish_devkit-api.bufbuild_es-2.6.0-20250721112934-fc917869d65a.1.tgz}
     peerDependencies:
       '@bufbuild/protobuf': ^2.6.0
 
@@ -4720,7 +4737,12 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250714122334-1372d6a96a3d.1(@bufbuild/protobuf@2.6.0)':
+  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250721104230-d2d18b842afc.1(@bufbuild/protobuf@2.6.0)':
+    dependencies:
+      '@buf/bufbuild_protovalidate.bufbuild_es': 2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.6.0)
+      '@bufbuild/protobuf': 2.6.0
+
+  '@buf/ahmeddarwish_devkit-api.bufbuild_es@2.6.0-20250721112934-fc917869d65a.1(@bufbuild/protobuf@2.6.0)':
     dependencies:
       '@buf/bufbuild_protovalidate.bufbuild_es': 2.6.0-20240920164238-5a7b106cbb87.1(@bufbuild/protobuf@2.6.0)
       '@bufbuild/protobuf': 2.6.0

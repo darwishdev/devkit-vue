@@ -2,11 +2,10 @@
 import { type DatalistProps } from "@devkitvue/datalist";
 import { DateStringDigitToDate } from "@devkitvue/form";
 import type {
-  AccountsSchemaUserView,
+  UserListRow,
   UserListRequest,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 import {
-  COLUMNS_MAP,
   ROUTES,
   KEYS,
   USER_ROW_IDENTIFIER,
@@ -21,7 +20,7 @@ import DataList from "@/pkg/components/DataList.vue";
 const tableProps: DatalistProps<
   typeof apiClient,
   UserListRequest,
-  AccountsSchemaUserView,
+  UserListRow,
   undefined,
   undefined,
   undefined
@@ -35,7 +34,6 @@ const tableProps: DatalistProps<
         input: userRolesInput,
       },
     ],
-    columns: COLUMNS_MAP,
     records: apiClient.userList,
     viewRouter: {
       name: ROUTES.FIND.name,
@@ -70,6 +68,7 @@ const tableProps: DatalistProps<
           >
             <h2 class="font-bold text-2xl">{{ data.userName }}</h2>
             <h3 class="font-bold">{{ data.userEmail }}</h3>
+            <h4>{{ data.userSecurityLevel }}</h4>
             <div class="flex justify-between-items-center">
               <span>{{
                 DateStringDigitToDate(data.createdAt).toDateString()
