@@ -152,6 +152,41 @@ export const ROW_IDENTIFIER = "roleId" as const;
 export const colRoleId = new ColumnText<AccountsSchemaRole>("roleId", {
   isSortable: true,
 });
+export const FILTERS = [
+  {
+    isGlobal: true,
+    matchMode: "contains",
+    input: { ...roleNameInput, validation: "" },
+  },
+  {
+    isGlobal: false,
+    matchMode: "between",
+    input: {
+      ...baseDateRangeInput,
+      name: "createdAt",
+      outerClass: "col-span-2 ",
+      label: "createdAt",
+      placeholder: "createdAt",
+      showTime: true,
+    },
+  },
+  {
+    ...baseDateRangeInput,
+    name: "updatedAt",
+    outerClass: "col-span-2 ",
+    label: "updatedAt",
+    placeholder: "updatedAt",
+    showTime: true,
+  },
+  {
+    ...baseDateRangeInput,
+    name: "updatedAt",
+    outerClass: "col-span-2 ",
+    label: "updatedAt",
+    placeholder: "updatedAt",
+    showTime: true,
+  },
+];
 export const colRoleName = new ColumnText<AccountsSchemaRole>("roleName", {
   isSortable: true,
   isGlobalFilter: true,

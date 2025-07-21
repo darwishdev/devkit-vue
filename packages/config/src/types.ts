@@ -31,6 +31,7 @@ export type AppIconProps = {
   color?: string;
 };
 export type AppBtnProps = {
+  justify?: "start" | "end" | "between" | "around";
   action?: string | Function;
   route?: RouteLocationRaw;
   to?: string;

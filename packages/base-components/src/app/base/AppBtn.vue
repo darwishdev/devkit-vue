@@ -15,6 +15,7 @@ const {
   labelAr,
   route,
   to,
+  justify = "center",
   icon,
   size,
   command,
@@ -50,13 +51,9 @@ const renderAppBtnChildren = () => {
 const renderAppBtn = computed(() => {
   const children = renderAppBtnChildren();
   const action = passedAction || command || route || to;
-
+  const className = `flex justify-${justify} items-center gap-2`;
   if (route) {
-    return h(
-      RouterLink,
-      { to: route, class: "flex justify-center items-center gap-2" },
-      children,
-    );
+    return h(RouterLink, { to: route, class: className }, children);
   }
   if (!action) {
     return h(Button, { ...props, action: undefined }, children);
@@ -74,11 +71,7 @@ const renderAppBtn = computed(() => {
     }
   }
   const routeLink = route || to || action;
-  return h(
-    RouterLink,
-    { to: routeLink, class: "flex justify-center items-center gap-2" },
-    children,
-  );
+  return h(RouterLink, { to: routeLink, class: className }, children);
 });
 </script>
 <template>

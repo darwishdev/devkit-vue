@@ -46,7 +46,11 @@ const removeFilter = (filter: string) => {
     <template #header>
       <div v-if="formkCtx" class="filters-header flex gap-4">
         <strong>Filters </strong>
-        <div v-for="[key, value] in ObjectEntries(formkCtx._value)" :key="key">
+        <div
+          v-for="[key, value] in ObjectEntries(formkCtx._value)"
+          :key="key"
+          class="z-10"
+        >
           <Chip
             v-if="value"
             removable

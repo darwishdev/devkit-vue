@@ -14,9 +14,11 @@ import {
   ROUTE_PARAM_NAME,
   TITLE,
   DESCRIPTION,
+  FILTERS,
 } from "../../constants/RoleConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
 import { DateStringDigitToDate } from "@devkitvue/form";
+import { AppBtn } from "@devkitvue/base-components";
 
 const tableProps: DatalistProps<
   typeof apiClient,
@@ -26,6 +28,7 @@ const tableProps: DatalistProps<
   context: {
     datalistKey: KEYS.DATALIST_KEY,
     rowIdentifier: ROW_IDENTIFIER,
+    filters: FILTERS,
     records: apiClient.roleList,
     viewRouter: {
       name: ROUTES.FIND.name,
@@ -48,7 +51,7 @@ const tableProps: DatalistProps<
     <DataList :context="tableProps.context">
       <template #card="{ data }">
         <div
-          class="grid card-content grid-cols-5 glass shadow-sm rounded-lg h-full w-full cursor-pointer gap-4 min-h-[10rem]"
+          class="grid card-content grid-cols-5 glass shadow-sm rounded-lg h-full w-full gap-4 min-h-[10rem]"
         >
           <div
             class="bg-primary/40 rounded-l-lg col-span-2 min-h-[12rem] flex-col flex justify-center item-center"
@@ -63,15 +66,27 @@ const tableProps: DatalistProps<
             <h2 class="font-bold text-center text-4xl">{{ data.userCount }}</h2>
           </div>
           <div
-            class="card-info flex flex-col col-span-3 justify-between pt-12 pb-2"
+            class="card-info flex flex-col col-span-3 justify-between pt-14 pb-2"
           >
             <div class="top">
-              <h2 class="font-bold mb-4 text-2xl max-w-[100px]">
-                {{ data.roleName }}
-              </h2>
+              <AppBtn
+                :label="data.roleName"
+                :action="`/accounts/role/${data.roleId}`"
+                justify="start"
+                class="font-bold mb-1 text-2xl max-w-[200px]"
+              />
 
-              <h3 class="font-bold mb-4 text-xl max-w-[100px]">
-                {{ data.tenantName }}
+              <AppBtn
+                :action="`/tenants/tenant/${data.tenantId}`"
+                justify="start"
+                icon="building-line"
+                :label="data.tenantName"
+                class="max-w-[200px] text-left"
+                v-if="data.tenantName"
+              />
+              <h3 class="max-w-[200px] font-bold flex gap-2 text-left" v-else>
+                <AppIcon icon="building-line" />
+                {{ $t("General") }}
               </h3>
             </div>
 

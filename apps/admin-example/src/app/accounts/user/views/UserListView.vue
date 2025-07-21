@@ -30,8 +30,8 @@ const tableProps: DatalistProps<
     rowIdentifier: USER_ROW_IDENTIFIER,
     filters: [
       {
-        matchMode: "in",
-        input: userRolesInput,
+        matchMode: "contains",
+        input: { ...userRolesInput, multiple: false, name: "roleIds" },
       },
     ],
     records: apiClient.userList,
