@@ -2,7 +2,12 @@ import type { Ref, VNode } from "vue";
 import type { MenuItem } from "primevue/menuitem";
 import type { IconFindRequest, IconFindResponse } from "./api_types";
 import { ApiEndpoint } from "@devkitvue/apiclient";
-import { DialogProps, DrawerProps, MenubarRouterBindProps } from "primevue";
+import {
+  DialogProps,
+  DrawerProps,
+  ImageProps,
+  MenubarRouterBindProps,
+} from "primevue";
 import { RouteLocationRaw } from "vue-router";
 
 export type DevkitBaseConfig<TApi extends Record<string, Function>> = {
@@ -27,6 +32,10 @@ export type AppBtnSlots = {
   end(): VNode;
 };
 
+export type AppImageProps = ImageProps & {
+  src: string;
+  useBackgroundImage?: boolean;
+};
 export type AppImageEmits = {
   (e: "load", event: Event): void;
   (e: "error", error: Event): void;

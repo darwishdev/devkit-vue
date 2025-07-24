@@ -5,19 +5,16 @@ import { DataView, type DataViewProps } from "@devkitvue/dataview";
 import type {
   AccountsSchemaUserView,
   UserFindRequest,
-  UserFindResponse,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 const props: DataViewProps<
   typeof apiClient,
   UserFindRequest,
-  AccountsSchemaUserView,
-  UserFindResponse
+  AccountsSchemaUserView
 > = {
   context: {
+    viewKey: "uniq",
     record: apiClient.userFind,
-    titleKey: "userName",
-    imageKey: "userImage",
-    listRouter: ROUTES.LIST.path,
+    listRoute: ROUTES.LIST.path,
     rowIdentifier: USER_ROW_IDENTIFIER,
   },
 };

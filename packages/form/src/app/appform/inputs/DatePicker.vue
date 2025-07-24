@@ -10,6 +10,7 @@
 import { StringUnknownRecord } from "@devkitvue/apiclient";
 import InputDatepicker from "./InputDatepicker.vue";
 import { InputDatepickerProps } from "./types";
+import Skeleton from "primevue/skeleton";
 import { onErrorCaptured, ref } from "vue";
 
 import Message from "primevue/message";

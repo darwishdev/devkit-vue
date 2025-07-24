@@ -4,8 +4,7 @@ import { DatalistColumnBase } from "../types";
 import {
   DateStringDigitToDate,
   NumberToDate,
-  TimestampToDateString,
-} from "@devkitvue/form";
+} from "@devkitvue/base-components";
 
 export class ColumnDate<TRecord extends Record<string, unknown>>
   extends ColumnBase<TRecord>
@@ -34,15 +33,6 @@ export class ColumnDate<TRecord extends Record<string, unknown>>
         }
         if (!currentValue || typeof currentValue != "object") {
           return h("span", "");
-        }
-        if ("seconds" in currentValue && "nanos" in currentValue) {
-          return h(
-            "span",
-            TimestampToDateString({
-              seconds: Number(currentValue.seconds),
-              nanos: Number(currentValue.nanos),
-            }),
-          );
         }
         return h("span", "");
       }

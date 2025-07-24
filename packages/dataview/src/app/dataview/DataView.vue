@@ -3,15 +3,15 @@
   setup
   generic="
     TApi extends Record<string, Function>,
-    TRecord extends Record<string, unknown> = StringUnknownRecord,
-    TFormSectionsRequest extends Record<string, unknown> | undefined = undefined
+    TRequest extends StringUnknownRecord,
+    TRecord extends StringUnknownRecord,
+    TFormSectionsRequest extends StringUnknownRecord | undefined = undefined
   "
 >
 import { computed, h, inject, ref } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import {
   ApiResponseFind,
-  DataFindRequest,
   type DataViewEmits,
   type DataViewProps,
   type DataViewSlots,
@@ -26,7 +26,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useToast } from "primevue";
 const emit = defineEmits<DataViewEmits>();
 const { context } =
-  defineProps<DataViewProps<TApi, TRecord, TFormSectionsRequest>>();
+  defineProps<DataViewProps<TApi, TRequest, TRecord, TFormSectionsRequest>>();
 const slots = defineSlots<DataViewSlots<TRecord>>();
 const isDeletedRef = ref(false);
 const route = useRoute();
@@ -37,6 +37,7 @@ const {
   viewKey,
   routerParamName = "id",
   record,
+  requestKey = "recordId" as keyof TRequest,
   datalistKey,
   requestMapper,
 } = context;
@@ -73,10 +74,9 @@ const queryFn = async (): Promise<ApiResponseFind<TRecord>> => {
     return { record: record as TRecord, options: context.options };
   }
   try {
-    const req: DataFindRequest = {
-      recordId: computedRequestValue.value,
-    };
-
+    let reqRecord: StringUnknownRecord = {};
+    reqRecord[requestKey as string] = computedRequestValue.value;
+    const req: TRequest = reqRecord as TRequest;
     if (requestMapper) {
       requestMapper(req);
     }
@@ -88,6 +88,7 @@ const queryFn = async (): Promise<ApiResponseFind<TRecord>> => {
     // const newResponse = responseMapper
     //   ? responseMapper(apiResponse)
     //   : apiResponse;
+    if (!apiResponse.record) return {};
     isDeletedRef.value = apiResponse.record.deletedAt != "";
     return apiResponse;
   } catch (e) {
@@ -139,9 +140,10 @@ const renderActions = () => {
         | "delete"
         | "deleteRestore"
         | "update";
-      const callbackKey = `${typedActionKey}:submited` as const;
+      // const callbackKey = `${typedActionKey}:submited` as const;
       const slotKey = `actions.${typedActionKey}` as const;
-      const callback = (value: StringUnknownRecord) => emit(callbackKey, value);
+      const callback = (value: StringUnknownRecord) =>
+        emit("update:submited", value);
       const slotFn = slots[slotKey];
       return slotFn
         ? slotFn({ record: currentData.value! })

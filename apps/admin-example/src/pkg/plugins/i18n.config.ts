@@ -31,7 +31,6 @@ export const translationList = (locale: SUPPORTE_LOCALES_TYPE) => {
 export async function setLanguage(locale: SUPPORTE_LOCALES_TYPE) {
   const cachedTranslations = await cacheHelper.getLocaleTranslations(locale);
   if (cachedTranslations) {
-    i18n.global.locale = locale;
     i18n.global.setLocaleMessage(locale, cachedTranslations);
     return cachedTranslations;
   }
@@ -45,5 +44,6 @@ export async function setLanguage(locale: SUPPORTE_LOCALES_TYPE) {
 }
 export const i18n = createI18n({
   locale: "en",
+  legacy: false,
   fallbackLocale: "en",
 });

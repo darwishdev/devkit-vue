@@ -96,11 +96,11 @@ svg {
   justify-content: center;
 }
 
-:not(.custom-icon) svg:not(.custom-icon) {
-  --icon-width: 1.5rem;
-  width: var(--icon-width);
-  height: var(--icon-width);
-}
+/* :not(.custom-icon) svg:not(.custom-icon) { */
+/*   --icon-width: 1.5rem; */
+/*   width: var(--icon-width); */
+/*   height: var(--icon-width); */
+/* } */
 
 .app-logo:hover {
   background: transparent !important;

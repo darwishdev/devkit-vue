@@ -11,6 +11,7 @@ import { resolveApiEndpoint } from "@devkitvue/apiclient";
 import { AppBtn } from "@devkitvue/base-components";
 import { inject } from "vue";
 import { loginCallback, loginSectionInputs } from "../forms/AuthForms";
+import Message from "primevue/message";
 
 const authHandler = inject<AuthHandler<TApi>>("authHandler");
 const apiClient = inject<TApi>("apiClient");
@@ -63,8 +64,10 @@ const providerLogin = async (provider: string) => {
   <Message v-if="!authHandler" severity="error">{{
     "provide auth handler"
   }}</Message>
-  <div class="form" v-else>
-    <AppForm :context="loginFormProps.context" />
+  <div class="form flex flex-col items-center gap-4" v-else>
+    <div class="w-full">
+      <AppForm :context="loginFormProps.context" />
+    </div>
     <AppBtn
       v-for="provider in authHandler.allowedProviders"
       class="glass"

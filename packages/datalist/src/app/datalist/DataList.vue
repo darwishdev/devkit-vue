@@ -24,6 +24,7 @@ import {
   ToggleSwitch,
 } from "primevue";
 import {
+  DataCardProps,
   type DatalistEmits,
   type DatalistProps,
   type DatalistSlots,
@@ -35,6 +36,7 @@ import { useI18n } from "vue-i18n";
 import { computed, h, VNode } from "vue";
 import { ObjectEntries, type StringUnknownRecord } from "@devkitvue/apiclient";
 import DatalistRowActions from "./components/DatalistRowActions.vue";
+import { DataCard } from ".";
 const { t } = useI18n();
 const emit = defineEmits<DatalistEmits<TRecord, TApiResponse>>();
 const props =
@@ -55,6 +57,10 @@ const {
   hideActions,
   gridConfig,
   displayType,
+  cardConfig = {
+    createdAtKey: "createdAt",
+    deletedAtKey: "deletedAtKey",
+  } as DataCardProps<TRecord>,
   rowIdentifier,
   datatableProps,
   isSelectionHidden,
@@ -229,7 +235,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
                     "
                     variant="outlined"
                     icon="delete-bin-2-line"
-                    label="hard_delete"
+                    :label="t('hard_delete')"
                     severity="danger"
                   />
                 </slot>
@@ -238,7 +244,10 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
                   v-if="datalistStore.optionsInUse.deleteRestoreHandler"
                   :store="datalistStore"
                 >
-                  <AppBtn v-bind="deleteRestoreButtonProps" />
+                  <AppBtn
+                    v-bind="deleteRestoreButtonProps"
+                    :disabled="datalistStore.modelSelectionRef.length == 0"
+                  />
                 </slot>
 
                 <slot name="globalActionsEndAppend" :store="datalistStore" />
@@ -286,7 +295,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     <template #empty>
       <slot name="empty">
         <h2 v-if="!datalistStore.isFiltersFormValid">select filters</h2>
-        <h2 v-else>{{ datalistStore.deleteRestoreVariants.empty }}</h2>
+        <h2 v-else>{{ datalistStore.deleteRestoreVariants.empty }} empty</h2>
       </slot>
     </template>
 
@@ -307,10 +316,61 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     >
       <template #body="{ data }: { data: TRecord }">
         <slot name="card" :data="data">
-          <div class="card-item">
-            <slot name="cardStart" :data="data as TRecord" />
-            <slot name="cardEnd" :data="data as TRecord" />
-          </div>
+          <DataCard
+            :data="data"
+            v-bind="cardConfig"
+            :identefier="context.rowIdentifier"
+          >
+            <template #header>
+              <slot name="cardHeader" :data="data" />
+            </template>
+            <template #header-start>
+              <slot name="cardHeaderStart" :data="data" />
+            </template>
+            <template #header-end>
+              <slot name="cardHeaderEnd" :data="data" />
+            </template>
+            <template #start>
+              <slot name="cardStart" :data="data" />
+            </template>
+            <template #start-content>
+              <slot name="cardStartContent" :data="data" />
+            </template>
+            <template #card-image>
+              <slot name="cardImage" :data="data" />
+            </template>
+            <template #card-info>
+              <slot name="cardInfo" :data="data" />
+            </template>
+            <template #subtitle>
+              <slot name="cardSubtitle" :data="data" />
+            </template>
+            <template #footer>
+              <slot name="cardFooter" :data="data" />
+            </template>
+            <template #footer-start>
+              <slot name="cardFooterStart" :data="data" />
+            </template>
+            <template #footer-end>
+              <slot name="cardFooterEnd" :data="data" />
+            </template>
+            <template #footer-middle>
+              <slot name="cardFooterMiddle" :data="data" />
+            </template>
+            <template #badgeContent>
+              <slot name="cardBadgeContent" :data="data" />
+            </template>
+            <template #createdAt>
+              <slot name="cardCreatedAt" :data="data" />
+            </template>
+            <template #deletedAt>
+              <slot name="cardDeletedAt" :data="data" />
+            </template>
+          </DataCard>
+          <!--   <div class="card-item"> -->
+          <!--     <slot name="cardStart" :data="data as TRecord" /> -->
+          <!--     <slot name="cardInfo" :data="data as TRecord" /> -->
+          <!--   </div> -->
         </slot>
       </template>
     </Column>

@@ -5,6 +5,7 @@ import {
   AuthResetPasswordEmailResponse,
 } from "@devkitvue/config";
 import { AuthHandler, AppFormProps } from "@devkitvue/config";
+import Message from "primevue/message";
 import { inject } from "vue";
 import {
   loginRoute,

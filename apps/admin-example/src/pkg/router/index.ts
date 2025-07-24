@@ -86,17 +86,17 @@ const router = createRouter({
         {
           path: "reset-password-email",
           name: "reset-password-email",
-          component: import("../views/ResetPasswordEmailView.vue"),
+          component: () => import("../views/ResetPasswordEmailView.vue"),
         },
         {
           path: "reset-password",
           name: "reset-password",
-          component: import("../views/ResetPasswordView.vue"),
+          component: () => import("../views/ResetPasswordView.vue"),
         },
         {
           path: "provider-login-callback",
           name: "provider-login-callback",
-          component: import("../views/ProviderLoginCallbackView.vue"),
+          component: () => import("../views/ProviderLoginCallbackView.vue"),
         },
       ],
     },
@@ -116,10 +116,10 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: "/:pathMatch(.*)*",
-      redirect: "/error/404",
-    },
+    // {
+    //   path: "/:pathMatch(.*)*",
+    //   redirect: "/error/404",
+    // },
   ],
 });
 router.beforeEach(authMiddleWare);

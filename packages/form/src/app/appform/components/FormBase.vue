@@ -29,7 +29,10 @@ import { AppFormProps, AppFormSection } from "@devkitvue/config";
 import { useI18n } from "vue-i18n";
 import { RouteQueryFind, RouteQueryRemove } from "@/pkg/utils/QueryUtils";
 
-const dialogRef = inject<{ value: { close: () => void } }>("dialogRef");
+const dialogRef = inject<{ value: { close: () => void } } | undefined>(
+  "dialogRef",
+  undefined,
+);
 const formkitSchemaComp = resolveComponent("FormKitSchema");
 const queryClient = useQueryClient();
 const formkitComp = resolveComponent("FormKit");
@@ -92,8 +95,11 @@ const getDataFromFindHandler = async () => {
     >(findHandler.endpoint, apiClient, findHandlerRequest);
     if (!resp) return;
     if (findHandler.responsePropertyName) {
-      if (findHandler.responsePropertyName in resp) {
-        const formValue = resp[findHandler.responsePropertyName || "request"];
+      const responseKey =
+        findHandler.responsePropertyName ||
+        ("request" as TFindResponsePropName);
+      if (responseKey in resp) {
+        const formValue = resp[responseKey];
         if (typeof formValue == "object" && formValue) {
           return formValue;
         }

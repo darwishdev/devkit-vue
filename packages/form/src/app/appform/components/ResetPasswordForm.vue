@@ -7,7 +7,7 @@ import {
 import { AuthHandler, AppFormProps } from "@devkitvue/config";
 import { inject } from "vue";
 import { loginCallback, resetPasswordSectionInputs } from "../forms/AuthForms";
-
+import Message from "primevue/message";
 const authHandler = inject<AuthHandler<TApi>>("authHandler");
 const formTitle = "login";
 const formKey = "login";

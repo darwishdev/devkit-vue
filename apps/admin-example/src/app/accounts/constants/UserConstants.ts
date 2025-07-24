@@ -3,6 +3,7 @@ import {
   ColumnDate,
   ColumnImage,
   type DatalistColumnsBase,
+  type DatalistFilter,
 } from "@devkitvue/datalist";
 import type { AccountsSchemaUserView } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
 import type { FormKitSchemaNode } from "@formkit/core";
@@ -133,14 +134,14 @@ export const userTypeInput: FormKitSchemaNode & { name: "userTypeId" } = {
 export const tenantInput: FormKitSchemaNode & { name: "tenantId" } = {
   $formkit: "devkitDropdown",
   fluid: true,
-  name: "tenantId",
+  name: "tenantId" as const,
   if: "$get(userTypeId).value == 2",
   options: "tenantListInput",
   size: "small",
   label: "tenant",
   placeholder: "tenant",
   prefixIcon: "building-line", // 🏢
-};
+} satisfies Object;
 
 export const userPhoneInput: FormKitSchemaNode & { name: "userPhone" } = {
   $formkit: "text",
@@ -161,7 +162,7 @@ export const userPasswordInput: FormKitSchemaNode & { name: "userPassword" } = {
 
 export const userImageInput: FormKitSchemaNode & { name: "userImage" } = {
   $formkit: "devkitUpload",
-  bucketName: "abchotels",
+  bucketName: "images",
   dashboardOptions: { width: "100%" },
   prefixIcon: "image-line", // 🖼️
   outerClass: "col-span-2",
@@ -177,7 +178,7 @@ export const baseDateRangeInput: FormKitSchemaNode = {
   convertToNumber: true,
   label: "dateRange", // will be overridden below
   placeholder: "dateRange",
-} as const;
+};
 /** Convenient bundles – feel free to make more */
 
 export const USER_BASE_INPUTS = [
@@ -190,136 +191,96 @@ export const USER_BASE_INPUTS = [
   userPasswordInput,
   userImageInput,
 ];
+export const FILTERS: DatalistFilter[] = [
+  {
+    isGlobal: true,
+    matchMode: "contains",
+    input: { ...userNameInput, validation: "" },
+  },
+  {
+    isGlobal: true,
+    matchMode: "contains",
+    input: { ...userEmailInput, validation: "" },
+  },
+  {
+    isGlobal: true,
+    matchMode: "contains",
+    input: { ...userPhoneInput, validation: "" },
+  },
+  {
+    isGlobal: true,
+    matchMode: "in",
+    input: {
+      ...userTypeInput,
+      validation: "",
+      multiple: true,
+      hideReload: true,
+    },
+  },
+  {
+    isGlobal: true,
+    matchMode: "lt",
+    input: {
+      $formkit: "number",
+      number: "integer",
+      prefixIcon: "award-line", // 🏅
+      name: "userSecurityLevel",
+      label: "userSecurityLevelLt",
+      placeholder: "userSecurityLevelLt",
+    },
+  },
+  {
+    isGlobal: true,
+    matchMode: "gt",
+    input: {
+      $formkit: "number",
+      number: "integer",
+      prefixIcon: "award-line", // 🏅
+      name: "userSecurityLevel",
+      label: "userSecurityLevelGt",
+      placeholder: "userSecurityLevelGt",
+    },
+  },
 
+  {
+    isGlobal: true,
+    matchMode: "in",
+    input: {
+      ...tenantInput,
+      if: undefined,
+      outerClass: "col-span-2",
+      validation: "",
+      multiple: true,
+      hideReload: true,
+    },
+  },
+  {
+    isGlobal: false,
+    matchMode: "between",
+    input: {
+      ...baseDateRangeInput,
+      showTime: true,
+      name: "createdAt",
+      outerClass: "col-span-2 ",
+      label: "createdAt",
+      placeholder: "createdAt",
+    },
+  },
+
+  {
+    isGlobal: false,
+    matchMode: "between",
+    input: {
+      ...baseDateRangeInput,
+      name: "deletedAt",
+      outerClass: "col-span-2 ",
+      label: "deletedAt",
+      placeholder: "deletedAt",
+      showTime: true,
+    },
+  },
+];
 /* ------------------------------------------------------------------ */
 /*  DATALIST / TABLE COLUMN DEFINITIONS                               */
 /* ------------------------------------------------------------------ */
 export const USER_ROW_IDENTIFIER = "userId" as const;
-/* ------------------------------------------------------------------ */
-/*  INDIVIDUAL COLUMN CONSTANTS                                       */
-/* ------------------------------------------------------------------ */
-export const colUserId = new ColumnText<AccountsSchemaUserView>("userId", {
-  isSortable: true,
-});
-
-export const colUserName = new ColumnText<AccountsSchemaUserView>("userName", {
-  isSortable: true,
-  isGlobalFilter: true,
-  filters: [
-    {
-      isGlobal: true,
-      matchMode: "contains",
-      input: { ...userNameInput, validation: "" },
-    },
-  ],
-});
-
-export const colUserEmail = new ColumnText("userEmail", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: true,
-      matchMode: "contains",
-      input: { ...userEmailInput, validation: "" },
-    },
-  ],
-});
-
-export const colUserTypeName = new ColumnText("userTypeName", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: true,
-      matchMode: "in",
-      input: {
-        ...userTypeInput,
-        validation: "",
-        multiple: true,
-        hideReload: true,
-      },
-    },
-  ],
-});
-
-export const colUserImage = new ColumnImage("userImage", {
-  isSortable: false,
-});
-
-export const colUserPhone = new ColumnText("userPhone", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: true,
-      matchMode: "contains",
-      input: { ...userPhoneInput, validation: "" },
-    },
-  ],
-});
-
-export const colCreatedAt = new ColumnDate("createdAt", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: false,
-      matchMode: "between",
-      input: {
-        ...baseDateRangeInput,
-        name: "createdAt",
-        outerClass: "col-span-2 ",
-        label: "createdAt",
-        placeholder: "createdAt",
-      },
-    },
-  ],
-});
-
-export const colUpdatedAt = new ColumnDate("updatedAt", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: false,
-      matchMode: "between",
-      input: {
-        ...baseDateRangeInput,
-        name: "updatedAt",
-        outerClass: "col-span-2 ",
-        label: "updatedAt",
-        placeholder: "updatedAt",
-        showTime: true,
-      },
-    },
-  ],
-});
-
-export const colDeletedAt = new ColumnDate("deletedAt", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: false,
-      matchMode: "between",
-      input: {
-        ...baseDateRangeInput,
-        name: "deletedAt",
-        outerClass: "col-span-2 ",
-        label: "deletedAt",
-        placeholder: "deletedAt",
-        showTime: true,
-      },
-    },
-  ],
-});
-
-/* ------------------------------------------------------------------ */
-/*  OPTIONAL: aggregated helper you can still pass to <Datalist>      */
-/* ------------------------------------------------------------------ */
-export const COLUMNS_MAP = {
-  userId: colUserId,
-  userName: colUserName,
-  userEmail: colUserEmail,
-  userTypeName: colUserTypeName,
-  userImage: colUserImage,
-  userPhone: colUserPhone,
-  createdAt: colCreatedAt,
-  updatedAt: colUpdatedAt,
-  deletedAt: colDeletedAt,
-} as const satisfies DatalistColumnsBase<AccountsSchemaUserView>;

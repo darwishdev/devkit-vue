@@ -3,6 +3,7 @@ import { computed, h, inject, onMounted, ref, useAttrs } from "vue";
 import Image from "primevue/image";
 import { Skeleton, type ImageProps, type ImageSlots } from "primevue";
 import AppIcon from "./AppIcon.vue";
+import { AppImageProps } from "@/pkg/types/types";
 const {
   VITE_FALLBACK_IMAGE_URL,
   VITE_FALLBACK_IMAGE_SVG,
@@ -14,9 +15,7 @@ const fallbackImage =
 const fallbackSvg =
   inject<string>("fallbackImageSvg") || VITE_FALLBACK_IMAGE_SVG;
 
-const props = defineProps<
-  ImageProps & { src: string; useBackgroundImage?: boolean }
->();
+const props = defineProps<AppImageProps>();
 const { useBackgroundImage } = props;
 const slots = defineSlots<ImageSlots>();
 const src =
@@ -49,7 +48,7 @@ const renderBackgrounImageFallback = () =>
   h(
     "div",
     {
-      class: `bg-no-repeat bg-cover ${attrs["class"] || ""}`,
+      class: `bg-no-repeat flex justify-center items-center bg-cover ${attrs["class"] || ""}`,
       style: fallbackImage
         ? `background-image : ur('${baseImageUrl}${fallbackImage}')`
         : ``,
@@ -106,7 +105,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <Skeleton v-if="loading" width="100%" height="200px" />
+  <Skeleton v-if="loading" height="200px" />
   <component
     v-else
     :is="

@@ -214,6 +214,18 @@ body {
     right: 1rem !important;
   }
 }
+html[dir="rtl"] {
+  .devkit-datalist.card {
+    td:first-child {
+      left: auto;
+      right: 1rem;
+    }
+    td:last-child {
+      right: auto !important;
+      left: 1rem !important;
+    }
+  }
+}
 .card-image {
   display: flex;
   justify-content: center;

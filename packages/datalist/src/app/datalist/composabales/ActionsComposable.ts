@@ -1,10 +1,12 @@
 import { ref, computed, h, inject, type Ref, type ComputedRef } from "vue";
 import { useRouter, type RouteParamsRaw } from "vue-router";
+import { type ConnectError } from "@devkitvue/apiclient";
 import { useToast } from "primevue";
 import { useDialog } from "primevue";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import {
   ObjectEntries,
+  ObjectKeys,
   resolveApiEndpoint,
   StringUnknownRecord,
 } from "@devkitvue/apiclient";
@@ -19,6 +21,8 @@ import {
   DeleteRestoreVariant,
   FindHandler,
 } from "@devkitvue/config";
+import { errorMonitor } from "events";
+import { useI18n } from "vue-i18n";
 
 /* ------------------------------------------------------------------ */
 /* Composable                                                          */
@@ -55,15 +59,13 @@ export function useActions<
   /* ---------- shared refs / utils ---------------------------------- */
   const apiClient = inject<TApi>("apiClient");
   const router = useRouter();
+  const { t } = useI18n();
   const toast = useToast();
   const dialog = useDialog();
   const queryClient = useQueryClient();
   const deleteRestoreVariants = computed(() => {
     const initialVariant: DeleteRestoreVariant = {
-      hasSelectedData: modelSelectionRef.value.length > 0,
-      hasDeletedRecords: false,
       variant: "outlined",
-      disabled: false,
       icon: isDeletedRef.value ? "arrow-go-back-line" : "delete-bin-2-line",
       label: isDeletedRef.value ? "restore" : "delete",
       empty: isDeletedRef.value ? "empty_records_deleted" : "empty_records",
@@ -119,18 +121,27 @@ export function useActions<
               .mutateAsync({ ...params })
               .then(() => {
                 toast.add({
-                  summary: "deleted_succesfully",
-                  detail: "deleted_succesfully_description",
+                  summary: t("deleted_succesfully"),
+                  detail: t("deleted_succesfully_description"),
                   severity: "success",
+                  life: 3000,
                 });
 
                 modelSelectionRef.value = [];
               })
               .catch((e) => {
+                let errorMessage = "";
+                if (typeof e["message"] == "string") {
+                  errorMessage = e.message;
+                }
+                if (typeof e["rawMessage"] == "string") {
+                  errorMessage = e.rawMessage;
+                }
                 toast.add({
-                  summary: "error",
-                  detail: e,
+                  summary: t("error"),
+                  detail: t(errorMessage),
                   severity: "error",
+                  life: 10000,
                 });
               })
               .finally(() => {
@@ -143,7 +154,7 @@ export function useActions<
           },
         },
 
-        { default: () => h("div", [h("h2", "Are you sure?")]) },
+        { default: () => h("div", [h("h2", t("confirm_delete_title"))]) },
       ),
     );
   };
@@ -278,7 +289,7 @@ export function useActions<
       if (!v.hidden) {
         availableActions.push({
           actionKey: k,
-          label: k,
+          label: t(k),
           icon: v.icon,
           severity: v.severity,
           actionFn: v.fn,

@@ -5,10 +5,13 @@ import { ref } from "vue";
 import { type SUPPORTE_LOCALES_TYPE } from "../plugins/i18n.config";
 import { AdminHeader, AdminMenu } from "@devkitvue/admin";
 import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n();
 const init = async () => {
   return new Promise(async (r) => {
-    const locale = await setupI18n<SUPPORTE_LOCALES_TYPE>();
-    await setLanguage(locale);
+    const currentLocale = await setupI18n<SUPPORTE_LOCALES_TYPE>();
+    locale.value = currentLocale;
+    await setLanguage(currentLocale);
     setTimeout(async () => {
       r(null);
     }, 30);
@@ -29,7 +32,6 @@ const isSearchingRef = ref(false);
 const toggleIsSearching = () => {
   isSearchingRef.value = !isSearchingRef.value;
 };
-const { t } = useI18n();
 </script>
 <template>
   <div

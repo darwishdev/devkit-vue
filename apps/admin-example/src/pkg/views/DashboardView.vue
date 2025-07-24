@@ -10,10 +10,12 @@ import type {
   TenantsSchemaPage,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/tenant_page_pb";
 import { ColumnImage } from "@devkitvue/datalist";
+import { useI18n } from "vue-i18n";
 /**
  * Strips any field starting with "$"
  * Recurses into nested objects/arrays.
  */
+const { t } = useI18n();
 const re = () => {
   apiClient.authRefreshToken({}).then((res) => {
     console.log("resp is", res);
@@ -58,7 +60,7 @@ const tableProps: DatalistProps<
       pageMetaDescription: new ColumnText("pageMetaDescription"),
       pageKeyWords: new ColumnText("pageKeyWords"),
       pageBreadcrumb: new ColumnText("pageBreadcrumb"),
-      pageCoverImage: new ColumnImage("pageCoverImage"),
+      // pageCoverImage: new ColumnImage("pageCoverImage"),
     },
     records: pages!,
     viewRouter: {
@@ -127,7 +129,7 @@ const setChartOptions = () => {
     },
   };
 };
-const iconsMap = {
+const iconsMap: Record<string, string> = {
   roleCount: "award-line",
   userCount: "user-line",
   tenantCount: "building-line",
@@ -147,7 +149,7 @@ const iconsMap = {
       >
         <template #label>
           <div class="flex flex-col gap-2 items-center justify-center">
-            <h3 class="bold text-2xl">{{ $t(String(key)) }}</h3>
+            <h3 class="bold text-2xl">{{ t(String(key)) }}</h3>
             <h2 class="bold text-4xl">{{ val.count }}</h2>
           </div>
         </template>
@@ -175,7 +177,7 @@ const iconsMap = {
       >
         <template #label>
           <div class="flex flex-col gap-2 items-center justify-center">
-            <h3 class="bold text-2xl">{{ $t(val.partialTypeName) }}</h3>
+            <h3 class="bold text-2xl">{{ t(val.partialTypeName) }}</h3>
             <h2 class="bold text-4xl">{{ val.partialCount }}</h2>
           </div>
         </template>
@@ -196,7 +198,7 @@ const iconsMap = {
       <div class="glass p-4 lg:w-2/3 rounded">
         <DataList v-bind="tableProps">
           <template #title>
-            <h2 class="text-bold text-2xl bold font-bold">{{ $t("pages") }}</h2>
+            <h2 class="text-bold text-2xl bold font-bold">{{ t("pages") }}</h2>
           </template>
         </DataList>
       </div>

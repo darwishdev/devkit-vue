@@ -14,9 +14,7 @@ import { toggleDarkTheme } from "@/pkg/utils/ThemeUtils";
 export * from "@/pkg/types/types";
 export * from "@/pkg/types/api_types";
 export * from "@/app/base/index";
-export * from "@/pkg/utils/LocaleUtils";
-export * from "@/pkg/utils/GridUtils";
-export * from "@/pkg/utils/ThemeUtils";
+export * from "@/pkg/utils";
 
 export type DevkitBaseConfig<TApi extends Record<string, Function>> = {
   apiClient: TApi;

@@ -53,16 +53,24 @@ const renderAppBtn = computed(() => {
   const action = passedAction || command || route || to;
   const className = `flex justify-${justify} items-center gap-2`;
   if (route) {
-    return h(RouterLink, { to: route, class: className }, children);
+    return h(
+      RouterLink,
+      { to: route, class: className },
+      { default: () => children },
+    );
   }
   if (!action) {
-    return h(Button, { ...props, action: undefined }, children);
+    return h(
+      Button,
+      { ...props, action: undefined },
+      { default: () => children },
+    );
   }
   if (typeof action == "function") {
     return h(
       Button,
       { ...props, action: undefined, onClick: action as (e: Event) => void },
-      children,
+      { default: () => children },
     );
   }
   if (typeof action == "string") {
@@ -71,7 +79,11 @@ const renderAppBtn = computed(() => {
     }
   }
   const routeLink = route || to || action;
-  return h(RouterLink, { to: routeLink, class: className }, children);
+  return h(
+    RouterLink,
+    { to: routeLink, class: className },
+    { default: () => children },
+  );
 });
 </script>
 <template>

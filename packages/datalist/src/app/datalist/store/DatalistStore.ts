@@ -1,4 +1,4 @@
-import { ref, computed, inject, type Ref } from "vue";
+import { ref, computed, inject, type Ref, watch } from "vue";
 import { defineStore, getActivePinia } from "pinia";
 import {
   ApiOptions,
@@ -49,6 +49,9 @@ export const useDatalistStore = <
     const filtersFormSchema: FormKitSchemaNode[] = [];
     const filtersMatchModesMap: Map<string, FilterMatchModeValues> = new Map();
     const isShowDeletedRef = ref(false);
+    watch(isShowDeletedRef, () => {
+      modelSelectionRef.value = [];
+    });
     const modelSelectionRef: Ref<TRecord[]> = ref(
       context.initiallySelectedItems || [],
     ) as Ref<TRecord[]>;
@@ -59,7 +62,11 @@ export const useDatalistStore = <
     let initialCallbackFinished = false;
     const toast = useToast();
     const filtersFormValueRef = ref({});
-    const dialogRef = inject("dialogRef");
+    const dialogRef = inject<{ value: { close: () => void } } | undefined>(
+      "dialogRef",
+      undefined,
+    );
+    // const dialogRef = inject("dialogRef");
     const apiClient = inject<TApi>("apiClient");
     const debounceInMilliseconds = context.debounceInMilliseconds || 1000;
     const paginationParamsRef = ref<PaginationParams>();

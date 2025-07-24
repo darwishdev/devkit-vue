@@ -22,13 +22,25 @@ const breadcrumbs = computed(() => {
 <template>
   <Breadcrumb
     :pt="{
-      root:'transparent p-0'
+      root: 'transparent p-0',
     }"
     :model="breadcrumbs"
     v-if="breadcrumbs.length > 0"
   >
     <template #item="{ item }">
-      <AppBtn variant="text" class="color-text" v-bind="{label : typeof item.label  == 'function' ? item.label()  :item.label, icon: item.icon , to: item.to , route : item.route }"  />
+      <AppBtn
+        variant="text"
+        class="color-text"
+        v-bind="{
+          label:
+            typeof item.label == 'function'
+              ? item.label()
+              : t(item.label as string),
+          icon: item.icon,
+          to: item.to,
+          route: item.route,
+        }"
+      />
     </template>
   </Breadcrumb>
 </template>

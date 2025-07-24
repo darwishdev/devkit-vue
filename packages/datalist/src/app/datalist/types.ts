@@ -14,6 +14,7 @@ import { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import { useDatalistStore } from "./store/DatalistStore";
 import type { DataTableFilterMetaData, DataTableProps } from "primevue";
 import type { FormKitSchemaNode } from "@formkit/core";
+import { AppImageProps } from "@devkitvue/base-components";
 export type DatalistFilter = {
   isGlobal?: boolean;
   input: FormKitSchemaNode;
@@ -220,6 +221,7 @@ export type DatalistContext<
     displayType?: DisplayType;
     isSelectionHidden?: boolean;
     debounceInMilliseconds?: number;
+    cardConfig?: Omit<DataCardProps<TRecord>, "data">;
     rowIdentifier?: keyof TRecord;
     viewRouter?: DataRouter<TRecord>;
     initiallySelectedItems?: TRecord[];
@@ -348,7 +350,21 @@ export type DatalistSlots<
 > = {
   card?: (props: { data: TRecord }) => VNode | VNode[];
   cardStart?: (props: { data: TRecord }) => VNode | VNode[];
-  cardEnd?: (props: { data: TRecord }) => VNode | VNode[];
+  cardCreatedAt?: (props: { data: TRecord }) => VNode | VNode[];
+  cardDeletedAt?: (props: { data: TRecord }) => VNode | VNode[];
+  cardStartContent?: (props: { data: TRecord }) => VNode | VNode[];
+  cardTitle?: (props: { data: TRecord }) => VNode | VNode[];
+  cardFooterMiddle?: (props: { data: TRecord }) => VNode | VNode[];
+  cardSubtitle?: (props: { data: TRecord }) => VNode | VNode[];
+  cardImage?: (props: { data: TRecord }) => VNode | VNode[];
+  cardBadgeContent?: (props: { data: TRecord }) => VNode | VNode[];
+  cardFooter?: (props: { data: TRecord }) => VNode | VNode[];
+  cardFooterStart?: (props: { data: TRecord }) => VNode | VNode[];
+  cardFooterEnd?: (props: { data: TRecord }) => VNode | VNode[];
+  cardInfo?: (props: { data: TRecord }) => VNode | VNode[];
+  cardHeader?: (props: { data: TRecord }) => VNode | VNode[];
+  cardHeaderStart?: (props: { data: TRecord }) => VNode | VNode[];
+  cardHeaderEnd?: (props: { data: TRecord }) => VNode | VNode[];
   expansion?: (props: { data: TRecord }) => VNode[] | VNode;
   globalActions?: (props: {
     store: DatalistStore<
@@ -600,4 +616,54 @@ export type DatalistRowActionsProps<TRecord> = {
   rowIdentifier: keyof TRecord;
   hideShowDeleted?: boolean;
   isActionsDropdown?: boolean;
+};
+
+export type DataCardPassThrough = {
+  header?: string;
+  start?: string;
+  imageWrapper?: string;
+  image?: string;
+  title?: string;
+  subtitle?: string;
+  createdAt?: string;
+  deletedAt?: string;
+  badge?: string;
+  info?: string;
+  footer?: string;
+};
+export type DataCardProps<TRecord> = {
+  layout?: "default" | "horizontal" | "vertical"; // layout variants
+  data: TRecord;
+  titleKey?: keyof TRecord;
+  titleRouter?: string;
+  imageHeight?: string;
+  identefier?: keyof TRecord;
+  imageKey?: keyof TRecord;
+  gridConfig?: GridConfig;
+  imageProps?: AppImageProps;
+  pt?: DataCardPassThrough;
+  badgeKey?: keyof TRecord;
+  dateAdapter?: (data: string) => Date;
+  createdAtKey?: keyof TRecord;
+  deletedAtKey?: keyof TRecord;
+};
+export type DataCardSlots = {
+  header?: () => VNode | VNode[];
+  "header-start"?: () => VNode | VNode[];
+  "header-end"?: () => VNode | VNode[];
+
+  start?: () => VNode | VNode[];
+  "start-content"?: () => VNode | VNode[];
+  "card-image"?: () => VNode | VNode[];
+
+  "card-info"?: () => VNode | VNode[];
+  subtitle?: () => VNode | VNode[];
+
+  footer?: () => VNode | VNode[];
+  "footer-start"?: () => VNode | VNode[];
+  createdAt?: () => VNode | VNode[];
+  deletedAt?: () => VNode | VNode[];
+  "footer-middle"?: () => VNode | VNode[];
+  "footer-end"?: () => VNode | VNode[];
+  badgeContent?: () => VNode | VNode[];
 };

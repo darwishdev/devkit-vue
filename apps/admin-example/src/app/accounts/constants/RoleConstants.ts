@@ -2,11 +2,12 @@ import {
   ColumnText,
   ColumnDate,
   type DatalistColumnsBase,
+  type DatalistFilter,
 } from "@devkitvue/datalist";
 
 import type { FormKitSchemaNode } from "@formkit/core";
 import type { AccountsSchemaRole } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_role_pb";
-import { baseDateRangeInput } from "./UserConstants";
+import { baseDateRangeInput, tenantInput } from "./UserConstants";
 /* =====================================================================
  *  src/app/accounts/constants/UserConstants.ts
  * =================================================================== */
@@ -103,12 +104,13 @@ export const roleDescriptionInput: FormKitSchemaNode & {
 } = {
   $formkit: "textarea",
   innerClass: "p-3",
+  outerClass: "col-span-2",
   prefixIcon: "align-left", // 📝
   name: "roleDescription",
   label: "roleDescription",
   placeholder: "Enter a short description of the role",
   validation: "required",
-  rows: 3,
+  rows: 5,
 };
 export const roleSecurityLevelInput: FormKitSchemaNode & {
   name: "roleSecurityLevel";
@@ -116,10 +118,11 @@ export const roleSecurityLevelInput: FormKitSchemaNode & {
   $formkit: "number",
   number: "integer",
   prefixIcon: "award-line", // 🏅
+
+  validation: "required",
   name: "roleSecurityLevel",
   label: "roleSecurityLevel",
   placeholder: "roleSecurityLevel",
-  validation: "required",
 };
 export const permissionsInput: FormKitSchemaNode & {
   name: "permissions";
@@ -140,7 +143,12 @@ export const permissionsInput: FormKitSchemaNode & {
   label: "permissions",
   validation: "",
 };
-export const BASE_INPUTS = [roleNameInput, roleDescriptionInput];
+export const BASE_INPUTS = [
+  roleNameInput,
+  { ...(tenantInput as Object), if: undefined },
+
+  roleDescriptionInput,
+];
 
 /* ------------------------------------------------------------------ */
 /*  DATALIST / TABLE COLUMN DEFINITIONS                               */
@@ -152,7 +160,7 @@ export const ROW_IDENTIFIER = "roleId" as const;
 export const colRoleId = new ColumnText<AccountsSchemaRole>("roleId", {
   isSortable: true,
 });
-export const FILTERS = [
+export const FILTERS: DatalistFilter[] = [
   {
     isGlobal: true,
     matchMode: "contains",
@@ -160,9 +168,66 @@ export const FILTERS = [
   },
   {
     isGlobal: false,
+    matchMode: "lt",
+    input: {
+      ...roleSecurityLevelInput,
+      label: "roleSecurityLevelLt",
+
+      validation: "",
+      placeholder: "roleSecurityLevelLt",
+    },
+  },
+  {
+    isGlobal: false,
+    matchMode: "gt",
+    input: {
+      ...roleSecurityLevelInput,
+      label: "roleSecurityLevelGt",
+      validation: "",
+      placeholder: "roleSecurityLevelGt",
+    },
+  },
+  {
+    isGlobal: false,
+    matchMode: "lt",
+    input: {
+      $formkit: "number",
+      number: "integer",
+      label: "permissionCountLt",
+      name: "permissionCount",
+      validation: "",
+      placeholder: "permissionCountLt",
+    },
+  },
+  {
+    isGlobal: true,
+    matchMode: "lt",
+    input: {
+      $formkit: "number",
+      number: "integer",
+      label: "permissionCountGt",
+      name: "permissionCount",
+      validation: "",
+      placeholder: "permissionCountGt",
+    },
+  },
+
+  {
+    isGlobal: false,
+    matchMode: "gt",
+    input: {
+      ...roleSecurityLevelInput,
+      label: "roleSecurityLevelGt",
+      validation: "",
+      placeholder: "roleSecurityLevelGt",
+    },
+  },
+
+  {
+    isGlobal: false,
     matchMode: "between",
     input: {
-      ...baseDateRangeInput,
+      ...(baseDateRangeInput as { $formkit: string } & Object),
       name: "createdAt",
       outerClass: "col-span-2 ",
       label: "createdAt",
@@ -171,107 +236,15 @@ export const FILTERS = [
     },
   },
   {
-    ...baseDateRangeInput,
-    name: "updatedAt",
-    outerClass: "col-span-2 ",
-    label: "updatedAt",
-    placeholder: "updatedAt",
-    showTime: true,
-  },
-  {
-    ...baseDateRangeInput,
-    name: "updatedAt",
-    outerClass: "col-span-2 ",
-    label: "updatedAt",
-    placeholder: "updatedAt",
-    showTime: true,
+    isGlobal: false,
+    matchMode: "between",
+    input: {
+      ...(baseDateRangeInput as { $formkit: string } & Object),
+      name: "deletedAt",
+      outerClass: "col-span-2 ",
+      label: "deletedAt",
+      placeholder: "deletedAt",
+      showTime: true,
+    } as FormKitSchemaNode,
   },
 ];
-export const colRoleName = new ColumnText<AccountsSchemaRole>("roleName", {
-  isSortable: true,
-  isGlobalFilter: true,
-  filters: [
-    {
-      isGlobal: true,
-      matchMode: "contains",
-      input: { ...roleNameInput, validation: "" },
-    },
-  ],
-});
-export const colRoleDescription = new ColumnText<AccountsSchemaRole>(
-  "roleDescription",
-  {
-    isSortable: true,
-    isGlobalFilter: true,
-    filters: [
-      {
-        isGlobal: true,
-        matchMode: "contains",
-        input: roleDescriptionInput,
-      },
-    ],
-  },
-);
-export const colCreatedAt = new ColumnDate("createdAt", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: false,
-      matchMode: "between",
-      input: {
-        ...baseDateRangeInput,
-        name: "createdAt",
-        outerClass: "col-span-2 ",
-        label: "createdAt",
-        placeholder: "createdAt",
-      },
-    },
-  ],
-});
-
-export const colUpdatedAt = new ColumnDate("updatedAt", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: false,
-      matchMode: "between",
-      input: {
-        ...baseDateRangeInput,
-        name: "updatedAt",
-        outerClass: "col-span-2 ",
-        label: "updatedAt",
-        placeholder: "updatedAt",
-        showTime: true,
-      },
-    },
-  ],
-});
-
-export const colDeletedAt = new ColumnDate("deletedAt", {
-  isSortable: true,
-  filters: [
-    {
-      isGlobal: false,
-      matchMode: "between",
-      input: {
-        ...baseDateRangeInput,
-        name: "deletedAt",
-        outerClass: "col-span-2 ",
-        label: "deletedAt",
-        placeholder: "deletedAt",
-        showTime: true,
-      },
-    },
-  ],
-});
-
-/* ------------------------------------------------------------------ */
-/*  OPTIONAL: aggregated helper you can still pass to <Datalist>      */
-/* ------------------------------------------------------------------ */
-export const COLUMNS_MAP = {
-  roleId: colRoleId,
-  roleName: colRoleName,
-  createdAt: colCreatedAt,
-  updatedAt: colUpdatedAt,
-  deletedAt: colDeletedAt,
-} as const satisfies DatalistColumnsBase<AccountsSchemaRole>;

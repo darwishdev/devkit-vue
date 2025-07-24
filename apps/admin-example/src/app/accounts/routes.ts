@@ -5,7 +5,7 @@ export default [
   {
     path: USER_ROUTES.LIST.path,
     name: USER_ROUTES.LIST.name,
-    component: import("./user/views/UserListView.vue"),
+    component: () => import("./user/views/UserListView.vue"),
     meta: {
       breadcrumbs: USER_ROUTES.LIST.breadcrumbs,
     },

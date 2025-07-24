@@ -54,10 +54,12 @@ const logoVariant = computed(() => {
         <template #start v-if="logoVariant">
           <slot name="logo">
             <AppBtn size="small" action="/" label="logo">
-              <component
-                :is="logoVariant.component"
-                v-bind="logoVariant.props"
-              />
+              <template #default>
+                <component
+                  :is="logoVariant.component"
+                  v-bind="logoVariant.props"
+                />
+              </template>
             </AppBtn>
           </slot>
         </template>

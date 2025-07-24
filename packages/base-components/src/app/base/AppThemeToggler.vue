@@ -16,7 +16,7 @@ const {
 }>();
 const iconName = ref(lightIcon);
 const toggle = async () => {
-  const isDark = await toggleDarkTheme({className, cacheHelper});
+  const isDark = await toggleDarkTheme({ className, cacheHelper });
   iconName.value = isDark ? darkIcon : lightIcon;
   if (callBack) {
     callBack(isDark ? "dark" : "light");
@@ -25,14 +25,14 @@ const toggle = async () => {
 </script>
 
 <template>
-      <slot name="default" :toggle="toggle">
-        <AppBtn
-        variant="text"
+  <slot name="default" :toggle="toggle">
+    <AppBtn
+      variant="text"
       v-bind="$attrs"
-        :key="iconName"
-        :icon="iconName"
-        :action="toggle"
-      >
-      </AppBtn>
-    </slot>
+      :key="iconName"
+      :icon="iconName"
+      :action="toggle"
+    >
+    </AppBtn>
+  </slot>
 </template>

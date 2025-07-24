@@ -3,25 +3,31 @@ import { AppDialogProps, AppDialogSlots } from "@/pkg/types/types";
 import Message from "primevue/message";
 import { inject } from "vue";
 import { useI18n } from "vue-i18n";
-const dialogRef = inject("dialogRef") as any;
+const dialogRef = inject<{ value: { close: () => void } } | undefined>(
+  "dialogRef",
+  undefined,
+);
 const emit = defineEmits<{
-  confirmed: [dialog: { close: Function }]; // Keeping the existing emit type
-  close: []; // Define "close" event with no arguments
+  (e: "confirmed", dialog: { close: () => void }): void;
+  (e: "close"): void;
 }>();
 const { errorRef } = defineProps<AppDialogProps>();
 const { t } = useI18n();
 defineSlots<AppDialogSlots>();
 
-const close = (e: any) => {
+const close = () => {
   if (errorRef) {
     errorRef.value = "";
   }
-
-  dialogRef.value.close(e);
+  if (dialogRef) {
+    dialogRef.value.close();
+  }
   emit("close");
 };
 const confirm = () => {
-  emit("confirmed", dialogRef.value);
+  if (dialogRef?.value) {
+    emit("confirmed", dialogRef.value);
+  }
 };
 </script>
 <template>
@@ -35,17 +41,24 @@ const confirm = () => {
     </slot>
     <slot />
     <slot name="actions" :confirm="confirm" :close="close">
-      <div class="actions">
+      <div class="actions flex gap-2 items-center">
         <slot name="confirm" :confirm="confirm">
           <AppBtn
-            icon="health_check"
+            icon="check-line"
             :action="confirm"
             label="confirm"
+            outlined
             class="success"
           />
         </slot>
         <slot name="cancel" :close="close">
-          <AppBtn icon="close" :action="close" label="canel" class="danger" />
+          <AppBtn
+            icon="close-line"
+            :action="close"
+            :label="t('cancel')"
+            :outlined="true"
+            severity="danger"
+          />
         </slot>
       </div>
     </slot>

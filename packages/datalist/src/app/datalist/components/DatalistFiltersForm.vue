@@ -11,7 +11,7 @@
   "
 >
 import { useDatalistStoreWithKey } from "../store/DatalistStore";
-import { Panel } from "primevue";
+import { Panel, Chip } from "primevue";
 import { AppForm } from "@devkitvue/form";
 import { useFormKitContextById, useFormKitNodeById } from "@formkit/vue";
 import { ObjectEntries, StringUnknownRecord } from "@devkitvue/apiclient";

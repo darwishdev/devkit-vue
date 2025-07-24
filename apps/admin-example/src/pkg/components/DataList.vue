@@ -44,5 +44,5 @@ const slots =
 const renderDatalist = h(DevkitDataList, props, slots);
 </script>
 <template>
-  <component :is="renderDatalist" v-on="emit" />
+  <component :is="renderDatalist" v-bind="$attrs" />
 </template>

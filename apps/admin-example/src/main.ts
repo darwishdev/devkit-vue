@@ -36,6 +36,9 @@ app.use(
   FormkitPlugin,
   formKitConfig({
     config: { rootClasses },
+    iconLoader: (iconName: string) => {
+      console.log("should load the icon", iconName);
+    }, // function for more direct control than iconLoaderUrl replacement
     plugins: [translateI18nPlugin],
   }),
 );

@@ -25,15 +25,17 @@ export default {
     "grid",
     "block",
     {
-      pattern: /^\[&\>\*\]:basis-(\d+)\/6$/,
-      variants: ["sm", "md", "lg", "xl"],
-    },
-    {
       pattern: /^columns-(?:[1-9]|1[0-2])$/,
       variants: ["sm", "md", "lg", "xl"],
     },
     {
-      pattern: /^baseis-(?:[1-9]|1[0-2])$/,
+      pattern: /^h-\[.*\]$/, // matches h-[12rem], h-[100px], etc.
+    },
+    {
+      pattern: /^min-h-\[.*\]$/, // matches min-h-[12rem], etc.
+    },
+    {
+      pattern: /^basis-(?:[1-9]|1[0-2])$/,
       variants: ["sm", "md", "lg", "xl"],
     },
     {

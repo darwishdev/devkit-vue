@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { type DatalistProps } from "@devkitvue/datalist";
-
-import Badge from "primevue/badge";
 import DataList from "@/pkg/components/DataList.vue";
 import type {
   RoleListRow,
@@ -17,8 +15,8 @@ import {
   FILTERS,
 } from "../../constants/RoleConstants.ts";
 import { apiClient } from "@/pkg/api/apiClient";
-import { DateStringDigitToDate } from "@devkitvue/form";
-import { AppBtn } from "@devkitvue/base-components";
+import { DateStringDigitToDate } from "@devkitvue/base-components";
+import { useI18n } from "vue-i18n";
 
 const tableProps: DatalistProps<
   typeof apiClient,
@@ -35,6 +33,15 @@ const tableProps: DatalistProps<
       paramName: ROUTE_PARAM_NAME,
       paramColumnName: ROW_IDENTIFIER,
     },
+    cardConfig: {
+      dateAdapter: DateStringDigitToDate,
+      pt: { info: "justify-center" },
+      badgeKey: "roleSecurityLevel",
+      deletedAtKey: "deletedAt",
+      titleRouter: "/accounts/role/",
+      titleKey: "roleName",
+      createdAtKey: "createdAt",
+    },
     isActionsDropdown: true,
     isLazyFilters: false,
     displayType: "card",
@@ -44,66 +51,99 @@ const tableProps: DatalistProps<
     },
   },
 };
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="glass rounded-lg">
     <DataList :context="tableProps.context">
-      <template #card="{ data }">
-        <div
-          class="grid card-content grid-cols-5 glass shadow-sm rounded-lg h-full w-full gap-4 min-h-[10rem]"
-        >
-          <div
-            class="bg-primary/40 rounded-l-lg col-span-2 min-h-[12rem] flex-col flex justify-center item-center"
-          >
-            <h3 class="font-bold text-center text-md">
-              {{ $t("permissions") }}
-            </h3>
-            <h2 class="font-bold text-center text-4xl">
-              {{ data.permissionCount }}
-            </h2>
-            <h3 class="font-bold text-center text-md">{{ $t("USERS") }}</h3>
-            <h2 class="font-bold text-center text-4xl">{{ data.userCount }}</h2>
-          </div>
-          <div
-            class="card-info flex flex-col col-span-3 justify-between pt-14 pb-2"
-          >
-            <div class="top">
-              <AppBtn
-                :label="data.roleName"
-                :action="`/accounts/role/${data.roleId}`"
-                justify="start"
-                class="font-bold mb-1 text-2xl max-w-[200px]"
-              />
-
-              <AppBtn
-                :action="`/tenants/tenant/${data.tenantId}`"
-                justify="start"
-                icon="building-line"
-                :label="data.tenantName"
-                class="max-w-[200px] text-left"
-                v-if="data.tenantName"
-              />
-              <h3 class="max-w-[200px] font-bold flex gap-2 text-left" v-else>
-                <AppIcon icon="building-line" />
-                {{ $t("General") }}
-              </h3>
-            </div>
-
-            <div class="flex justify-between">
-              <span class="">
-                {{ DateStringDigitToDate(data.createdAt).toDateString() }}
-              </span>
-              <span>
-                {{ $t("Sec Level") }} :
-                <Badge>
-                  {{ data.permissionCount }}
-                </Badge>
-              </span>
-            </div>
-          </div>
+      <template #cardStartContent="{ data }">
+        <div class="mt-8 mb-2">
+          <h3 class="font-bold text-center text-md">
+            {{ t("permissions") }}
+          </h3>
+          <h2 class="font-bold text-center text-4xl" v-tooltip="data.roleName">
+            {{ data.permissionCount }}
+          </h2>
+          <h3 class="font-bold text-center text-md">{{ t("USERS") }}</h3>
+          <h2 class="font-bold text-center text-4xl">
+            {{ data.userCount }}
+          </h2>
         </div>
       </template>
+      <template #cardSubtitle="{ data }">
+        <AppBtn
+          :action="`/tenants/tenant/${data.tenantId}`"
+          justify="start"
+          icon="building-line"
+          :label="data.tenantName"
+          v-tooltip="data.tenantName"
+          class="max-w-[200px] text-left"
+          v-if="data.tenantName"
+        />
+        <h3
+          class="max-w-[200px] font-bold flex gap-2 text-left"
+          v-tooltip="`${t('Tenant')} : ${t('General')}`"
+          v-else
+        >
+          <AppIcon icon="building-line" />
+          <span class="line-clamp-2 break-words">
+            {{ t("General") }}
+          </span>
+        </h3>
+      </template>
+      <!-- <template #card="{ data }"> -->
+      <!--   <DataCard -->
+      <!--     :data="data" -->
+      <!--     identefier="roleId" -->
+      <!--     :dateAdapter="DateStringDigitToDate" -->
+      <!--     :pt="{ info: 'justify-center' }" -->
+      <!--     badgeKey="roleSecurityLevel" -->
+      <!--     deletedAtKey="deletedAt" -->
+      <!--     titleRouter="/accounts/role/" -->
+      <!--     titleKey="roleName" -->
+      <!--     createdAtKey="createdAt" -->
+      <!--   > -->
+      <!--     <template #start-content> -->
+      <!--       <div class="mt-8 mb-2"> -->
+      <!--         <h3 class="font-bold text-center text-md"> -->
+      <!--           {{ t("permissions") }} -->
+      <!--         </h3> -->
+      <!--         <h2 -->
+      <!--           class="font-bold text-center text-4xl" -->
+      <!--           v-tooltip="data.roleName" -->
+      <!--         > -->
+      <!--           {{ data.permissionCount }} -->
+      <!--         </h2> -->
+      <!--         <h3 class="font-bold text-center text-md">{{ t("USERS") }}</h3> -->
+      <!--         <h2 class="font-bold text-center text-4xl"> -->
+      <!--           {{ data.userCount }} -->
+      <!--         </h2> -->
+      <!--       </div> -->
+      <!--     </template> -->
+      <!--     <template #subtitle> -->
+      <!--       <AppBtn -->
+      <!--         :action="`/tenants/tenant/${data.tenantId}`" -->
+      <!--         justify="start" -->
+      <!--         icon="building-line" -->
+      <!--         :label="data.tenantName" -->
+      <!--         v-tooltip="data.tenantName" -->
+      <!--         class="max-w-[200px] text-left" -->
+      <!--         v-if="data.tenantName" -->
+      <!--       /> -->
+      <!--       <h3 -->
+      <!--         class="max-w-[200px] font-bold flex gap-2 text-left" -->
+      <!--         v-tooltip="`${t('Tenant')} : ${t('General')}`" -->
+      <!--         v-else -->
+      <!--       > -->
+      <!--         <AppIcon icon="building-line" /> -->
+      <!--         <span class="line-clamp-2 break-words"> -->
+      <!--           {{ t("General") }} -->
+      <!--         </span> -->
+      <!--       </h3> -->
+      <!--     </template> -->
+      <!--   </DataCard> -->
+      <!-- </template> -->
     </DataList>
   </div>
 </template>

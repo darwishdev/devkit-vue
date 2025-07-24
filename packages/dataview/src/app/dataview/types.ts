@@ -5,7 +5,7 @@ import {
   DeleteHandler,
   UpdateHandler,
   ActionButtonProps,
-} from "@devkitvue/datalist";
+} from "@devkitvue/config";
 
 import type { DataTableFilterMetaData } from "primevue";
 export type DatalistFiltersModel = Record<string, DataTableFilterMetaData>;
@@ -20,8 +20,7 @@ export type ApiFindOptions = {
 };
 
 export type ApiResponseFind<TRecord extends Record<string, unknown>> = {
-  record: TRecord;
-  deletedRecords?: TRecord[];
+  record?: TRecord;
   options?: ApiFindOptions;
 };
 export type DataFindRequest<
@@ -34,7 +33,7 @@ export type DataFindMappers<
   TReq extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
 > = {
-  requestMapper?: (req: DataFindRequest) => TReq;
+  requestMapper?: (req: TReq) => TReq;
   responseMapper?: (response: StringUnknownRecord) => ApiResponseFind<TRecord>;
 };
 export type DataFindAvailableActions = {
@@ -50,9 +49,10 @@ export type DataFindRecord<
 
 export type DataViewContext<
   TApi extends Record<string, Function>,
+  TRequest extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
-> = DataFindMappers<DataFindRequest, TRecord> & {
+> = DataFindMappers<TRequest, TRecord> & {
   viewKey: string;
   title?: string;
   requestValue?: unknown;
@@ -64,7 +64,8 @@ export type DataViewContext<
   imageKey?: keyof TRecord;
   deletedAtKey?: keyof TRecord;
   cretedAtKey?: keyof TRecord;
-  record: DataFindRecord<TApi, DataFindRequest, TRecord>;
+  requestKey?: keyof TRequest;
+  record: DataFindRecord<TApi, TRequest, TRecord>;
   options?: ApiFindOptions;
   formSections?: AppFormSections<
     TFormSectionsRequest extends undefined
@@ -77,10 +78,11 @@ export type DataViewContext<
 };
 export type DataViewProps<
   TApi extends Record<string, Function>,
+  TRequest extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
 > = {
-  context: DataViewContext<TApi, TRecord, TFormSectionsRequest>;
+  context: DataViewContext<TApi, TRequest, TRecord, TFormSectionsRequest>;
 };
 export type DataViewActionsSlots<TRecord extends StringUnknownRecord> = {
   [K in keyof DataFindAvailableActions as K extends string

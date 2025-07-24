@@ -191,7 +191,7 @@ const toggleSidebar = () => {
         size="small"
         dark-icon="sun-line"
         light-icon="moon-line"
-        class="md:order-5 glass color-text hidden md:block"
+        class="md:order-5 glass color-text hidden md:flex"
       />
     </slot>
 
@@ -200,7 +200,7 @@ const toggleSidebar = () => {
         size="small"
         :callBack="localeToggled"
         icon="global-line"
-        class="color-text hidden md:block glass md:order-6"
+        class="color-text hidden md:flex glass md:order-6"
       />
     </slot>
     <slot

@@ -17,23 +17,19 @@ export default {
   safelist: [
     "flex",
     "flex-wrap",
+    // "h-[10rem]",
     "grid",
     "block",
-    {
-      pattern: /^\[&\>\*\]:basis-(\d+)\/6$/,
-      variants: ["sm", "md", "lg", "xl"],
-    },
     {
       pattern: /^columns-(?:[1-9]|1[0-2])$/,
       variants: ["sm", "md", "lg", "xl"],
     },
     {
-      pattern: /^baseis-(?:[1-9]|1[0-2])$/,
+      pattern: /^grid-cols-(?:[1-9]|1[0-2])$/,
       variants: ["sm", "md", "lg", "xl"],
     },
     {
-      pattern: /^grid-cols-(?:[1-9]|1[0-2])$/,
-      variants: ["sm", "md", "lg", "xl"],
+      pattern: /^min-h-\[.(10|12|14|16|18|20|22|24|26|28|30)(rem|px)\]$/,
     },
     {
       pattern: /^gap-(?:0|0\.5|1(?:\.5)?|2(?:\.5)?|3(?:\.5)?|4|5|6|7|8)$/,

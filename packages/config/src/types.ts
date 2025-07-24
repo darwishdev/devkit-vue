@@ -76,7 +76,6 @@ export type AppBtnProps = {
   fluid?: boolean | undefined;
   dt?: any;
   pt?: any;
-  key?: string;
   ptOptions?: any;
   unstyled?: boolean;
   variant?: "outlined" | "text" | "link";
@@ -281,9 +280,8 @@ export type AppFormOptions = {
 };
 
 export type DeleteRestoreVariant = AppBtnProps & {
-  disabled: boolean;
-  hasSelectedData: boolean;
-  hasDeletedRecords: boolean;
+  disabled?: boolean;
+  hasDeletedRecords?: boolean;
   empty: string;
 };
 export type CreateHandler = {

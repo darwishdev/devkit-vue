@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { type DatalistProps } from "@devkitvue/datalist";
-import { DateStringDigitToDate } from "@devkitvue/form";
+import { DataCard, type DatalistProps } from "@devkitvue/datalist";
+import { DateStringDigitToDate } from "@devkitvue/base-components";
+
 import type {
   UserListRow,
   UserListRequest,
 } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
+
 import {
+  FILTERS,
   ROUTES,
   KEYS,
   USER_ROW_IDENTIFIER,
   ROUTE_PARAM_NAME,
-  userRolesInput,
   TITLE,
   DESCRIPTION,
 } from "../../constants/UserConstants.ts";
+
+// import AppCardGrid from "../../role/views/AppCardGrid.vue";
 import { apiClient } from "@/pkg/api/apiClient";
 import DataList from "@/pkg/components/DataList.vue";
+import { useI18n } from "vue-i18n";
 
 const tableProps: DatalistProps<
   typeof apiClient,
@@ -28,17 +33,24 @@ const tableProps: DatalistProps<
   context: {
     datalistKey: KEYS.DATALIST_KEY,
     rowIdentifier: USER_ROW_IDENTIFIER,
-    filters: [
-      {
-        matchMode: "contains",
-        input: { ...userRolesInput, multiple: false, name: "roleIds" },
-      },
-    ],
+    filters: FILTERS,
     records: apiClient.userList,
     viewRouter: {
       name: ROUTES.FIND.name,
       paramName: ROUTE_PARAM_NAME,
       paramColumnName: USER_ROW_IDENTIFIER,
+    },
+    cardConfig: {
+      deletedAtKey: "deletedAt",
+      createdAtKey: "createdAt",
+      badgeKey: "userSecurityLevel",
+      imageHeight: "10rem",
+      pt: { title: "me-[3rem]" },
+      // layout: "vertical",
+      imageKey: "userImage",
+      titleRouter: "/accounts/user/",
+      titleKey: "userName",
+      dateAdapter: DateStringDigitToDate,
     },
     isActionsDropdown: true,
     displayType: "card",
@@ -49,44 +61,41 @@ const tableProps: DatalistProps<
     },
   },
 };
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="glass rounded-lg">
     <DataList v-bind="tableProps" :context="tableProps.context">
-      <template #card="{ data }">
-        <div
-          class="grid card-content grid-cols-3 glass shadow-sm rounded-lg h-full w-full cursor-pointer gap-4"
+      <template #cardSubtitle="{ data }">
+        <a
+          class="font-bold flex items-center"
+          v-if="data.userEmail"
+          :title="`${t('userEmail')} : ${data.userEmail}`"
+          :href="`mailto:${data.userEmail}`"
         >
-          <AppImage
-            class="card-image bg-primary/40 rounded-l-lg"
-            :useBackgroundImage="true"
-            :src="data.userImage"
-          />
-          <div
-            class="card-info flex flex-col justify-center col-span-2 pe-12 py-4"
-          >
-            <h2 class="font-bold text-2xl">{{ data.userName }}</h2>
-            <h3 class="font-bold">{{ data.userEmail }}</h3>
-            <h4>{{ data.userSecurityLevel }}</h4>
-            <div class="flex justify-between-items-center">
-              <span>{{
-                DateStringDigitToDate(data.createdAt).toDateString()
-              }}</span>
-              <span v-if="data.deletedAt">
-                {{ DateStringDigitToDate(data.deletedAt).toDateString() }}
-              </span>
-            </div>
-            <ul class="flex gap-2 flex-wrap">
-              <li
-                v-for="r in data.roles"
-                @click="`/accounts/roles/${r.roleId}`"
-              >
-                {{ r.roleName }}
-              </li>
-            </ul>
-          </div>
-        </div>
+          <AppIcon icon="mail-open-line" class="custom-icon w-4 h-4 me-2" />
+          <span class="line-clamp-1">{{ data.userEmail }}</span>
+        </a>
+        <a
+          class="font-bold flex items-center line-clamp-1"
+          v-if="data.userPhone"
+          :title="`${t('userPhone')} : ${data.userPhone}`"
+          :href="`tel:${data.userPhone}`"
+        >
+          <AppIcon icon="phone-line" class="custom-icon w-4 h-4 me-2" />
+          {{ data.userPhone }}
+        </a>
+
+        <AppBtn
+          :action="`/tenants/tenant/${data.tenantId}`"
+          justify="start"
+          icon="building-line"
+          :label="data.tenantName"
+          v-tooltip="data.tenantName"
+          class="max-w-[200px] text-left"
+          v-if="data.tenantName"
+        />
       </template>
     </DataList>
   </div>
