@@ -1,5 +1,6 @@
 export { default as DataList } from "./DataList.vue";
 export { default as DataCard } from "./components/DataCard.vue";
+export { default as DataField } from "./components/DataField.vue";
 export * from "./store/DatalistStore";
 export * from "./composabales/ActionsComposable";
 export * from "./types";

@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { apiClient } from "@/pkg/api/apiClient";
 import { ROUTES, USER_ROW_IDENTIFIER } from "../../constants/UserConstants";
-import { type DataViewProps } from "./types";
-import DataView from "./DataView.vue";
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { DataView, type DataViewProps } from "@devkitvue/dataview";
 import Tag from "primevue/tag";
 import type {
   UserFindRow,
@@ -49,6 +47,19 @@ const props: DataViewProps<
         },
         slots: {
           displayValue: ({ displayValue }) => h(Tag, { value: displayValue }),
+        },
+      },
+      roles: {
+        props: {
+          label: "roles",
+        },
+        slots: {
+          displayValue: ({ value }) =>
+            h(
+              "div",
+              { class: "flex gap-2 flex-wrap" },
+              value.map((role) => h(Tag, { value: role.roleName })),
+            ),
         },
       },
     },
@@ -205,215 +216,6 @@ const setBlocked = (data: UserSession) => {
         </DataList>
         <div v-else>loading</div>
       </div>
-      <!-- <div class="w-full glass rounded-lg p-4 mt-8"> -->
-      <!--   <DataList -->
-      <!--     class="w-full" -->
-      <!--     :context="{ -->
-      <!--       datalistKey: 'user-logs', -->
-      <!--       records: data.logs, -->
-      <!--       filters: [ -->
-      <!--         { -->
-      <!--           matchMode: 'in', -->
-      <!--           isGlobal: true, -->
-      <!--           input: { -->
-      <!--             $formkit: 'devkitDropdown', -->
-      <!--             name: 'actionType', -->
-      <!--             label: 'Action Type', -->
-      <!--             outrClass: 'col-span-2', -->
-      <!--             fluid: true, -->
-      <!--             optionLabel: 'label', -->
-      <!--             placeholder: 'Select action types', -->
-      <!--             multiple: true, -->
-      <!--             options: [ -->
-      <!--               { label: 'Create', value: 'create' }, -->
-      <!--               { label: 'Update', value: 'update' }, -->
-      <!--               { label: 'Delete', value: 'delete' }, -->
-      <!--               { label: 'Delete Restore', value: 'restore' }, -->
-      <!--             ], -->
-      <!--           }, -->
-      <!--         }, -->
-      <!--         { -->
-      <!--           matchMode: 'in', -->
-      <!--           isGlobal: true, -->
-      <!--           input: { -->
-      <!--             $formkit: 'devkitDropdown', -->
-      <!--             fluid: true, -->
-      <!---->
-      <!--             outrClass: 'col-span-2', -->
-      <!--             name: 'statusCode', -->
-      <!--             label: 'Status Code', -->
-      <!--             placeholder: 'Select status codes', -->
-      <!--             multiple: true, -->
-      <!--             options: [ -->
-      <!--               { label: 'OK', value: 'ok' }, -->
-      <!--               { label: 'NOT_FOUND', value: 'not_found' }, -->
-      <!--               { label: 'INVALID_ARGUMENT', value: 'invalid_argument' }, -->
-      <!--               { label: 'INTERNAL', value: 'internal' }, -->
-      <!--               { label: 'UNAUTHENTICATED', value: 'unauthenticated' }, -->
-      <!--               { label: 'PERMISSION_DENIED', value: 'permission_denied' }, -->
-      <!--             ], -->
-      <!--           }, -->
-      <!--         }, -->
-      <!--       ], -->
-      <!--       displayType: 'table', -->
-      <!--       cardConfig: { -->
-      <!--         createdAtKey: 'creaddAt', -->
-      <!--         dateAdapter: DateStringDigitToDate, -->
-      <!--       }, -->
-      <!--       options: { -->
-      <!--         title: 'Logs', -->
-      <!--         description: 'User activity logs', -->
-      <!--       }, -->
-      <!--     }" -->
-      <!--   /> -->
-      <!-- </div> -->
     </template>
-    <!-- <template #cardHeaderStart> -->
-    <!--   <h2 class="text-3xl z-30 border-l-8 font-bold border-l-primary p-4"> -->
-    <!--     {{ t("user details") }} -->
-    <!--   </h2> -->
-    <!-- </template> -->
-    <template #cardStart="{ data }"> </template>
-    <!--   <div class="mt-32 p-8"> -->
-    <!--     <div class="flex flex-wrap gap-4 items-center"> -->
-    <!--       <AppImage -->
-    <!--         class="w-[8rem] h-[8rem] rounded-full overflow-hidden my-4" -->
-    <!--         :src="data.userImage" -->
-    <!--       /> -->
-    <!--       <!-- User Info -->
-    -->
-    <!--       <div class="flex flex-col space-y-2"> -->
-    <!--         <h3 class="text-4xl font-bold mb-4">{{ data.userName }}</h3> -->
-    <!--         <div class="flex items-center gap-8 flex-wrap"> -->
-    <!--           <div class="info-block"> -->
-    <!--             <h3 class="text-xl mb-2">User Email</h3> -->
-    <!--             <a -->
-    <!--               class="font-bold flex text-2xl items-center" -->
-    <!--               v-if="data.userEmail" -->
-    <!--               :title="`${t('userEmail')} : ${data.userEmail}`" -->
-    <!--               :href="`mailto:${data.userEmail}`" -->
-    <!--             > -->
-    <!--               <span class="line-clamp-1">{{ data.userEmail }}</span> -->
-    <!--             </a> -->
-    <!--           </div> -->
-    <!--           <div class="info-block"> -->
-    <!--             <h3 class="text-xl mb-2">User Phone</h3> -->
-    <!--             <a -->
-    <!--               class="font-bold flex text-2xl items-center" -->
-    <!--               v-if="data.userEmail" -->
-    <!--               :title="`${t('userEmail')} : ${data.userEmail}`" -->
-    <!--               :href="`mailto:${data.userEmail}`" -->
-    <!--             > -->
-    <!--               <span class="line-clamp-1">{{ data.userPhone }}</span> -->
-    <!--             </a> -->
-    <!--           </div> -->
-    <!---->
-    <!--           <div class="info-block"> -->
-    <!--             <h3 class="text-xl mb-2">User Type</h3> -->
-    <!--             <div> -->
-    <!--               <Tag :value="data.userTypeName" severity="warn" /> -->
-    <!--             </div> -->
-    <!--           </div> -->
-    <!---->
-    <!--           <!--   <div> -->
-    -->
-    <!--           <!--     <span class="font-medium mb-4 ">Phone Number</span -->
-    -->
-    <!--           <!--     ><br /> -->
-    -->
-    <!--           <!--     {{ data.userPhone }} -->
-    -->
-    <!--           <!--   </div> -->
-    -->
-    <!--           <!--   <div class="col-span-2"> -->
-    -->
-    <!--           <!--     <span class="font-medium ">Email Address</span><br /> -->
-    -->
-    <!--           <!--     {{ data.userEmail }} -->
-    -->
-    <!--           <!--   </div> -->
-    -->
-    <!--           <div> -->
-    <!--             <h3 class="text-xl mb-2">Roles</h3> -->
-    <!--             <div class="flex gap-2 mu-4 user_roles" v-if="data.roles"> -->
-    <!--               <Tag -->
-    <!--                 v-for="role in data.roles" -->
-    <!--                 :key="role.roleId" -->
-    <!--                 :value="role.roleName" -->
-    <!--               /> -->
-    <!--             </div> -->
-    <!--           </div> -->
-    <!--           <div class="info-block"> -->
-    <!--             <h3 class="text-xl mb-2">created at</h3> -->
-    <!--             <div> -->
-    <!--               <span -->
-    <!--                 class="line-clamp-1 font-bold flex text-2xl items-center" -->
-    <!--                 >{{ -->
-    <!--                   dateHumanFormat(data.createdAt, DateStringDigitToDate) -->
-    <!--                 }}</span -->
-    <!--               > -->
-    <!--             </div> -->
-    <!--           </div> -->
-    <!--         </div> -->
-    <!--       </div> -->
-    <!--     </div> -->
-    <!--   </div> -->
-    <!-- </template> -->
-    <!-- <template #cardEnd="{ data }"> -->
-    <!--   <div class="grid lg:grid-cols-4 p-4 gap-4"> -->
-    <!--     <div class="glass items-center flex gap-4 rounded-lg p-4"> -->
-    <!--       <div -->
-    <!--         class="glass w-12 h-12 flex items-center justify-center rounded-full" -->
-    <!--       > -->
-    <!--         <AppIcon icon="login-circle-line" class="custom-icon w-8 h-8" /> -->
-    <!--       </div> -->
-    <!--       <div class="info"> -->
-    <!--         <h2 class="text-xl font-bold mb-2"> -->
-    <!--           {{ -->
-    <!--             data.lastLogIn -->
-    <!--               ? dateHumanFormat(data.lastLogIn, DateStringDigitToDate) -->
-    <!--               : "Never Logged In" -->
-    <!--           }} -->
-    <!--         </h2> -->
-    <!--         <span class="text-xl">latest login</span> -->
-    <!--       </div> -->
-    <!--     </div> -->
-    <!--     <div class="glass items-center flex gap-4 rounded-lg p-4"> -->
-    <!--       <div -->
-    <!--         class="glass w-12 h-12 flex items-center justify-center rounded-full" -->
-    <!--       > -->
-    <!--         <AppIcon icon="user-community-line" class="custom-icon w-8 h-8" /> -->
-    <!--       </div> -->
-    <!--       <div class="info"> -->
-    <!--         <h2 class="text-xl font-bold mb-2">{{ data.userSecurityLevel }}</h2> -->
-    <!--         <span class="text-xl">Security Level</span> -->
-    <!--       </div> -->
-    <!--     </div> -->
-    <!--     <div class="glass items-center flex gap-4 rounded-lg p-4"> -->
-    <!--       <div -->
-    <!--         class="glass w-12 h-12 flex items-center justify-center rounded-full" -->
-    <!--       > -->
-    <!--         <AppIcon icon="building-line" class="custom-icon w-8 h-8" /> -->
-    <!--       </div> -->
-    <!--       <div class="info"> -->
-    <!--         <h2 class="text-xl font-bold mb-2"> -->
-    <!--           {{ data.tenantName ? data.tenantName : "No Company" }} -->
-    <!--         </h2> -->
-    <!--         <span class="text-xl">User Company</span> -->
-    <!--       </div> -->
-    <!--     </div> -->
-    <!--     <div class="glass items-center flex gap-4 rounded-lg p-4"> -->
-    <!--       <div -->
-    <!--         class="glass w-12 h-12 flex items-center justify-center rounded-full" -->
-    <!--       > -->
-    <!--         <AppIcon icon="award-line" class="custom-icon w-8 h-8" /> -->
-    <!--       </div> -->
-    <!--       <div class="info"> -->
-    <!--         <h2 class="text-xl font-bold mb-2">{{ data.permissionCount }}</h2> -->
-    <!--         <span class="text-xl">permissions count</span> -->
-    <!--       </div> -->
-    <!--     </div> -->
-    <!--   </div> -->
-    <!-- </template> -->
   </DataView>
 </template>

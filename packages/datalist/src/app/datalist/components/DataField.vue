@@ -8,7 +8,7 @@
   "
 >
 import { computed, defineProps } from "vue";
-import { DataFieldSlots, type DataFieldProps } from "./types";
+import { DataFieldSlots, type DataFieldProps } from "../types";
 
 const {
   data,
@@ -20,9 +20,9 @@ const {
   label,
   defaultValue = "not defined",
   tooltip,
-  pt,
+  pt = {},
 } = defineProps<DataFieldProps<TData, TField, TValue>>();
-const slots = defineSlots<DataFieldSlots<TData, TField, TValue>>();
+defineSlots<DataFieldSlots<TData, TField, TValue>>();
 const layoutClass = computed(() => {
   if (pt?.block) return pt.block;
   const variantsMap = {
@@ -32,18 +32,6 @@ const layoutClass = computed(() => {
     "row-reverse": "flex items-center gap-2",
   };
   return variantsMap[layoutVariant];
-  //   switch (layoutVariant) {
-  //     case "column":
-  //       return "";
-  //     case "column-reverse":
-  //       return "flex flex-col-reverse gap-2";
-  //     case "row":
-  //       return "flex items-center gap-2";
-  //     case "row-reverse":
-  //       return "flex flex-row-reverse gap-2";
-  //     default:
-  //       return "flex flex-col-reverse gap-2"; // default fallback
-  //   }
 });
 const rawValue = data[field] as TValue;
 const hasValue = computed(
@@ -86,7 +74,7 @@ const tooltipValue = computed(() => {
       <slot
         name="value"
         :hasValue="hasValue"
-        :value="rawValue"
+        :value="rawValue as TValue"
         :displayValue="displayValue"
       >
         <component
@@ -100,9 +88,9 @@ const tooltipValue = computed(() => {
           <slot
             name="displayValue"
             :displayValue="displayValue"
-            :value="rawValue"
+            :value="rawValue as TValue"
           >
-            <span :class="pt?.valueWrapper || 'line-clamp-1'">{{
+            <span :class="pt.valueWrapper || 'line-clamp-1'">{{
               displayValue
             }}</span>
           </slot>

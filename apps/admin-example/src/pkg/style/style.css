@@ -4,6 +4,7 @@
 @import "@devkitvue/form/style.css";
 @import "@devkitvue/admin/style.css";
 @import "@devkitvue/datalist/style.css";
+@import "@devkitvue/dataview/style.css";
 @import "@devkitvue/base-components/style.css";
 
 @import "tailwindcss/utilities";

@@ -1,17 +1,21 @@
-import { type VNode } from "vue";
-import { AppFormSections } from "@devkitvue/config";
-import { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
-import {
+import type { VNode } from "vue";
+
+import type { RefetchOptions, QueryObserverResult } from "@tanstack/vue-query";
+import type {
+  AppFormSections,
   DeleteHandler,
   UpdateHandler,
   ActionButtonProps,
 } from "@devkitvue/config";
-
+import type { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import type { DataTableFilterMetaData } from "primevue";
-import { CardSlots } from "@devkitvue/datalist";
-import { DataCardProps } from "@devkitvue/datalist";
+import type {
+  CardSlots,
+  DataFieldProps,
+  DataFieldSlots,
+  DataCardProps,
+} from "@devkitvue/datalist";
 export type DatalistFiltersModel = Record<string, DataTableFilterMetaData>;
-
 export type ApiFindOptions = {
   title: string;
   description?: string;
@@ -20,10 +24,13 @@ export type ApiFindOptions = {
   deleteRestoreHandler?: DeleteHandler;
   deleteHandler?: DeleteHandler;
 };
-
 export type ApiResponseFind<TRecord extends Record<string, unknown>> = {
   record?: TRecord;
   options?: ApiFindOptions;
+  logs?: ({ statusCode?: string; actionType?: string } & Record<
+    string,
+    unknown
+  >)[];
 };
 export type DataFindRequest<
   TKey extends string = "recordId",
@@ -47,12 +54,19 @@ export type DataFindRecord<
   TApi extends Record<string, Function>,
   TReq extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
-> = TRecord | ApiEndpoint<TApi, TReq, ApiResponseFind<TRecord>>;
-
+  TResp extends StringUnknownRecord | undefined = undefined,
+> =
+  | TRecord
+  | ApiEndpoint<
+      TApi,
+      TReq,
+      TResp extends undefined ? ApiResponseFind<TRecord> : TResp
+    >;
 export type DataViewContext<
   TApi extends Record<string, Function>,
   TRequest extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
+  TResp extends StringUnknownRecord,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
 > = DataFindMappers<TRequest, TRecord> & {
   viewKey: string;
@@ -61,8 +75,9 @@ export type DataViewContext<
   listRoute?: string;
   routerParamName?: string;
   datalistKey?: string;
+  pt: { endFieldsWrapper?: string; startFieldsWrapper?: string };
   requestKey?: keyof TRequest;
-  record: DataFindRecord<TApi, TRequest, TRecord>;
+  record: DataFindRecord<TApi, TRequest, TRecord, TResp>;
   options?: ApiFindOptions;
   formSections?: AppFormSections<
     TFormSectionsRequest extends undefined
@@ -71,26 +86,65 @@ export type DataViewContext<
   >;
   rowIdentifier?: keyof TRecord;
   cardConfig?: Omit<DataCardProps<TRecord>, "data">;
+  startFields?: {
+    [K in keyof TRecord]?: {
+      props?: Omit<DataFieldProps<TRecord, K>, "data" | "field">;
+      slots?: DataFieldSlots<TRecord, K>;
+    };
+  };
+  endFields?: {
+    [K in keyof TRecord]?: {
+      props?: Omit<DataFieldProps<TRecord, K>, "data" | "field">;
+      slots?: DataFieldSlots<TRecord, K>;
+    };
+  };
 };
 export type DataViewProps<
   TApi extends Record<string, Function>,
   TRequest extends StringUnknownRecord,
   TRecord extends StringUnknownRecord,
+  TResp extends StringUnknownRecord,
   TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
 > = {
-  context: DataViewContext<TApi, TRequest, TRecord, TFormSectionsRequest>;
+  context: DataViewContext<
+    TApi,
+    TRequest,
+    TRecord,
+    TResp,
+    TFormSectionsRequest
+  >;
 };
 export type DataViewActionsSlots<TRecord extends StringUnknownRecord> = {
   [K in keyof DataFindAvailableActions as K extends string
     ? `actions.${K}`
     : never]: (props: { record: TRecord }) => VNode[] | VNode | undefined;
 };
+type FieldSlotMap<
+  TRecord extends StringUnknownRecord,
+  TPrefix extends string,
+> = {
+  [K in keyof TRecord as `${TPrefix}.${Extract<K, string>}`]?: (props: {
+    data: TRecord;
+    value: TRecord[K];
+  }) => VNode | VNode[];
+};
 export type DataViewSlots<
   TRecord extends StringUnknownRecord,
   TResp extends StringUnknownRecord,
 > = CardSlots<TRecord> & {
   card?: (props: { data: TRecord }) => VNode | VNode[];
-  footer?: (props: { data: TRecord; response: TResp }) => VNode | VNode[];
+  logs?: (props: { data: TRecord; response: TResp }) => VNode | VNode[];
+  footer?: (props: {
+    data: TRecord;
+    response: TResp;
+    refetch: (
+      options?: RefetchOptions,
+    ) => Promise<QueryObserverResult<ApiResponseFind<TRecord>, Error>>;
+  }) => VNode | VNode[];
+  pt: {
+    endFieldsWrapper: string;
+    startFieldsWrapper: string;
+  };
   cardImage?: (props: { data: TRecord }) => VNode | VNode[];
   cardTitle?: (props: { data: TRecord }) => VNode | VNode[];
   cardInfo?: (props: { data: TRecord }) => VNode | VNode[];
@@ -103,7 +157,9 @@ export type DataViewSlots<
   empty?: () => VNode | VNode[];
   header?: (props: { data: TRecord }) => VNode[] | VNode;
   dropdownActions?: (props: { data: TRecord }) => VNode[] | VNode;
-} & DataViewActionsSlots<TRecord>;
+} & DataViewActionsSlots<TRecord> &
+  FieldSlotMap<TRecord, "startField"> &
+  FieldSlotMap<TRecord, "endField">;
 export type DataViewEmits = {
   (e: "update:submited", response: StringUnknownRecord): void;
   (e: "update:submit", response: StringUnknownRecord): void;

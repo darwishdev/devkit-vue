@@ -677,3 +677,45 @@ export type DataCardSlots = {
   "footer-end"?: () => VNode | VNode[];
   badgeContent?: () => VNode | VNode[];
 };
+export type DataFieldProps<
+  TData extends Record<string, unknown>,
+  TField extends keyof TData = keyof TData,
+  TValue = TData[TField],
+> = {
+  data: TData;
+  field: TField;
+  useCardStyle?: boolean;
+  title?: string;
+  icon?: string;
+  label?: string;
+  valueTag?: string;
+  layoutVariant?: "column" | "column-reverse" | "row" | "row-reverse";
+  labelTag?: string;
+  defaultValue?: string;
+  hrefPrefix?: string;
+  tooltip?: boolean | string;
+  valueAdapter?: (value: TValue) => string;
+  onLabelClick?: () => void;
+  onValueClick?: () => void;
+  pt?: {
+    block?: string;
+    label?: string;
+    value?: string;
+    valueWrapper?: string;
+  };
+};
+export type DataFieldSlots<
+  TData extends Record<string, unknown>,
+  TField extends keyof TData = keyof TData,
+  TValue = TData[TField],
+> = {
+  value?: (props: {
+    hasValue: boolean;
+    value: TValue;
+    displayValue: string;
+  }) => VNode | VNode[];
+  displayValue?: (props: {
+    displayValue: string;
+    value: TValue;
+  }) => VNode | VNode[];
+};

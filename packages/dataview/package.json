@@ -17,10 +17,9 @@
         "default": "./dist/index.es.js"
       }
     },
-    "./style": {
+    "./style.css": {
       "import": {
-        "types": "./dist/style.d.ts",
-        "default": "./dist/style.css"
+        "default": "./dist/index.css"
       }
     }
   },
