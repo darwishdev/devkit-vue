@@ -321,8 +321,10 @@ export const useDatalistStore = <
       if (Array.isArray(records)) {
         return { records };
       }
+      if (typeof records == "object" && isApiResponseList(records)) {
+        return records;
+      }
       const requestPayload = {
-        //filters: {},
         filters: filterFormValue.value,
         paginationParams: paginationParamsRef.value,
       };
@@ -589,13 +591,6 @@ export const useDatalistStore = <
       queryKey: [context.datalistKey],
       queryFn: () =>
         datalistQueryFn().then(async (response) => {
-          console.log(
-            "constructed columns is here",
-            initialCallbackFinished,
-            response.records.length > 0,
-            context.displayType == "table",
-            ObjectKeys(datatableColumnsRef.value).length == 0,
-          );
           if (initialCallbackFinished) return response;
           const { records } = response;
           if (

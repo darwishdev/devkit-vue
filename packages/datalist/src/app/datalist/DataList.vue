@@ -104,24 +104,37 @@ const deleteRestoreButtonProps = computed(() => {
   };
 });
 await datalistStore.init();
+const rowActions = computed(() =>
+  datalistStore.permittedActions.filter(
+    (a) =>
+      a.actionKey == "view" ||
+      a.actionKey == "deleteRestore" ||
+      a.actionKey == "update" ||
+      a.actionKey == "delete",
+  ),
+);
+
+const globalActions = computed(() =>
+  datalistStore.permittedActions.filter(
+    (a) => a.actionKey == "create" || a.actionKey == "export",
+  ),
+);
 const renderGlobalActions = () => {
-  return datalistStore.permittedActions
-    .filter((a) => a.actionKey == "create" || a.actionKey == "export")
-    .map((actionBtn) => {
-      const callback = (value: StringUnknownRecord) =>
-        emit("create:submited", value);
-      const slotKey =
-        `globalActions.${actionBtn.actionKey as "create" | "export"}` as const;
-      const slotFn = slots[slotKey];
-      return slotFn
-        ? slotFn({ store: datalistStore })
-        : h(AppBtn, {
-            variant: "outlined",
-            action: () => actionBtn.actionFn(callback),
-            ...actionBtn,
-            key: actionBtn.actionKey,
-          });
-    });
+  return globalActions.value.map((actionBtn) => {
+    const callback = (value: StringUnknownRecord) =>
+      emit("create:submited", value);
+    const slotKey =
+      `globalActions.${actionBtn.actionKey as "create" | "export"}` as const;
+    const slotFn = slots[slotKey];
+    return slotFn
+      ? slotFn({ store: datalistStore })
+      : h(AppBtn, {
+          variant: "outlined",
+          action: () => actionBtn.actionFn(callback),
+          ...actionBtn,
+          key: actionBtn.actionKey,
+        });
+  });
 };
 const renderActionsColumn = (data: TRecord): VNode | VNode[] => {
   if (slots.actions) {
@@ -155,6 +168,7 @@ onBeforeUnmount(() => {
 const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
   if (displayType != "card") {
     return {
+      root: "w-full",
       header: "transparent",
       thead: "transparent",
       foorer: "transparet",
@@ -163,6 +177,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
   const bodyClassName = makeGridWrapperClassName(gridConfig);
   return {
     header: "transparent",
+    root: "w-full",
     thead: "hidden",
     tbody: `${bodyClassName} p-4`,
     foorer: "transparet",
@@ -178,7 +193,11 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     :value="datalistStore.currenData"
     stateStorage="session"
     :stateKey="`${datalistKey}`"
-    selectionMode="multiple"
+    :selectionMode="
+      !hideActions && rowIdentifier && rowActions.length
+        ? 'multiple'
+        : undefined
+    "
     :max-height="200"
     :pt="dataTablePassThrough"
     :globalFilterFields="datalistStore.globalFilters"
@@ -188,15 +207,19 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     paginator
     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
     :loading="
-      datalistStore.datalistQueryResult.isLoading ||
-      datalistStore.datalistQueryResult.isFetching
+      datalistStore.datalistQueryResult.isLoading.value ||
+      datalistStore.datalistQueryResult.isFetching.value
     "
     v-bind="datatableProps"
   >
     <template #header="">
       <slot name="header" :store="datalistStore">
         <div class="d-flex">
-          <slot name="globalActions" :store="datalistStore">
+          <slot
+            name="globalActions"
+            :store="datalistStore"
+            v-if="globalActions.length"
+          >
             <div
               class="global-actions flex-wrap gap-2 flex-col md:flex-row p-4 rounded border border-slate-300 dark:border-zinc-700 my-4 flex justify-between md:items-center"
             >
@@ -300,7 +323,7 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
     </template>
 
     <Column
-      v-if="!isSelectionHidden"
+      v-if="!isSelectionHidden && datalistStore.permittedActions.length"
       selectionMode="multiple"
       :pt="{ headerCell: 'transparent', bodyCell: 'transparent' }"
     >
@@ -405,13 +428,21 @@ const dataTablePassThrough = computed<DataTablePassThroughOptions>(() => {
       :pt="{ headerCell: 'transparent', bodyCell: 'transparent' }"
       alignFrozen="right"
       :header-style="{ width: '3rem' }"
-      v-if="!hideActions && rowIdentifier"
+      v-if="
+        (!hideActions && rowIdentifier && rowActions.length) || slots.actions
+      "
     >
       <template #body="{ data: record }">
-        <component
-          :key="record[rowIdentifier]"
-          :is="renderActionsColumn(record)"
-        />
+        <slot
+          name="actions"
+          :data="record"
+          :refetch="datalistStore.datalistQueryResult.refetch"
+        >
+          <component
+            :key="record[rowIdentifier]"
+            :is="renderActionsColumn(record)"
+          />
+        </slot>
       </template>
     </Column>
   </DataTable>

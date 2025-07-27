@@ -10,6 +10,8 @@ import {
   AvailableActions,
   PaginationParams,
 } from "@devkitvue/config";
+
+import type { RefetchOptions, QueryObserverResult } from "@tanstack/vue-query";
 import { ApiEndpoint, StringUnknownRecord } from "@devkitvue/apiclient";
 import { useDatalistStore } from "./store/DatalistStore";
 import type { DataTableFilterMetaData, DataTableProps } from "primevue";
@@ -340,14 +342,7 @@ export type DatalistRowSlots<
     data: TRecord;
   }) => VNode[] | VNode | undefined;
 }>;
-export type DatalistSlots<
-  TApi extends Record<string, Function>,
-  TReq extends StringUnknownRecord,
-  TRecord extends StringUnknownRecord,
-  TFiltersReq extends StringUnknownRecord | undefined = undefined,
-  TApiResponse extends StringUnknownRecord | undefined = undefined,
-  TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
-> = {
+export type CardSlots<TRecord extends StringUnknownRecord> = {
   card?: (props: { data: TRecord }) => VNode | VNode[];
   cardStart?: (props: { data: TRecord }) => VNode | VNode[];
   cardCreatedAt?: (props: { data: TRecord }) => VNode | VNode[];
@@ -365,6 +360,15 @@ export type DatalistSlots<
   cardHeader?: (props: { data: TRecord }) => VNode | VNode[];
   cardHeaderStart?: (props: { data: TRecord }) => VNode | VNode[];
   cardHeaderEnd?: (props: { data: TRecord }) => VNode | VNode[];
+};
+export type DatalistSlots<
+  TApi extends Record<string, Function>,
+  TReq extends StringUnknownRecord,
+  TRecord extends StringUnknownRecord,
+  TFiltersReq extends StringUnknownRecord | undefined = undefined,
+  TApiResponse extends StringUnknownRecord | undefined = undefined,
+  TFormSectionsRequest extends StringUnknownRecord | undefined = undefined,
+> = CardSlots<TRecord> & {
   expansion?: (props: { data: TRecord }) => VNode[] | VNode;
   globalActions?: (props: {
     store: DatalistStore<
@@ -534,17 +538,22 @@ export type DatalistSlots<
     >;
   }) => VNode[] | VNode;
   dropdownActions?: (props: { data: TRecord }) => VNode[] | VNode;
-  actions?: (props: { data: TRecord }) => VNode[] | VNode;
+  actions?: (props: {
+    data: TRecord;
+    refetch: (
+      options?: RefetchOptions,
+    ) => Promise<QueryObserverResult<ApiResponseList<TRecord>, Error>>;
+  }) => VNode[] | VNode;
   actionsPrepend?: (props: { data: TRecord }) => VNode[] | VNode;
   actionsAppend?: (props: { data: TRecord }) => VNode[] | VNode;
 } & DatalistGlobalActionSlots<
-  TApi,
-  TReq,
-  TRecord,
-  TFiltersReq,
-  TApiResponse,
-  TFormSectionsRequest
-> &
+    TApi,
+    TReq,
+    TRecord,
+    TFiltersReq,
+    TApiResponse,
+    TFormSectionsRequest
+  > &
   DatalistRowSlots<
     TApi,
     TReq,
@@ -653,6 +662,7 @@ export type DataCardSlots = {
   "header-end"?: () => VNode | VNode[];
 
   start?: () => VNode | VNode[];
+  end?: () => VNode | VNode[];
   "start-content"?: () => VNode | VNode[];
   "card-image"?: () => VNode | VNode[];
 

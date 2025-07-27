@@ -37,7 +37,7 @@ const formProps: AppFormProps<
       user_info: {
         title: "Update User Info",
         gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "grid" },
-        inputs: [...USER_BASE_INPUTS], // ⬅️ fields from the factory
+        inputs: USER_BASE_INPUTS(true), // ⬅️ fields from the factory
       },
     },
   },

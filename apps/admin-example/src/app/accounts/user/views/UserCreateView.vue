@@ -29,7 +29,7 @@ const formProps: AppFormProps<
     sections: {
       user_info: {
         gridConfig: { columns: 1, mdColumns: 2, gap: 2, gridType: "grid" },
-        inputs: [...USER_BASE_INPUTS], // ⬅️ fields from the factory
+        inputs: USER_BASE_INPUTS(), // ⬅️ fields from the factory
       },
     },
   },

@@ -1,14 +1,7 @@
-import {
-  ColumnText,
-  ColumnDate,
-  ColumnImage,
-  type DatalistColumnsBase,
-  type DatalistFilter,
-} from "@devkitvue/datalist";
-import type { AccountsSchemaUserView } from "@buf/ahmeddarwish_devkit-api.bufbuild_es/devkit/v1/accounts_user_pb";
+import type { DatalistFilter } from "@devkitvue/datalist";
 import type { FormKitSchemaNode } from "@formkit/core";
-/* =====================================================================
- *  src/app/accounts/constants/UserConstants.ts
+/* ========View=============================================================
+ *  src/app/Viewaccounts/constants/UserConstants.ts
  * =================================================================== */
 
 /* ------------------------------------------------------------------ */
@@ -181,9 +174,9 @@ export const baseDateRangeInput: FormKitSchemaNode = {
 };
 /** Convenient bundles – feel free to make more */
 
-export const USER_BASE_INPUTS = [
+export const USER_BASE_INPUTS = (isUpdate?: boolean) => [
   userNameInput,
-  userEmailInput,
+  { ...userEmailInput, disabled: isUpdate },
   userRolesInput,
   userTypeInput,
   tenantInput,

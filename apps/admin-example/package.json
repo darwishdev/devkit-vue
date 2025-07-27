@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.6.0-20250721112934-fc917869d65a.1",
+    "@buf/ahmeddarwish_devkit-api.bufbuild_es": "2.6.1-20250726004624-e0ce841c5570.1",
     "@connectrpc/connect": "^2.0.2",
     "@connectrpc/connect-web": "^2.0.2",
     "@devkitvue/admin": "workspace:*",

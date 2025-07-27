@@ -103,7 +103,6 @@ const infoClass =
               <AppImage
                 class="w-full"
                 v-bind="imageProps"
-                :useBackgroundImage="true"
                 :src="data[imageKey] as string"
                 :style="imageHeightStyle"
                 :class="pt.image || ''"
@@ -113,86 +112,88 @@ const infoClass =
         </slot>
       </div>
     </slot>
+    <slot name="end">
+      <section
+        class="flex flex-col h-full"
+        :class="`${pt.info || ''} ${infoClass}`"
+      >
+        <slot name="card-info">
+          <div class="info-top px-4 pt-4">
+            <AppBtn
+              v-if="titleKey"
+              variant="text"
+              v-tooltip="`${t(String(titleKey))} : ${data[titleKey]}`"
+              :action="
+                titleRouter && identefier
+                  ? `${titleRouter}${data[identefier]}`
+                  : ''
+              "
+              justify="start"
+              class="font-bold mb-2 text-2xl"
+              :class="pt.title || ''"
+            >
+              <template #label>
+                <span class="line-clamp-1 break-words">{{
+                  data[titleKey]
+                }}</span>
+              </template>
+            </AppBtn>
+            <slot name="subtitle" :class="pt.subtitle || ''" />
+          </div>
+        </slot>
 
-    <!-- Info Section -->
-    <section
-      class="flex flex-col h-full"
-      :class="`${pt.info || ''} ${infoClass}`"
-    >
-      <slot name="card-info">
-        <div class="info-top px-4 pt-4">
-          <AppBtn
-            v-if="titleKey"
-            variant="text"
-            v-tooltip="`${t(String(titleKey))} : ${data[titleKey]}`"
-            :action="
-              titleRouter && identefier
-                ? `${titleRouter}${data[identefier]}`
-                : ''
-            "
-            justify="start"
-            class="font-bold mb-2 text-2xl"
-            :class="pt.title || ''"
+        <!-- Footer Section -->
+        <slot name="footer">
+          <footer
+            class="absolute bottom-2 w-full px-4 gap-2 text-sm flex items-center justify-between"
+            :class="pt.footer || ''"
           >
-            <template #label>
-              <span class="line-clamp-1 break-words">{{ data[titleKey] }}</span>
-            </template>
-          </AppBtn>
-          <slot name="subtitle" :class="pt.subtitle || ''" />
-        </div>
-      </slot>
-
-      <!-- Footer Section -->
-      <slot name="footer">
-        <footer
-          class="absolute bottom-2 w-full px-4 gap-2 text-sm flex items-center justify-between"
-          :class="pt.footer || ''"
-        >
-          <!-- Footer Start -->
-          <slot name="footer-start">
-            <slot name="createdAt">
-              <time
-                v-if="formatedDates?.createdAt && !formatedDates.deletedAt"
-                class="text-xs italic line-clamp-1"
-                :class="pt.createdAt || ''"
-                v-tooltip="`${t('createdAt')} : ${formatedDates.createdAt}`"
-              >
-                {{ formatedDates.createdAt }}
-              </time>
+            <!-- Footer Start -->
+            <slot name="footer-start">
+              <slot name="createdAt">
+                <time
+                  v-if="formatedDates?.createdAt && !formatedDates.deletedAt"
+                  class="text-xs italic line-clamp-1"
+                  :class="pt.createdAt || ''"
+                  v-tooltip="`${t('createdAt')} : ${formatedDates.createdAt}`"
+                >
+                  {{ formatedDates.createdAt }}
+                </time>
+              </slot>
+              <slot name="deletedAt">
+                <time
+                  v-if="formatedDates?.deletedAt"
+                  class="text-xs italic text-red-400 line-clamp-1 font-medium"
+                  v-tooltip="`${t('deletedAt')} : ${formatedDates.deletedAt}`"
+                  :class="pt.deletedAt || ''"
+                >
+                  {{ formatedDates.deletedAt }}
+                </time>
+              </slot>
             </slot>
-            <slot name="deletedAt">
-              <time
-                v-if="formatedDates?.deletedAt"
-                class="text-xs italic text-red-400 line-clamp-1 font-medium"
-                v-tooltip="`${t('deletedAt')} : ${formatedDates.deletedAt}`"
-                :class="pt.deletedAt || ''"
-              >
-                {{ formatedDates.deletedAt }}
-              </time>
+
+            <!-- Footer Middle -->
+            <slot name="footer-middle" />
+
+            <!-- Footer End -->
+            <slot name="footer-end">
+              <span v-if="badgeKey" class="text-xs">
+                <Badge
+                  v-tooltip="
+                    `${t(badgeKey as string)} : ${String(data[badgeKey])}`
+                  "
+                  class="text-white"
+                  :class="pt.badge || ''"
+                >
+                  <slot name="badgeContent">
+                    {{ String(data[badgeKey]) }}
+                  </slot>
+                </Badge>
+              </span>
             </slot>
-          </slot>
-
-          <!-- Footer Middle -->
-          <slot name="footer-middle" />
-
-          <!-- Footer End -->
-          <slot name="footer-end">
-            <span v-if="badgeKey" class="text-xs">
-              <Badge
-                v-tooltip="
-                  `${t(badgeKey as string)} : ${String(data[badgeKey])}`
-                "
-                class="text-white"
-                :class="pt.badge || ''"
-              >
-                <slot name="badgeContent">
-                  {{ String(data[badgeKey]) }}
-                </slot>
-              </Badge>
-            </span>
-          </slot>
-        </footer>
-      </slot>
-    </section>
+          </footer>
+        </slot>
+      </section>
+    </slot>
   </article>
 </template>

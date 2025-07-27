@@ -1,5 +1,6 @@
 import { ROUTES as USER_ROUTES } from "./constants/UserConstants";
 import { ROUTES as ROLE_ROUTES } from "./constants/RoleConstants";
+import { ROUTES as SESSION_ROUTES } from "./constants/SessionConstants";
 
 export default [
   {
@@ -59,5 +60,13 @@ export default [
     name: ROLE_ROUTES.FIND.name,
     component: () => import("./role/views/RoleFindView.vue"),
     meta: { breadcrumbs: ROLE_ROUTES.FIND.breadcrumbs },
+  },
+  {
+    path: SESSION_ROUTES.LIST.path,
+    name: SESSION_ROUTES.LIST.name,
+    component: () => import("./session/views/SessionList.vue"),
+    meta: {
+      breadcrumbs: SESSION_ROUTES.LIST.breadcrumbs,
+    },
   },
 ];

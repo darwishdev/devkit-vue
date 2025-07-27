@@ -21,6 +21,7 @@ import {
 import { apiClient } from "@/pkg/api/apiClient";
 import DataList from "@/pkg/components/DataList.vue";
 import { useI18n } from "vue-i18n";
+import Tag from "primevue/tag";
 
 const tableProps: DatalistProps<
   typeof apiClient,
@@ -44,7 +45,7 @@ const tableProps: DatalistProps<
       deletedAtKey: "deletedAt",
       createdAtKey: "createdAt",
       badgeKey: "userSecurityLevel",
-      imageHeight: "10rem",
+      imageHeight: "100%",
       pt: { title: "me-[3rem]" },
       // layout: "vertical",
       imageKey: "userImage",
@@ -79,23 +80,29 @@ const { t } = useI18n();
         </a>
         <a
           class="font-bold flex items-center line-clamp-1"
-          v-if="data.userPhone"
           :title="`${t('userPhone')} : ${data.userPhone}`"
           :href="`tel:${data.userPhone}`"
         >
           <AppIcon icon="phone-line" class="custom-icon w-4 h-4 me-2" />
-          {{ data.userPhone }}
+          {{ data.userPhone ? data.userPhone : "not define" }}
         </a>
 
         <AppBtn
           :action="`/tenants/tenant/${data.tenantId}`"
           justify="start"
           icon="building-line"
-          :label="data.tenantName"
+          :label="data.tenantName ? data.tenantName : 'not defined'"
           v-tooltip="data.tenantName"
           class="max-w-[200px] text-left"
-          v-if="data.tenantName"
         />
+        <div class="flex my-2 gap-2 flex-wrap items-center">
+          <Tag
+            v-for="role in data.roles"
+            class="glass text-xs"
+            :key="role.roleId"
+            :value="role.roleName"
+          />
+        </div>
       </template>
     </DataList>
   </div>
