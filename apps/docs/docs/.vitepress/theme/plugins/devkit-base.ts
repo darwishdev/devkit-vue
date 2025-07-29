@@ -12,14 +12,13 @@ import DevkitBaseComponentsPlugin, {
   AppBreadcrumb,
   AppMenu,
   DevkitBaseConfig,
-} from "@devkit/base-components";
+} from "@devkitvue/base-components";
 import { apiClient } from "../../../../src/apiClient";
 export function registerDevkitBase(app: App) {
   const baseConfig: DevkitBaseConfig<typeof apiClient> = {
     apiClient,
     locales: ["en", "ar"],
     baseImageUrl: "http://localhost:54321/storage/v1/object/public/",
-    noImageUrl: "http://localhost:54321/storage/v1/object/public/images/noimg.webp",
     iconFindApi: "iconFind",
   };
   app.use(DevkitBaseComponentsPlugin, baseConfig);

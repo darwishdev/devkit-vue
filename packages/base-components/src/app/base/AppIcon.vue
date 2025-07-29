@@ -49,8 +49,9 @@ const renderInnerIcon = () => {
     });
   }
   getIconFromDb();
-  return h("svg", {
+  return h("div", {
     key: icon,
+    class: "app-icon",
     innerHTML: svgIconContent.value,
   });
 };
@@ -143,10 +144,5 @@ svg {
     width: 3rem;
     height: 3rem;
   }
-}
-:not(.custom-icon) svg:not(.custom-icon) {
-  --icon-width: 1.5rem;
-  width: var(--icon-width);
-  height: var(--icon-width);
 }
 </style>
