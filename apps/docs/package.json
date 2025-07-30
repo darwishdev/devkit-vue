@@ -33,11 +33,13 @@
     "@devkitvue/config": "workspace:*",
     "@vitest/coverage-istanbul": "^3.0.7",
     "eslint": "^9.21.0",
+    "mermaid": "^11.9.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "typescript": "5.7.3",
     "vite": "^6.3.5",
     "vitepress": "^2.0.0-alpha.0",
+    "vitepress-plugin-mermaid": "^2.0.17",
     "vitest": "^3.0.7"
   }
 }
