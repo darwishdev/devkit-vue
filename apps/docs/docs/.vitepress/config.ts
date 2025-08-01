@@ -2,19 +2,41 @@
 
 import { defineConfig } from "vitepress";
 
+import {
+  vitepressMarkmapPreview,
+  vitepressMermaidPreview,
+} from "vitepress-plugin-legend";
+// import { vitepressPluginLegend } from "vitepress-plugin-legend";
 export default defineConfig({
   title: "DevKit Vue",
   description:
     "Build admin panels and front-office apps with Vue, FormKit, and gRPC.",
   head: [["link", { rel: "icon", href: "/logo.svg" }]],
+  markdown: {
+    config(md) {
+      vitepressMarkmapPreview(md, { showToolbar: true });
+      vitepressMermaidPreview(md, {
+        mermaidConfig: {
+          theme: "default",
+          icons: {
+            logos: "https://unpkg.com/@iconify-json/logos@1/icons.json",
+          },
+        },
+      });
+    },
+  },
+
   themeConfig: {
     siteTitle: "DEVKIT",
     logo: "https://otsrbanqbblnausaspta.supabase.co/storage/v1/object/public/abchotels/D-logo.png",
+    search: {
+      provider: "local",
+    },
     nav: [
       { text: "Guide", link: "/guide/" },
       { text: "CLI", link: "/cli/" },
       { text: "API", link: "/api/" },
-      { text: "Vue Packages", link: "/vue/" },
+      { text: "Devkit Vue", link: "/vue/" },
       { text: "Admin Example", link: "/admin-example/" },
       { text: "Cookbook", link: "/cookbook/" },
       { text: "Reference", link: "/reference/" },
@@ -34,7 +56,6 @@ export default defineConfig({
             { text: "Project Structure", link: "/guide/structure" },
             { text: "Installation & Setup", link: "/guide/installation" },
             { text: "Folder Conventions", link: "/guide/conventions" },
-            { text: "API vs Admin Projects", link: "/guide/api-vs-admin" },
           ],
         },
       ],
@@ -101,6 +122,93 @@ export default defineConfig({
             { text: "@devkit/base-components", link: "/vue/base-components" },
             { text: "@devkit/api-client", link: "/vue/api-client-pkg" },
             { text: "@devkit/config", link: "/vue/config" },
+          ],
+        },
+        {
+          text: "Components",
+          items: [
+            {
+              text: "Base Components",
+              collapsed: false,
+              items: [
+                { text: "AppBtn", link: "/vue/components/base/app-btn" },
+                { text: "AppIcon", link: "/vue/components/base/app-icon" },
+                { text: "AppImage", link: "/vue/components/base/app-image" },
+                {
+                  text: "<AppLocaleToggler>",
+                  link: "/vue/components/base/app-locale-toggler",
+                },
+                { text: "<AppCard>", link: "/vue/components/base/app-card" },
+              ],
+            },
+            {
+              text: "Form Components",
+              collapsed: true,
+              items: [
+                {
+                  text: "InputText",
+                  link: "/vue/components/form/input-text",
+                },
+                {
+                  text: "InputDropdown",
+                  link: "/vue/components/form/input-dropdown",
+                },
+                {
+                  text: "InputSwitch",
+                  link: "/vue/components/form/input-switch",
+                },
+                {
+                  text: "InputDate",
+                  link: "/vue/components/form/input-date",
+                },
+              ],
+            },
+            {
+              text: "Datalist Components",
+              collapsed: true,
+              items: [
+                {
+                  text: "Datalist",
+                  link: "/vue/components/datalist/datalist",
+                },
+                {
+                  text: "DataCard",
+                  link: "/vue/components/datalist/data-card",
+                },
+                {
+                  text: "DataField",
+                  link: "/vue/components/datalist/data-field",
+                },
+              ],
+            },
+            {
+              text: "File Manager Components",
+              collapsed: true,
+              items: [
+                {
+                  text: "FileUploader",
+                  link: "/vue/components/filemanager/file-uploader",
+                },
+                {
+                  text: "FileExplorer",
+                  link: "/vue/components/filemanager/file-explorer",
+                },
+              ],
+            },
+            {
+              text: "DataView Components",
+              collapsed: true,
+              items: [
+                {
+                  text: "DataView",
+                  link: "/vue/components/dataview/data-view",
+                },
+                {
+                  text: "DataTile",
+                  link: "/vue/components/dataview/data-tile",
+                },
+              ],
+            },
           ],
         },
       ],

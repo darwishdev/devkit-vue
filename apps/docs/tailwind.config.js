@@ -4,7 +4,9 @@ export default {
   content: [
     "./src/*.{vue,js,ts,html}",
     "./src/**/*.{vue,js,ts,html}",
-    "./src/app/**/**/**/*.{vue,js,ts,html}",
+    "./docs/index.md",
+    "./docs/**/**.md",
+    "./src/docs/**/**/**/*.{vue,js,ts,html,md}",
     "./node_modules/@devkitvue/datalist/dist/**/*.{vue,js,ts,jsx,tsx}",
     "./node_modules/@devkitvue/filemanager//dist/**/*.{vue,js,ts,jsx,tsx}",
     "./node_modules/@devkitvue/form/dist/**/*.{vue,js,ts,jsx,tsx}",

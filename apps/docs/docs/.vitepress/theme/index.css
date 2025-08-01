@@ -1,10 +1,10 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "./primevue/tailwind.css";
-
-/* @import "@uppy/core/dist/style.css"; */
-/* @import "@uppy/dashboard/dist/style.css"; */
-/* @import "@uppy/image-editor/dist/style.css"; */
+@import "@devkitvue/form/style.css";
+@import "@devkitvue/admin/style.css";
+@import "@devkitvue/datalist/style.css";
+@import "@devkitvue/base-components/style.css";
 
 @import "tailwindcss/utilities";
 /* @import "./app_menu"; */
@@ -17,6 +17,15 @@
   --text-color: var(--p-surface-950);
   --border-radius: 0.5rem;
   --transition: 0.3s;
+  /* 500-level colors (base) */
+  --p-cyan-500: #06b6d4;
+  --p-orange-500: #f97316;
+  --p-gray-500: #6b7280;
+
+  /* 400-level colors (hover/lighter) */
+  --p-cyan-400: #22d3ee;
+  --p-orange-400: #fb923c;
+  --p-gray-400: #9ca3af;
 }
 a {
   transition: var(--transition);
@@ -41,10 +50,10 @@ a {
   --p-zinc-950: #09090b;
   --p-slate-50: #f8fafc;
   --p-slate-100: #f1f5f9;
-  --glass: hsla(0, 0%, 100%, 0.7);
+  --glass: hsla(0, 0%, 100%, 0.4);
   --root-menu-item-hover-bg: rgba(68, 72, 109, 0.09);
   --root-menu-content-hover-bg: rgba(68, 72, 109, 0.07);
-  --p-highlight-color: red;
+  --p-highlight-color: rgba(0, 0, 0, 0.87);
   --p-slate-200: #e2e8f0;
   --p-slate-300: #cbd5e1;
   --p-slate-400: #94a3b8;
@@ -87,7 +96,7 @@ a {
   --menu-width: 18rem;
   --p-content-border-radius: 6px;
   --gap: var(--content-padding);
-  --body-bg: var(--p-surface-50);
+  --body-bg: var(--p-surface-100);
 
   --surface-card: var(--p-content-background);
 }
@@ -134,31 +143,6 @@ a {
   --p-content-background: var(--p-surface-900);
   --body-bg: var(--p-surface-950);
 }
-.layout-wrapper {
-  background: var(--body-bg);
-  min-height: 100vh;
-}
-
-.app-logo-icon {
-  svg {
-    width: 2rem;
-    height: 2rem;
-  }
-}
-.app-logo {
-  svg {
-    width: 3rem;
-    height: 3rem;
-  }
-}
-
-.color-text {
-  color: var(--text-color);
-}
-.gap-2,
-.gap-4 {
-  gap: 0.5rem;
-}
 body {
   font-weight: 400;
   padding: 0;
@@ -174,26 +158,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.app-logo:hover {
-  background: transparent !important;
-}
-.desktop-menu-toggler {
-  @media (max-width: 575px) {
-    display: none;
-  }
-}
-.p-iconfield input {
-  padding-inline-start: 3rem;
-}
-
-.p-inputicon {
-  margin-top: 0;
-  transform: translateY(-40%);
-}
-input::placeholder {
-  color: var(--text-color);
-  opacity: 1;
-}
 
 .glass {
   background: var(--glass);
@@ -204,69 +168,69 @@ input::placeholder {
   -webkit-backdrop-filter: blur(10px);
   /* gentle shadow for depth */
 }
-.p-datatable-tbody > tr,
-.p-datatable .p-paginator,
-.p-datatable-scrollable
-  > .p-datatable-table-container
-  > .p-datatable-table
-  > .p-datatable-thead,
-.p-datatable-scrollable
-  > .p-datatable-table-container
-  > .p-virtualscroller
-  > .p-datatable-table
-  > .p-datatable-thead {
-  --tw-bg-opacity: 0;
-}
-.uppy-Root .uppy-Dashboard .uppy-Dashboard-AddFiles {
-  border-color: var(--glass);
-}
-.uppy-Root .uppy-Dashboard .uppy-Dashboard-inner {
-  background: transparent;
-  border-color: var(--color-glass);
-}
-
-.uppy-DashboardTab-inner,
-.uppy-DashboardTab-btn:hover {
-  background: var(--glass);
-}
-[data-uppy-drag-drop-supported="true"] .uppy-Dashboard-AddFiles {
-  border-color: var(--glass);
-}
-.uppy-Dashboard-AddFiles-title {
-  color: var(--color-text);
-}
-
-.fallback-icon svg {
-  width: 100%;
-}
-
 .bg-gray {
   background-color: var(--gray-bg);
 }
-.p-button-icon-only {
-  justify-content: center;
-}
-td .fallback-icon {
-  width: 50px !important;
-  height: 50px;
-}
-svg {
-  width: inherit;
-  height: inherit;
+.layout-wrapper {
+  background: var(--body-bg);
+  min-height: 100vh;
 }
 
-div.custom-icon {
-  --icon-width: 100%;
+.color-text {
+  color: var(--text-color);
 }
-div.app-icon {
-  --icon-width: 1.5rem;
-  svg {
-    width: var(--icon-width);
-    height: var(--icon-width);
+.p-0 {
+  padding: 0 !important;
+}
+.hover-none:hover {
+  color: currentColor !important;
+  background-color: transparent !important;
+  backdrop-filter: blur(10px);
+}
+.devkit-datalist.card {
+  tr {
+    position: relative;
+    display: flex;
+    padding: 0;
+  }
+  td {
+    border: none !important;
+    padding: 0;
+  }
+  td:last-child,
+  td:first-child {
+    position: absolute;
+    top: 1rem;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  td:first-child {
+    left: 1rem;
+  }
+  td:last-child {
+    right: 1rem !important;
   }
 }
-
-.custom-icon svg {
-  width: 100%;
-  height: 100%;
+html[dir="rtl"] {
+  .devkit-datalist.card {
+    td:first-child {
+      left: auto;
+      right: 1rem;
+    }
+    td:last-child {
+      right: auto !important;
+      left: 1rem !important;
+    }
+  }
+}
+.card-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-image svg {
+  --icon-width: 3rem !important;
 }
